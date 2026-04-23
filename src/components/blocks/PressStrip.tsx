@@ -40,10 +40,10 @@ export default function PressStrip() {
   const xRef = useRef(0);
   const velRef = useRef(0);
   const baseSpeed = 0.5;
-  const touchStartX = useRef(0);
   const lastTouchX = useRef(0);
   const rafId = useRef(0);
   const pausedRef = useRef(false);
+  const releasingRef = useRef(false);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -51,8 +51,20 @@ export default function PressStrip() {
     const halfWidth = track.scrollWidth / 2;
 
     const tick = () => {
-      const target = pausedRef.current ? 0 : baseSpeed;
-      velRef.current += (target - velRef.current) * 0.025;
+      if (releasingRef.current) {
+        // быстро гасим скорость до базовой после отпускания
+        velRef.current += (baseSpeed - velRef.current) * 0.08;
+        if (Math.abs(velRef.current - baseSpeed) < 0.01) {
+          velRef.current = baseSpeed;
+          releasingRef.current = false;
+          pausedRef.current = false;
+        }
+      } else if (pausedRef.current) {
+        velRef.current *= 0.85; // трение при удержании
+      } else {
+        velRef.current += (baseSpeed - velRef.current) * 0.025;
+      }
+
       xRef.current += velRef.current;
       if (xRef.current >= halfWidth) xRef.current -= halfWidth;
       if (xRef.current < 0) xRef.current += halfWidth;
@@ -66,13 +78,13 @@ export default function PressStrip() {
 
   const onTouchStart = (e: React.TouchEvent) => {
     pausedRef.current = true;
-    touchStartX.current = e.touches[0].clientX;
+    releasingRef.current = false;
     lastTouchX.current = e.touches[0].clientX;
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
     const dx = lastTouchX.current - e.touches[0].clientX;
-    velRef.current = Math.max(-12, Math.min(12, velRef.current + dx * 0.4));
+    velRef.current = Math.max(-8, Math.min(8, velRef.current + dx * 0.15));
     lastTouchX.current = e.touches[0].clientX;
   };
 
@@ -88,7 +100,7 @@ export default function PressStrip() {
           style={{ willChange: 'transform' }}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
-          onTouchEnd={() => { pausedRef.current = false; }}
+          onTouchEnd={() => { releasingRef.current = true; }}
         >
           {[...publications, ...publications].map((p, i) => (
             <div
