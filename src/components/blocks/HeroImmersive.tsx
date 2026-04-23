@@ -59,7 +59,8 @@ export default function HeroImmersive({ eyebrow, primaryCta, secondaryCta }: Pro
       {/* Мобайл */}
       <div className="md:hidden absolute inset-0" style={{ zIndex: 10 }}>
         <motion.div
-          className="flex flex-col items-center justify-between text-center pointer-events-none h-full px-6 pt-28 pb-24"
+          className="flex flex-col items-center justify-between text-center pointer-events-none h-full px-6 pt-28"
+          style={{ paddingBottom: 'calc(80px + env(safe-area-inset-bottom))' }}
           initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
