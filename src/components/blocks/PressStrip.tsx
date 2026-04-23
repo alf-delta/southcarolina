@@ -17,13 +17,13 @@ const publications = [
   {
     name: 'Garden & Gun',
     logo: '/images/press/garden-gun.png',
-    description: 'highlights the region\'s "soft luxury" aesthetic and its rich farm-to-table culinary culture.',
+    description: 'celebrates South Carolina\'s Olde English District — its equestrian heritage, storied hunt culture, and Camden, "the state\'s oldest inland city."',
     href: 'https://gardenandgun.com/for-the-love-of-horses-hounds-and-history-in-south-carolinas-olde-english-district',
   },
   {
     name: 'National Geographic',
     logo: '/images/press/nat-geo.png',
-    description: 'underscores the exceptional biodiversity and the rare value of the Sandhills\' untouched relict forests.',
+    description: 'documents "the largest old-growth bottomland hardwood forest in the US" — a rare, biodiverse South Carolina wilderness.',
     href: 'https://www.nationalgeographic.com/travel/national-parks/article/congaree-national-park',
   },
 ];
@@ -35,6 +35,15 @@ const logoStyle: React.CSSProperties = {
 };
 
 export default function PressStrip() {
+  const renderDesc = (text: string) => {
+    const parts = text.split(/(".*?")/g);
+    return parts.map((part, i) =>
+      part.startsWith('"') && part.endsWith('"')
+        ? <em key={i} className="not-italic font-medium text-ink/90">{part}</em>
+        : part
+    );
+  };
+
   const trackRef = useRef<HTMLDivElement>(null);
   const xRef = useRef(0);
   const velRef = useRef(0);
@@ -107,7 +116,7 @@ export default function PressStrip() {
               <>
                 <img src={p.logo} alt={p.name} className="h-7 w-auto object-contain" style={logoStyle} />
                 <p className="font-display font-light text-ink/70" style={{ fontStyle: 'italic', fontSize: '15px', lineHeight: 1.6, fontVariationSettings: '"SOFT" 40, "opsz" 18' }}>
-                  "{p.description}"
+                  {renderDesc(p.description)}
                 </p>
               </>
             );
@@ -127,7 +136,7 @@ export default function PressStrip() {
               const inner = (
                 <>
                   <img src={p.logo} alt={p.name} className="h-8 w-auto object-contain object-left transition-opacity group-hover:opacity-50" style={logoStyle} />
-                  <p className="text-ink2 text-sm leading-relaxed group-hover:text-ink transition-colors">{p.description}</p>
+                  <p className="text-ink2 text-sm leading-relaxed group-hover:text-ink transition-colors">{renderDesc(p.description)}</p>
                 </>
               );
               return p.href
