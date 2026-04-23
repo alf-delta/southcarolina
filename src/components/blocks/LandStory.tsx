@@ -133,23 +133,23 @@ export default function LandStory() {
           </div>
 
           {/* Drop cap + headline */}
-          <div className="mb-9 overflow-hidden">
+          <div className="mb-9">
             <span
               className="font-display float-left text-signal"
-              style={{ fontSize: 'clamp(5rem, 13vw, 9rem)', lineHeight: 0.82, fontWeight: 400, marginRight: '0.1em' }}
+              style={{ fontSize: 'clamp(5rem, 13vw, 9rem)', lineHeight: 0.82, fontWeight: 400, marginRight: '0.12em' }}
             >T</span>
             <p
-              className="font-display text-ink"
-              style={{ fontSize: 'clamp(1.5rem, 3.2vw, 2.35rem)', lineHeight: 1.22, fontWeight: 400, paddingTop: '0.15em' }}
+              className="font-display text-ink overflow-hidden"
+              style={{ fontSize: 'clamp(1.5rem, 3.2vw, 2.35rem)', lineHeight: 1.22, fontWeight: 400, paddingTop: '0.1em' }}
             >
               he Sandhills run through the middle of the Carolinas like an old memory of the coast.
             </p>
           </div>
 
           {/* Body 1 */}
-          <p className="font-eyebrow font-light text-ink2 mb-7" style={{ fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.78 }}>
+          <p className="font-display text-ink2 mb-7" style={{ fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.6, fontWeight: 400 }}>
             Ridges of white sand left behind when the ocean moved east, now covered in longleaf pine and wiregrass so quiet the forest almost sounds hollow. In the evening, you can hear a dropped pinecone from the dock. In the morning, a whip-poor-will works its way across the tree line.{' '}
-            <span className="text-ink font-normal">Nothing has hurried here since the Pleistocene.</span>
+            <span className="text-signal italic">Nothing has hurried here since the Pleistocene.</span>
           </p>
 
           {/* Timer */}
@@ -180,7 +180,7 @@ export default function LandStory() {
           </div>
 
           {/* Body 2 */}
-          <p className="font-eyebrow font-light text-ink2" style={{ fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.78 }}>
+          <p className="font-display text-ink2" style={{ fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.6, fontWeight: 400 }}>
             Our hundred and twenty-six acres sit in the middle of this. An eighteen-acre lake with a dock that creaks in a good way. Six villas, spaced so your neighbor stays a rumor. A sauna above the water. A house at the far end for the people who brought everyone with them.
           </p>
 
