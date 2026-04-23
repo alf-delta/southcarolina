@@ -38,7 +38,6 @@ export default function StickyHeader() {
     : 'bg-[rgba(242,237,227,0.94)] backdrop-blur-md shadow-sm';
 
   const textColor = overDark ? 'text-linen/90' : 'text-ink';
-  const logoColor = overDark ? 'text-linen' : 'text-ink';
 
   return (
     <header

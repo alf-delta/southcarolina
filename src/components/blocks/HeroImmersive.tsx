@@ -13,7 +13,7 @@ interface Props {
   subject: string; // зарезервировано, не используется
 }
 
-export default function HeroImmersive({ eyebrow, titleLine1, titleLine2, subtitle, primaryCta, secondaryCta, env }: Props) {
+export default function HeroImmersive({ eyebrow, primaryCta, secondaryCta }: Props) {
   const reduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const h = typeof window !== 'undefined' ? window.innerHeight : 800;
