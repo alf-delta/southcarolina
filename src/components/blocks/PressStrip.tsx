@@ -15,12 +15,6 @@ const publications = [
     href: 'https://www.southernliving.com/best-small-towns-south-carolina-7692785',
   },
   {
-    name: 'Condé Nast Traveler',
-    logo: '/images/press/conde-nast.png',
-    description: 'describes a stay in this natural setting as "a meditative experience," a welcome contrast to the noise of coastal resorts.',
-    href: null,
-  },
-  {
     name: 'Garden & Gun',
     logo: '/images/press/garden-gun.png',
     description: 'highlights the region\'s "soft luxury" aesthetic and its rich farm-to-table culinary culture.',
