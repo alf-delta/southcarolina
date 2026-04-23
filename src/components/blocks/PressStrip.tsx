@@ -39,7 +39,7 @@ export default function PressStrip() {
     const parts = text.split(/(".*?")/g);
     return parts.map((part, i) =>
       part.startsWith('"') && part.endsWith('"')
-        ? <em key={i} className="not-italic font-medium text-ink/90">{part}</em>
+        ? <em key={i} className="not-italic font-medium text-signal">{part}</em>
         : part
     );
   };
@@ -131,7 +131,7 @@ export default function PressStrip() {
       <div className="hidden sm:block py-14 px-6">
         <RevealOnScroll className="max-w-content mx-auto">
           <p className="eyebrow text-ink2 text-center mb-12">Located in a region celebrated by</p>
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
+          <div className="flex flex-wrap justify-center gap-10">
             {publications.map((p) => {
               const inner = (
                 <>
