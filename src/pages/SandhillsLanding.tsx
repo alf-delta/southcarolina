@@ -5,7 +5,7 @@ import StickyHeader from '../components/blocks/StickyHeader';
 import HeroImmersive from '../components/blocks/HeroImmersive';
 import PressStrip from '../components/blocks/PressStrip';
 import ChapterOpener from '../components/blocks/ChapterOpener';
-import StoryIntro from '../components/blocks/StoryIntro';
+import LandStory from '../components/blocks/LandStory';
 import AtAGlance from '../components/blocks/AtAGlance';
 import StaysGrid from '../components/blocks/StaysGrid';
 import IncludedList from '../components/blocks/IncludedList';
@@ -79,21 +79,18 @@ export default function SandhillsLanding() {
           subject={d.hero.subject}
         />
         <PressStrip />
-        <ChapterOpener
-          id="land"
-          numeral={d.chapters[0].numeral}
-          subtitle={d.chapters[0].subtitle}
-          bigType={d.chapters[0].bigType}
-          image={d.chapters[0].image}
-          mask={d.chapters[0].mask}
-          zone="pine-deep"
-        />
-        <StoryIntro
-          eyebrow={d.storyIntro.eyebrow}
-          lede={d.storyIntro.lede}
-          body={d.storyIntro.body}
-          emphasis={d.storyIntro.emphasis}
-        />
+        <RoundedEntry radius={32}>
+          <ChapterOpener
+            id="land"
+            numeral={d.chapters[0].numeral}
+            subtitle={d.chapters[0].subtitle}
+            bigType={d.chapters[0].bigType}
+            image={d.chapters[0].image}
+            zone="pine-deep"
+            minHeight="65vh"
+          />
+        </RoundedEntry>
+        <LandStory />
         <AtAGlance stats={d.stats} />
 
         {/* ── Карточка 1: STAYS наплывает и остаётся (z-index 10) ── */}
@@ -104,7 +101,6 @@ export default function SandhillsLanding() {
             subtitle={d.chapters[1].subtitle}
             bigType={d.chapters[1].bigType}
             image={d.chapters[1].image}
-            mask={d.chapters[1].mask}
             zone="night"
             minHeight="60vh"
           />
@@ -124,7 +120,6 @@ export default function SandhillsLanding() {
             subtitle={d.chapters[2].subtitle}
             bigType={d.chapters[2].bigType}
             image={d.chapters[2].image}
-            mask={d.chapters[2].mask}
             zone="honey-dark"
             minHeight="60vh"
           />
@@ -139,7 +134,6 @@ export default function SandhillsLanding() {
             subtitle={d.chapters[3].subtitle}
             bigType={d.chapters[3].bigType}
             image={d.chapters[3].image}
-            mask={d.chapters[3].mask}
             zone="pine-deep"
           />
           <DiningEditorial

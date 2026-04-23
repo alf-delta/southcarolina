@@ -1,15 +1,11 @@
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion';
 import { useRef } from 'react';
 
-type MaskVariant = 'center' | 'left' | 'right' | 'bottom';
-
 interface Props {
   numeral: string;
   subtitle: string;
   bigType: string;
   image: string;
-  subjectImage?: string;
-  mask?: MaskVariant;
   zone?: 'night' | 'pine-deep' | 'honey-dark';
   bigTypeSize?: string;
   minHeight?: string;
@@ -21,8 +17,6 @@ export default function ChapterOpener({
   subtitle,
   bigType,
   image,
-  subjectImage,
-  mask = 'center',
   zone = 'night',
   bigTypeSize,
   minHeight = '100vh',
@@ -32,7 +26,6 @@ export default function ChapterOpener({
   const inView = useInView(ref, { once: true, margin: '-20%' });
   const reduceMotion = useReducedMotion();
 
-  // Element-relative scroll: [start entering viewport] → [fully exited top]
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],
@@ -40,7 +33,6 @@ export default function ChapterOpener({
 
   const h = typeof window !== 'undefined' ? window.innerHeight : 800;
   const bgY = useTransform(scrollYProgress, [0, 1], [0, -h * 0.2]);
-  const fgY = useTransform(scrollYProgress, [0, 1], [0, -h * 0.07]);
 
   const zoneBg = {
     'night': 'bg-night',
@@ -56,24 +48,24 @@ export default function ChapterOpener({
       className={`relative overflow-hidden ${zoneBg}`}
       style={{ height: minHeight }}
     >
-      {/* Layer 0 — background, recedes at 20% scroll speed */}
+      {/* Background with parallax */}
       <motion.div
-        className="absolute inset-0"
-        style={{ y: reduceMotion ? 0 : bgY, willChange: 'transform', zIndex: 0 }}
+        className="absolute inset-x-0"
+        style={{ y: reduceMotion ? 0 : bgY, willChange: 'transform', zIndex: 0, top: '-20%', bottom: '-20%' }}
       >
         <img
           src={image}
           alt=""
           aria-hidden="true"
           className="w-full h-full object-cover"
-          style={{ filter: 'brightness(0.55) saturate(0.78) blur(3px)' }}
+          style={{ filter: 'brightness(0.55) saturate(0.85)' }}
           loading="lazy"
           width={2400}
           height={1600}
         />
       </motion.div>
 
-      {/* Layer 1 — display type, static */}
+      {/* Display type */}
       <div
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
         style={{ zIndex: 10 }}
@@ -93,29 +85,13 @@ export default function ChapterOpener({
         </motion.h2>
       </div>
 
-      {/* Layer 2 — foreground cutout, floats at 7% scroll speed */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ y: reduceMotion ? 0 : fgY, willChange: 'transform', zIndex: 20 }}
-      >
-        <img
-          src={subjectImage || image}
-          alt={subtitle}
-          className={`w-full h-full object-cover mask-${mask}`}
-          style={{ filter: 'brightness(1) saturate(1.05)' }}
-          loading="lazy"
-          width={2400}
-          height={1600}
-        />
-      </motion.div>
-
-      {/* Meta — above all layers */}
+      {/* Meta */}
       <div
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 text-center text-linen/85"
-        style={{ zIndex: 30 }}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 text-center"
+        style={{ zIndex: 20 }}
       >
-        <p className="numeral text-linen/70 mb-2">— {numeral} —</p>
-        <p className="eyebrow text-linen/50">{subtitle}</p>
+        <p className="numeral text-signal mb-3" style={{ fontSize: '17px' }}>— {numeral} —</p>
+        <p className="eyebrow text-linen/60" style={{ fontSize: '13px', letterSpacing: '0.20em' }}>{subtitle}</p>
       </div>
     </section>
   );

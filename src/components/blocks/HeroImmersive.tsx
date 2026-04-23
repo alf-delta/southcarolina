@@ -28,8 +28,8 @@ export default function HeroImmersive({ eyebrow, primaryCta, secondaryCta }: Pro
     >
       {/* Фото с параллаксом */}
       <motion.div
-        className="absolute inset-0"
-        style={{ y: reduceMotion ? 0 : bgY, willChange: 'transform', zIndex: 0 }}
+        className="absolute inset-x-0"
+        style={{ y: reduceMotion ? 0 : bgY, willChange: 'transform', zIndex: 0, top: '-20%', bottom: '-20%' }}
       >
         <picture>
           <source media="(max-width: 767px)" srcSet="/images/sandhills/mobile.webp" />
@@ -67,14 +67,14 @@ export default function HeroImmersive({ eyebrow, primaryCta, secondaryCta }: Pro
           {/* Верх: текст + лого */}
           <div className="flex flex-col items-center gap-4">
             <div className="flex flex-col items-center gap-0">
-              <span className="font-eyebrow font-medium uppercase text-linen/70" style={{ fontSize: '14px', letterSpacing: '0.20em' }}>
+              <span className="font-eyebrow font-medium uppercase text-linen/90" style={{ fontSize: '14px', letterSpacing: '0.20em', textShadow: '0 1px 12px rgba(0,0,0,0.7), 0 0 20px rgba(231,222,199,0.25)' }}>
                 {eyebrow.split(' · ')[0]}
               </span>
-              <span className="font-display text-signal" style={{ fontStyle: 'italic', fontSize: '17px', fontWeight: 300, letterSpacing: '0.04em', fontVariationSettings: '"SOFT" 40, "opsz" 24' }}>
+              <span className="font-display" style={{ fontStyle: 'italic', fontSize: '17px', fontWeight: 300, letterSpacing: '0.04em', fontVariationSettings: '"SOFT" 40, "opsz" 24', color: '#eb8355' }}>
                 {eyebrow.split(' · ')[1]}
               </span>
             </div>
-            <img src="/Sandhills logo.svg" alt="Horizons Sandhills" className="w-auto" style={{ maxWidth: '85vw', filter: 'drop-shadow(0 2px 12px rgba(0,0,0,0.55))' }} />
+            <img src="/Sandhills logo.svg" alt="Horizons Sandhills" className="w-auto" style={{ maxWidth: '48vw', filter: 'drop-shadow(0 3px 20px rgba(0,0,0,0.7)) brightness(1.12)' }} />
           </div>
 
           {/* Низ: инфографика + кнопка */}
@@ -109,7 +109,7 @@ export default function HeroImmersive({ eyebrow, primaryCta, secondaryCta }: Pro
           <img
             src="/Sandhills logo.svg"
             alt="Horizons Sandhills"
-            style={{ width: 'clamp(320px, 80vw, 900px)', height: 'auto', filter: 'drop-shadow(0 2px 12px rgba(0,0,0,0.55))' }}
+            style={{ width: 'clamp(181px, 45vw, 510px)', height: 'auto', filter: 'drop-shadow(0 3px 20px rgba(0,0,0,0.7)) brightness(1.12)' }}
           />
         </motion.div>
         <motion.div
@@ -119,10 +119,10 @@ export default function HeroImmersive({ eyebrow, primaryCta, secondaryCta }: Pro
           transition={{ duration: 1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="flex flex-col items-center gap-0">
-            <span className="font-eyebrow font-medium uppercase text-linen/70" style={{ fontSize: '17px', letterSpacing: '0.20em' }}>
+            <span className="font-eyebrow font-medium uppercase text-linen/90" style={{ fontSize: '17px', letterSpacing: '0.20em', textShadow: '0 1px 12px rgba(0,0,0,0.7), 0 0 20px rgba(231,222,199,0.25)' }}>
               {eyebrow.split(' · ')[0]}
             </span>
-            <span className="font-display text-signal" style={{ fontStyle: 'italic', fontSize: 'clamp(18px, 2.2vw, 28px)', fontWeight: 300, letterSpacing: '0.04em', fontVariationSettings: '"SOFT" 40, "opsz" 24' }}>
+            <span className="font-display" style={{ fontStyle: 'italic', fontSize: 'clamp(18px, 2.2vw, 28px)', fontWeight: 300, letterSpacing: '0.04em', fontVariationSettings: '"SOFT" 40, "opsz" 24', color: '#eb8355' }}>
               {eyebrow.split(' · ')[1]}
             </span>
           </div>

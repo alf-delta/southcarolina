@@ -97,7 +97,7 @@ export default function PressStrip() {
   };
 
   return (
-    <div className="bg-bone border-y border-divider">
+    <div className="bg-bone border-b border-divider rounded-t-[32px] overflow-hidden">
 
       {/* Мобайл — бесконечная карусель */}
       <div className="sm:hidden py-8 overflow-hidden">
@@ -130,8 +130,8 @@ export default function PressStrip() {
       {/* Десктоп */}
       <div className="hidden sm:block py-14 px-6">
         <RevealOnScroll className="max-w-content mx-auto">
-          <p className="eyebrow text-ink2 text-center mb-12">Located in a region celebrated by</p>
-          <div className="flex flex-wrap justify-center gap-10">
+          <p className="eyebrow-lg text-ink2 text-center mb-12">Located in a region celebrated by</p>
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-10 w-fit mx-auto">
             {publications.map((p) => {
               const inner = (
                 <>
