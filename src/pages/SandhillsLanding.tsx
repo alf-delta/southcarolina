@@ -91,7 +91,7 @@ export default function SandhillsLanding() {
           />
         </RoundedEntry>
         <LandStory />
-        <AtAGlance stats={d.stats} />
+        <AtAGlance />
 
         {/* ── Карточка 1: STAYS наплывает и остаётся (z-index 10) ── */}
         <StackCard zIndex={10}>
