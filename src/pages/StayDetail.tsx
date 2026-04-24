@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { ArrowLeft, X, ChevronLeft, ChevronRight, Users, BedDouble, Bath, Wifi, Flame, Waves, TreePine, Coffee, Star, Box, LayoutGrid } from 'lucide-react';
 import { sandhillsData } from '../components/data/sandhills';
 import Button from '../components/primitives/Button';
+import { StayBreadcrumb } from '../components/StructuredData';
 
 type StayData = typeof sandhillsData.stays[0] & {
   slug: string;
@@ -211,6 +212,7 @@ export default function StayDetail() {
 
   return (
     <div className="min-h-screen bg-bone">
+      <StayBreadcrumb name={stay.name} slug={stay.slug} />
       {galleryOpen && (
         <GalleryModal
           rooms={stay.rooms}

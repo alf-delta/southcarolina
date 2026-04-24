@@ -67,7 +67,7 @@ export default function Footer() {
             />
             <button
               type="submit"
-              className="eyebrow bg-signal text-linen px-6 py-3 hover:bg-signal2 transition-colors focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-nightWarm outline-none"
+              className="eyebrow bg-signal text-linen px-6 py-3 rounded-full hover:bg-signal2 transition-colors focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-nightWarm outline-none"
             >
               Subscribe
             </button>
@@ -96,7 +96,7 @@ export default function Footer() {
             style={{ fontVariationSettings: '"SOFT" 50, "opsz" 36', letterSpacing: '-0.02em' }}>
             Horizons Sandhills
           </a>
-          <p className="text-linen/40 text-sm">© 2025 Horizons Hospitality. McBee, South Carolina.</p>
+          <p className="text-linen/40 text-sm">© 2026 Horizons Hospitality. McBee, South Carolina.</p>
         </div>
       </div>
     </footer>

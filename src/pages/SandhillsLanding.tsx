@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { sandhillsData as d } from '../components/data/sandhills';
+import StructuredData from '../components/StructuredData';
 
 import StickyHeader from '../components/blocks/StickyHeader';
 import HeroImmersive from '../components/blocks/HeroImmersive';
@@ -9,7 +10,7 @@ import LandStory from '../components/blocks/LandStory';
 import AtAGlance from '../components/blocks/AtAGlance';
 import StaysGrid from '../components/blocks/StaysGrid';
 import IncludedList from '../components/blocks/IncludedList';
-import DayScenes from '../components/blocks/DayScenes';
+// import DayScenes from '../components/blocks/DayScenes';
 import DiningEditorial from '../components/blocks/DiningEditorial';
 import ActivitiesGrid from '../components/blocks/ActivitiesGrid';
 import SustainabilityStory from '../components/blocks/SustainabilityStory';
@@ -23,23 +24,6 @@ import Footer from '../components/blocks/Footer';
 import StackCard from '../components/primitives/StackCard';
 import RoundedEntry from '../components/primitives/RoundedEntry';
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'LodgingBusiness',
-  name: 'Horizons Sandhills',
-  description: d.meta.description,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: '423 Woodmen Rd',
-    addressLocality: 'Patrick',
-    addressRegion: 'SC',
-    postalCode: '29584',
-    addressCountry: 'US',
-  },
-  priceRange: '$$$',
-  telephone: '+1-803-555-0180',
-  url: 'https://horizons.com/sandhills',
-};
 
 export default function SandhillsLanding() {
   useEffect(() => {
@@ -59,11 +43,7 @@ export default function SandhillsLanding() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-
+      <StructuredData />
       <StickyHeader />
 
       <main>
@@ -121,22 +101,10 @@ export default function SandhillsLanding() {
           <IncludedList items={d.included} />
         </RoundedEntry>
 
-        {/* ── Карточка 2: A DAY наплывает (z-index 30) ── */}
+        {/* ── Карточка 2: A DAY — скрыто ── */}
+        {/* ── Карточка 2: WORTH IT наплывает и остаётся (z-index 30) ── */}
+        {/* A DAY скрыт — z-30 теперь занимает WORTH IT */}
         <StackCard zIndex={30}>
-          <ChapterOpener
-            id="day"
-            numeral={d.chapters[2].numeral}
-            subtitle={d.chapters[2].subtitle}
-            bigType={d.chapters[2].bigType}
-            image={d.chapters[2].image}
-            zone="honey-dark"
-            minHeight="45vh"
-          />
-        </StackCard>
-
-        {/* Контент A Day + всё до Waiting: z-index 40 */}
-        <RoundedEntry style={{ position: 'relative', zIndex: 40 }}>
-          <DayScenes scenes={d.dayScenes} />
           <ChapterOpener
             id="table"
             numeral={d.chapters[3].numeral}
@@ -146,12 +114,11 @@ export default function SandhillsLanding() {
             zone="pine-deep"
             minHeight="75vh"
           />
-          <DiningEditorial
-            headline={d.dining.headline}
-            body={d.dining.body}
-            emphasis={d.dining.emphasis}
-            image={d.dining.image}
-          />
+        </StackCard>
+
+        {/* Контент Worth It: z-index 40 — наезжает поверх застрявшего opener'а */}
+        <RoundedEntry style={{ position: 'relative', zIndex: 40 }}>
+          <DiningEditorial />
           <ActivitiesGrid activities={d.activities} />
           <SustainabilityStory
             headline={d.sustainability.headline}

@@ -27,7 +27,7 @@ export default function RoundedEntry({ children, radius = 48, className, style }
   );
 
   return (
-    <div ref={ref}>
+    <div ref={ref} style={{ backgroundColor: '#0E1208' }}>
       <motion.div
         className={className}
         style={{
