@@ -75,7 +75,7 @@ export default function HeroImmersive({ eyebrow, primaryCta, secondaryCta }: Pro
                 {eyebrow.split(' · ')[1]}
               </span>
             </div>
-            <img src="/Sandhills logo.svg" alt="Horizons Sandhills" className="w-auto" style={{ maxWidth: '48vw', filter: 'drop-shadow(0 3px 20px rgba(0,0,0,0.7)) brightness(1.12)' }} />
+            <img src="/Sandhills logo.svg" alt="Horizons Sandhills" className="w-auto" style={{ maxWidth: '72vw', filter: 'drop-shadow(0 3px 20px rgba(0,0,0,0.7)) brightness(1.12)' }} />
           </div>
 
           {/* Низ: инфографика + кнопка */}
@@ -110,7 +110,7 @@ export default function HeroImmersive({ eyebrow, primaryCta, secondaryCta }: Pro
           <img
             src="/Sandhills logo.svg"
             alt="Horizons Sandhills"
-            style={{ width: 'clamp(181px, 45vw, 510px)', height: 'auto', filter: 'drop-shadow(0 3px 20px rgba(0,0,0,0.7)) brightness(1.12)' }}
+            style={{ width: 'clamp(272px, 68vw, 765px)', height: 'auto', filter: 'drop-shadow(0 3px 20px rgba(0,0,0,0.7)) brightness(1.12)' }}
           />
         </motion.div>
         <motion.div

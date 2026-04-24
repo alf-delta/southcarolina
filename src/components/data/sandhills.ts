@@ -40,11 +40,11 @@ export const sandhillsData = {
   stays: [
     {
       tier: 'Tier 01 · Six cabins',
-      name: 'The Boxble',
+      name: 'The Boxble Villa',
       sleeps: 'Sleeps two · King bed · Private deck · Outdoor shower',
       description: "Each in its own clearing, spaced so you can't see your neighbor.",
       priceFrom: 450,
-      image: '/images/sandhills/boxble.webp',
+      image: '/images/sandhills/Villa.webp',
     },
     {
       tier: 'Tier 02 · The flagship',

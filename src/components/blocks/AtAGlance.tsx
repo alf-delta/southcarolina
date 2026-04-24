@@ -25,7 +25,7 @@ export default function AtAGlance() {
   return (
     <>
       {/* ── Мобайл: sticky card stack ── */}
-      <section className="md:hidden bg-bone">
+      <section className="md:hidden bg-bone pt-0">
         <div className="relative">
           {items.map((item, i) => (
             <div
@@ -69,9 +69,9 @@ export default function AtAGlance() {
       </section>
 
       {/* ── Десктоп: горизонтальная сетка ── */}
-      <section className="hidden md:block bg-bone py-24 px-6">
+      <section className="hidden md:block bg-bone pt-8 pb-24 px-6">
         <div className="max-w-content mx-auto">
-          <p className="eyebrow-lg text-ink2 text-center mb-14">At a glance</p>
+          <p className="eyebrow-lg text-ink2 text-center mb-14" style={{ fontSize: '16px' }}>At a glance</p>
           <motion.ul
             className="grid grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-10 list-none p-0 m-0"
             initial={initial}
