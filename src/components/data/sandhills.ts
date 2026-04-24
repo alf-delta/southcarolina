@@ -57,6 +57,13 @@ export const sandhillsData = {
         '/images/sandhills/gallery-11.webp',
         '/images/sandhills/gallery-06.webp',
       ],
+      rooms: [
+        { name: 'Overview', photos: ['/images/sandhills/Villa.webp', '/images/sandhills/gallery-10.webp'] },
+        { name: 'Interior', photos: ['/images/sandhills/gallery-03.webp'] },
+        { name: 'Deck & Outdoor shower', photos: ['/images/sandhills/gallery-11.webp'] },
+        { name: 'Surroundings', photos: ['/images/sandhills/gallery-06.webp', '/images/sandhills/gallery-01.webp'] },
+        { name: 'Lake', photos: ['/images/sandhills/gallery-04.webp', '/images/sandhills/gallery-02.webp'] },
+      ],
     },
     {
       slug: 'the-house',
@@ -76,6 +83,13 @@ export const sandhillsData = {
         '/images/sandhills/gallery-09.webp',
         '/images/sandhills/gallery-12.webp',
         '/images/sandhills/gallery-04.webp',
+      ],
+      rooms: [
+        { name: 'Overview', photos: ['/images/sandhills/house.webp', '/images/sandhills/gallery-07.webp'] },
+        { name: 'Kitchen & Dining', photos: ['/images/sandhills/gallery-09.webp'] },
+        { name: 'Bedrooms', photos: ['/images/sandhills/gallery-03.webp', '/images/sandhills/gallery-11.webp'] },
+        { name: 'Lakeside deck & Firepit', photos: ['/images/sandhills/gallery-12.webp'] },
+        { name: 'Lake & Grounds', photos: ['/images/sandhills/gallery-04.webp', '/images/sandhills/gallery-02.webp', '/images/sandhills/gallery-01.webp'] },
       ],
     },
   ],
