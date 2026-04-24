@@ -49,7 +49,7 @@ export const sandhillsData = {
       beds: 1,
       baths: 1,
       description: "Each in its own clearing, spaced so you can't see your neighbor. Step outside to your private deck, where the longleaf pines close in and the lake glints through the trees. Deliberately offline — no Wi-Fi, no noise, no neighbors in sight.",
-      priceFrom: 450,
+      priceFrom: 609,
       image: '/images/villa/01_Exterior/1.png',
       gallery: [
         '/images/villa/01_Exterior/1.png',
@@ -231,7 +231,7 @@ export const sandhillsData = {
   finalCta: {
     bigType: 'WAITING',
     headline: 'A hundred and twenty-six acres is waiting.',
-    sub: 'Weekend getaways from $450. The House from $1,200.',
+    sub: 'Weekend getaways from $609. The House from $1,200.',
     image: '/images/sandhills/hero-env.webp',
   },
 };

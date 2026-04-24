@@ -191,6 +191,8 @@ export default function StayDetail() {
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [galleryStart, setGalleryStart] = useState(0);
   const [activeThumb, setActiveThumb] = useState(0);
+  const [adults, setAdults] = useState(1);
+  const [children, setChildren] = useState(0);
 
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
@@ -232,27 +234,14 @@ export default function StayDetail() {
 
       <div className="max-w-content mx-auto px-4 md:px-8 py-8 md:py-12">
         {/* Title */}
-        <div className="flex items-start justify-between gap-4 mb-6">
-          <div>
-            <p className="font-eyebrow text-ink2/60 text-xs uppercase tracking-widest mb-2">{stay.tier}</p>
-            <h1
-              className="font-display font-light text-ink text-[clamp(32px,5vw,64px)]"
-              style={{ letterSpacing: '-0.025em', fontVariationSettings: '"SOFT" 40, "opsz" 72' }}
-            >
-              {stay.name}
-            </h1>
-          </div>
-          {stay.tour3d && (
-            <a
-              href={stay.tour3d}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="shrink-0 flex items-center gap-2 border border-ink/20 text-ink hover:bg-ink hover:text-bone transition-colors rounded-full px-4 py-2 font-eyebrow text-xs uppercase tracking-widest mt-2"
-            >
-              <Box size={14} strokeWidth={1.5} />
-              3D View
-            </a>
-          )}
+        <div className="mb-6">
+          <p className="font-eyebrow text-ink2/60 text-xs uppercase tracking-widest mb-2">{stay.tier}</p>
+          <h1
+            className="font-display font-light text-ink text-[clamp(32px,5vw,64px)]"
+            style={{ letterSpacing: '-0.025em', fontVariationSettings: '"SOFT" 40, "opsz" 72' }}
+          >
+            {stay.name}
+          </h1>
         </div>
 
         {/* Desktop photo grid: big left + 2×2 right */}
@@ -270,7 +259,7 @@ export default function StayDetail() {
         </div>
 
         {/* Mobile photo: main + thumbnails */}
-        <div className="md:hidden mb-6">
+        <div className="md:hidden mb-4">
           <div
             className="w-full rounded-xl overflow-hidden cursor-pointer mb-3"
             style={{ aspectRatio: '4/3' }}
@@ -293,10 +282,25 @@ export default function StayDetail() {
           </div>
         </div>
 
+        {/* Mobile 3D button */}
+        {stay.tour3d && (
+          <div className="md:hidden flex justify-end mb-6">
+            <a
+              href={stay.tour3d}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-signal hover:bg-signal2 text-linen transition-colors rounded-full px-6 py-3 font-eyebrow text-xs uppercase tracking-widest"
+            >
+              <Box size={16} strokeWidth={1.5} />
+              3D View
+            </a>
+          </div>
+        )}
+
         {/* Two-column layout */}
         <div className="grid md:grid-cols-[1fr_360px] gap-12 xl:gap-20">
           <div>
-            <div className="flex flex-wrap gap-6 py-6 border-t border-b border-divider mb-8">
+            <div className="flex flex-wrap items-center gap-6 py-6 border-t border-b border-divider mb-8">
               {[
                 { icon: Users, label: `${stay.guests} guests` },
                 { icon: BedDouble, label: `${stay.bedrooms} bedroom${stay.bedrooms > 1 ? 's' : ''}` },
@@ -308,6 +312,17 @@ export default function StayDetail() {
                   <span className="font-eyebrow text-sm">{label}</span>
                 </div>
               ))}
+              {stay.tour3d && (
+                <a
+                  href={stay.tour3d}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden md:flex items-center gap-2 bg-signal hover:bg-signal2 text-linen transition-colors rounded-full px-4 py-2 font-eyebrow text-xs uppercase tracking-widest ml-auto"
+                >
+                  <Box size={14} strokeWidth={1.5} />
+                  3D View
+                </a>
+              )}
             </div>
 
             <p
@@ -317,6 +332,53 @@ export default function StayDetail() {
               {stay.description}
             </p>
 
+            {/* Mobile booking card */}
+            <div className="md:hidden bg-white rounded-2xl border border-divider shadow-sm p-4 mb-8">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-baseline gap-1">
+                  <span className="font-display font-light text-ink text-3xl" style={{ letterSpacing: '-0.02em' }}>
+                    ${stay.priceFrom}
+                  </span>
+                  <span className="font-eyebrow text-xs text-ink2">/ night</span>
+                </div>
+                <span className="font-eyebrow text-xs text-ink2/50">2-night min</span>
+              </div>
+              <div className="grid grid-cols-2 border border-divider rounded-t-xl overflow-hidden">
+                <div className="p-3 border-r border-divider">
+                  <p className="font-eyebrow text-[10px] text-ink2 uppercase tracking-widest mb-0.5">Check-in</p>
+                  <p className="font-eyebrow text-sm text-ink">Add date</p>
+                </div>
+                <div className="p-3">
+                  <p className="font-eyebrow text-[10px] text-ink2 uppercase tracking-widest mb-0.5">Checkout</p>
+                  <p className="font-eyebrow text-sm text-ink">Add date</p>
+                </div>
+              </div>
+              <div className="border-x border-b border-divider rounded-b-xl overflow-hidden mb-3">
+                {[
+                  { label: 'Adults', value: adults, set: setAdults, min: 1, max: stay.guests },
+                  { label: 'Children', value: children, set: setChildren, min: 0, max: Math.max(0, stay.guests - adults) },
+                ].map(({ label, value, set, min, max }, i, arr) => (
+                  <div key={label} className={`flex items-center justify-between px-3 py-2 ${i < arr.length - 1 ? 'border-b border-divider' : ''}`}>
+                    <p className="font-eyebrow text-xs text-ink">{label}</p>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => set((v: number) => Math.max(min, v - 1))}
+                        className="w-7 h-7 rounded-full border border-divider flex items-center justify-center text-ink2 hover:border-ink hover:text-ink transition-colors text-lg leading-none"
+                      >−</button>
+                      <span className="font-eyebrow text-sm text-ink w-4 text-center">{value}</span>
+                      <button
+                        onClick={() => set((v: number) => Math.min(max, v + 1))}
+                        className="w-7 h-7 rounded-full border border-divider flex items-center justify-center text-ink2 hover:border-ink hover:text-ink transition-colors text-lg leading-none"
+                      >+</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Button href="#reserve" variant="primary" className="w-full justify-center text-center">
+                Reserve
+              </Button>
+            </div>
+
             <div className="border-t border-divider pt-8">
               <h2
                 className="font-display font-light text-ink text-[clamp(22px,2.5vw,32px)] mb-6"
@@ -324,7 +386,7 @@ export default function StayDetail() {
               >
                 What's included
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 {sandhillsData.included.map((item) => {
                   const Icon = amenityIcons[item.title] ?? Star;
                   return (
@@ -345,7 +407,7 @@ export default function StayDetail() {
             </div>
           </div>
 
-          <div>
+          <div className="hidden md:block">
             <div className="sticky top-24 bg-white rounded-2xl border border-divider shadow-md p-6 md:p-8">
               <div className="flex items-baseline gap-1 mb-6">
                 <span
