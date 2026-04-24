@@ -145,12 +145,36 @@ export const sandhillsData = {
     image: '/images/sandhills/table.webp',
   },
   activities: [
-    { title: 'Sauna sessions', note: 'Anytime after six', tag: 'Included', image: '/images/sandhills/act-sauna.webp' },
-    { title: 'Canoes & paddleboards', note: 'Two Kevlar, two SUP', tag: 'Included', image: '/images/sandhills/act-canoe.webp' },
-    { title: 'Twelve miles of trail', note: 'Easy to moderate, marked', tag: 'Included', image: '/images/sandhills/act-trail.webp' },
-    { title: 'Catch-and-release fishing', note: 'Bring your rod or borrow ours', tag: 'Included', image: '/images/sandhills/act-fish.webp' },
-    { title: 'Guided sunrise paddle', note: 'Two hours · Sat & Sun', tag: '$45 · Add-on', image: '/images/sandhills/act-paddle.webp' },
-    { title: 'Forest bathing walk', note: 'Ninety minutes · by request', tag: '$80 · Add-on', image: '/images/sandhills/act-forest.webp' },
+    {
+      title: 'Sauna sessions', note: 'Anytime after six', tag: 'Included', image: '/images/sandhills/sauna_session.png',
+      schedule: 'Open daily · 6 am – 11 pm', location: 'Lakeside sauna pavilion',
+      points: ['Wood-fired, reaches 90 °C in 40 min', 'Cold plunge in the lake, steps away', 'Seats 6 · towels provided', 'No booking needed'],
+    },
+    {
+      title: 'Canoes & paddleboards', note: 'Two Kevlar, two SUP', tag: 'Included', image: '/images/sandhills/canoes.png',
+      schedule: 'Sunrise to sunset', location: 'Main dock, north shore',
+      points: ['2 Kevlar canoes · 2 stand-up paddleboards', 'Life jackets on the rack', 'No guide needed — lake is calm', 'Best light: 7 – 9 am'],
+    },
+    {
+      title: 'Twelve miles of trail', note: 'Easy to moderate, marked', tag: 'Included', image: '/images/sandhills/twelve_miles.png',
+      schedule: 'All day · self-guided', location: '4 trailheads across the property',
+      points: ['Illustrated map in your cabin', 'Longleaf pine savanna + creek loop', 'Easy to moderate grade', 'Ends at a creek worth finding'],
+    },
+    {
+      title: 'Catch-and-release fishing', note: 'Bring your rod or borrow ours', tag: 'Included', image: '/images/sandhills/fishing.png',
+      schedule: 'Dawn & dusk · best windows', location: 'South dock + creek mouth',
+      points: ['Bass, bream, catfish in the lake', 'Rods & tackle available at the dock box', 'Catch-and-release only', 'No license required on private water'],
+    },
+    {
+      title: 'Guided sunrise paddle', note: 'Two hours · Sat & Sun', tag: '$45 · Add-on', image: '/images/sandhills/Guided_sunrise_paddle.png',
+      schedule: 'Sat & Sun · 6:30 am sharp', location: 'Main dock',
+      points: ['2-hour guided lake circuit', 'Focus on bird & wildlife sighting', 'Max 4 guests per session', 'Book 24 h in advance via your host'],
+    },
+    {
+      title: 'Forest bathing walk', note: 'Ninety minutes · by request', tag: '$80 · Add-on', image: '/images/sandhills/Forest_bathing_walk.png',
+      schedule: 'By request · any morning', location: 'Trailhead 2, west entrance',
+      points: ['90-min slow walk, no fitness required', 'Led by a certified shinrin-yoku guide', 'Ends with tea at the pavilion', 'Private sessions only · up to 4 guests'],
+    },
   ],
   sustainability: {
     headline: "The land we didn't touch.",
@@ -237,6 +261,6 @@ export const sandhillsData = {
     bigType: 'WAITING',
     headline: 'A hundred and twenty-six acres is waiting.',
     sub: 'Weekend getaways from $609. The House from $1,200.',
-    image: '/images/sandhills/hero-env.webp',
+    image: '/images/sandhills/waiting.png',
   },
 };

@@ -62,7 +62,7 @@ export default function StaysGrid({ stays }: { stays: Stay[] }) {
                     <Button
                       href={stay.slug ? `/stays/${stay.slug}` : '#reserve'}
                       variant="ghost-light"
-                      className="py-2.5 px-6"
+                      className="py-2.5 px-6 whitespace-nowrap"
                     >
                       View details
                     </Button>
