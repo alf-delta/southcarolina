@@ -16,7 +16,7 @@ export default function StaysGrid({ stays }: { stays: Stay[] }) {
   const navigate = useNavigate();
 
   return (
-    <section id="stays" className="bg-nightWarm py-24 md:py-36 px-6">
+    <section id="stays" data-zone="dark" className="bg-nightWarm pt-12 pb-24 md:pt-16 md:pb-36 px-6">
       <div className="max-w-content mx-auto">
         <RevealOnScroll>
           <p className="eyebrow text-linen2 text-center mb-4">Where you'll living</p>

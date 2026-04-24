@@ -9,7 +9,7 @@ interface Props {
 
 export default function StoryIntro({ eyebrow, lede, body, emphasis }: Props) {
   return (
-    <section id="story" className="bg-bone py-24 md:py-36 px-6">
+    <section id="story" data-zone="light" data-bg="#F2EDE3" className="bg-bone py-24 md:py-36 px-6">
       <div className="max-w-text mx-auto">
         <RevealOnScroll>
           <p className="eyebrow text-ink2 mb-8 ornament">{eyebrow}</p>

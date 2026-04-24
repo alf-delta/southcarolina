@@ -8,7 +8,7 @@ interface Direction {
 
 export default function MapBlock({ directions }: { directions: Direction[] }) {
   return (
-    <section className="bg-dune py-24 md:py-32 px-6">
+    <section data-zone="light" data-bg="#D4C8B4" className="bg-dune py-24 md:py-32 px-6">
       <div className="max-w-content mx-auto">
         <RevealOnScroll>
           <p className="eyebrow text-ink2 mb-4">Getting here</p>

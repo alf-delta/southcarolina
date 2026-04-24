@@ -7,7 +7,7 @@ interface FaqItem {
 
 export default function FaqAccordion({ items }: { items: FaqItem[] }) {
   return (
-    <section className="bg-bone py-24 md:py-32 px-6">
+    <section data-zone="light" data-bg="#F2EDE3" className="bg-bone py-24 md:py-32 px-6">
       <div className="max-w-text mx-auto">
         <RevealOnScroll>
           <p className="eyebrow text-ink2 mb-4">Questions</p>

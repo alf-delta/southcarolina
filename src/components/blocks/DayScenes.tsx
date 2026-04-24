@@ -11,7 +11,7 @@ interface Scene {
 
 export default function DayScenes({ scenes }: { scenes: Scene[] }) {
   return (
-    <section id="day" className="bg-boneWarm py-24 md:py-36 px-6">
+    <section id="day" data-zone="light" data-bg="#EAE3D3" className="bg-boneWarm py-24 md:py-36 px-6">
       <div className="max-w-content mx-auto">
         <RevealOnScroll>
           <p className="eyebrow text-ink2 mb-14 text-center">A day at Horizons</p>

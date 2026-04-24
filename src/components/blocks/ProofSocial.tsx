@@ -17,7 +17,7 @@ interface Props {
 
 export default function ProofSocial({ reviews, pressQuote }: Props) {
   return (
-    <section className="bg-surface py-24 md:py-32 px-6">
+    <section data-zone="light" data-bg="#E6DECC" className="bg-surface py-24 md:py-32 px-6">
       <div className="max-w-content mx-auto">
         <RevealOnScroll>
           <div className="text-center mb-14">

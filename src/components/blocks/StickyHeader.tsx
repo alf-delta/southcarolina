@@ -14,16 +14,27 @@ export default function StickyHeader() {
   const [overDark, setOverDark] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [lightBg, setLightBg] = useState('#F2EDE3');
 
   useEffect(() => {
     const handler = () => {
-      const darkZones = document.querySelectorAll('[data-zone="dark"]');
+      const Y = 80;
       let isDark = false;
-      darkZones.forEach((el) => {
+      let detectedBg = '#F2EDE3';
+      document.querySelectorAll('[data-zone="dark"]').forEach((el) => {
         const rect = el.getBoundingClientRect();
-        if (rect.top < 80 && rect.bottom > 80) isDark = true;
+        if (rect.top < Y && rect.bottom > Y) isDark = true;
+      });
+      document.querySelectorAll('[data-zone="light"]').forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < Y && rect.bottom > Y) {
+          isDark = false;
+          const bg = (el as HTMLElement).dataset.bg;
+          if (bg) detectedBg = bg;
+        }
       });
       setOverDark(isDark);
+      setLightBg(detectedBg);
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handler, { passive: true });
@@ -32,10 +43,8 @@ export default function StickyHeader() {
   }, []);
 
   const headerBg = overDark
-    ? scrolled
-      ? 'bg-night/40 backdrop-blur-md'
-      : 'bg-transparent'
-    : 'bg-[rgba(242,237,227,0.94)] backdrop-blur-md shadow-sm';
+    ? scrolled ? 'bg-night/40 backdrop-blur-md' : 'bg-transparent'
+    : '';
 
   const textColor = overDark ? 'text-linen/90' : 'text-ink';
 
@@ -45,12 +54,12 @@ export default function StickyHeader() {
       style={{
         WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
         maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
-        WebkitBackdropFilter: scrolled || !overDark ? 'blur(12px)' : 'none',
-        backdropFilter: scrolled || !overDark ? 'blur(12px)' : 'none',
+        backgroundColor: overDark ? undefined : lightBg,
+        boxShadow: overDark ? 'none' : '0 1px 0 rgba(0,0,0,0.06)',
       }}
     >
-      <div className="max-w-content mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
-        <a href="#">
+      <div className="max-w-content mx-auto px-6 md:px-10 h-16 flex items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr]">
+        <a href="#" className="flex items-center">
           <img
             src="/logo.svg"
             alt="Horizons Sandhills"
@@ -67,8 +76,8 @@ export default function StickyHeader() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
-          <Button href="#reserve" variant={overDark ? 'ghost-light' : 'primary'} className="py-2.5 px-6">
+        <div className="hidden md:flex justify-end">
+          <Button href="#reserve" variant={overDark ? 'ghost-light' : 'primary'} className="!py-2 !px-5 !min-h-0">
             Book
           </Button>
         </div>

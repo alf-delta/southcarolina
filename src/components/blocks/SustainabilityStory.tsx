@@ -11,7 +11,7 @@ interface Props {
 
 export default function SustainabilityStory({ headline, lede, body, stats, certs, image }: Props) {
   return (
-    <section className="bg-pineLight py-24 md:py-32 px-6">
+    <section data-zone="light" data-bg="#DDE2D6" className="bg-pineLight py-24 md:py-32 px-6">
       <div className="max-w-content mx-auto grid md:grid-cols-2 gap-16 items-center">
         <RevealOnScroll>
           <div className="aspect-[4/5] overflow-hidden bg-surface">

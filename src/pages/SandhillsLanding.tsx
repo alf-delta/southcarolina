@@ -96,7 +96,7 @@ export default function SandhillsLanding() {
             bigType={d.chapters[0].bigType}
             image={d.chapters[0].image}
             zone="pine-deep"
-            minHeight="65vh"
+            minHeight="49vh"
           />
         </RoundedEntry>
         <LandStory />
@@ -111,7 +111,7 @@ export default function SandhillsLanding() {
             bigType={d.chapters[1].bigType}
             image={d.chapters[1].image}
             zone="night"
-            minHeight="60vh"
+            minHeight="45vh"
           />
         </StackCard>
 
@@ -130,7 +130,7 @@ export default function SandhillsLanding() {
             bigType={d.chapters[2].bigType}
             image={d.chapters[2].image}
             zone="honey-dark"
-            minHeight="60vh"
+            minHeight="45vh"
           />
         </StackCard>
 
@@ -144,6 +144,7 @@ export default function SandhillsLanding() {
             bigType={d.chapters[3].bigType}
             image={d.chapters[3].image}
             zone="pine-deep"
+            minHeight="75vh"
           />
           <DiningEditorial
             headline={d.dining.headline}

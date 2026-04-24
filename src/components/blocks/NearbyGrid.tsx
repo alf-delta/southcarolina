@@ -10,7 +10,7 @@ export default function NearbyGrid({ nearby }: { nearby: POI[] }) {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="bg-boneWarm py-24 md:py-32 px-6">
+    <section data-zone="light" data-bg="#EAE3D3" className="bg-boneWarm py-24 md:py-32 px-6">
       <div className="max-w-content mx-auto">
         <div className="mb-12">
           <p className="eyebrow text-ink2 mb-3">Nearby</p>

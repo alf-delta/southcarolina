@@ -9,6 +9,7 @@ interface GalleryImage {
 }
 
 export default function GalleryMasonry({ images }: { images: GalleryImage[] }) {
+  const [active, setActive] = useState(0);
   const [lightbox, setLightbox] = useState<GalleryImage | null>(null);
 
   return (
@@ -24,7 +25,36 @@ export default function GalleryMasonry({ images }: { images: GalleryImage[] }) {
           </h3>
         </RevealOnScroll>
 
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+        {/* Mobile: big photo + thumbnail strip */}
+        <div className="sm:hidden">
+          <div
+            className="w-full rounded-xl overflow-hidden cursor-pointer mb-3"
+            style={{ aspectRatio: '4/3' }}
+            onClick={() => setLightbox(images[active])}
+          >
+            <img
+              src={images[active].src}
+              alt={images[active].alt}
+              className="w-full h-full object-cover transition-opacity duration-300"
+            />
+          </div>
+          <div className="flex gap-2 overflow-x-auto scrollbar-none pb-1">
+            {images.map((img, i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                className={`shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${
+                  active === i ? 'border-signal' : 'border-transparent opacity-50'
+                }`}
+              >
+                <img src={img.src} alt="" className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: masonry columns */}
+        <div className="hidden sm:block columns-2 lg:columns-3 gap-4 space-y-4">
           {images.map((img, i) => (
             <button
               key={i}
@@ -51,12 +81,10 @@ export default function GalleryMasonry({ images }: { images: GalleryImage[] }) {
           onClick={() => setLightbox(null)}
           role="dialog"
           aria-modal="true"
-          aria-label="Image lightbox"
         >
           <button
-            className="absolute top-6 right-6 text-linen/70 hover:text-linen focus-visible:ring-2 focus-visible:ring-signal outline-none"
+            className="absolute top-6 right-6 text-linen/70 hover:text-linen outline-none"
             onClick={() => setLightbox(null)}
-            aria-label="Close lightbox"
           >
             <X size={24} />
           </button>
@@ -66,7 +94,6 @@ export default function GalleryMasonry({ images }: { images: GalleryImage[] }) {
             className="max-w-full max-h-[90vh] object-contain"
             onClick={(e) => e.stopPropagation()}
           />
-          <p className="absolute bottom-6 left-1/2 -translate-x-1/2 eyebrow text-linen/50">{lightbox.alt}</p>
         </div>
       )}
     </section>

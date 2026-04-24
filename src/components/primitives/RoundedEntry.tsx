@@ -9,7 +9,7 @@ interface Props {
   style?: React.CSSProperties;
 }
 
-export default function RoundedEntry({ children, radius = 28, className, style }: Props) {
+export default function RoundedEntry({ children, radius = 48, className, style }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
 
@@ -19,6 +19,12 @@ export default function RoundedEntry({ children, radius = 28, className, style }
   });
 
   const borderRadius = useTransform(scrollYProgress, [0, 1], [radius, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
+  const shadow = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ['0 32px 80px rgba(0,0,0,0.35)', '0 0px 0px rgba(0,0,0,0)']
+  );
 
   return (
     <div ref={ref}>
@@ -27,6 +33,8 @@ export default function RoundedEntry({ children, radius = 28, className, style }
         style={{
           borderTopLeftRadius: reduceMotion ? 0 : borderRadius,
           borderTopRightRadius: reduceMotion ? 0 : borderRadius,
+          scale: reduceMotion ? 1 : scale,
+          boxShadow: reduceMotion ? 'none' : shadow,
           overflow: 'hidden',
           ...style,
         }}

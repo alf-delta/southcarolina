@@ -9,7 +9,7 @@ interface Props {
 
 export default function DiningEditorial({ headline, body, emphasis, image }: Props) {
   return (
-    <section id="table" className="bg-night py-24 md:py-36 px-6">
+    <section id="table" data-zone="dark" className="bg-night py-24 md:py-36 px-6">
       <div className="max-w-content mx-auto grid md:grid-cols-2 gap-16 items-start">
         <RevealOnScroll className="md:sticky md:top-24">
           <div className="aspect-[3/4] overflow-hidden bg-nightWarm">

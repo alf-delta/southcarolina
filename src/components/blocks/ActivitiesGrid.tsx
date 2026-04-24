@@ -11,7 +11,7 @@ export default function ActivitiesGrid({ activities }: { activities: Activity[] 
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="bg-bone py-24 md:py-32 px-6">
+    <section data-zone="light" data-bg="#F2EDE3" className="bg-bone py-24 md:py-32 px-6">
       <div className="max-w-content mx-auto">
         <div className="mb-14">
           <p className="eyebrow text-ink2 mb-3">What to do</p>
