@@ -409,37 +409,53 @@ export default function StayDetail() {
 
           <div className="hidden md:block">
             <div className="sticky top-24 bg-white rounded-2xl border border-divider shadow-md p-6 md:p-8">
-              <div className="flex items-baseline gap-1 mb-6">
-                <span
-                  className="font-display font-light text-ink text-[clamp(28px,3vw,40px)]"
-                  style={{ letterSpacing: '-0.02em' }}
-                >
-                  ${stay.priceFrom}
-                </span>
-                <span className="font-eyebrow text-sm text-ink2">/ night</span>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-baseline gap-1">
+                  <span className="font-display font-light text-ink text-[clamp(28px,3vw,40px)]" style={{ letterSpacing: '-0.02em' }}>
+                    ${stay.priceFrom}
+                  </span>
+                  <span className="font-eyebrow text-sm text-ink2">/ night</span>
+                </div>
+                <span className="font-eyebrow text-xs text-ink2/50">2-night min</span>
               </div>
 
-              <div className="grid grid-cols-2 border border-divider rounded-xl overflow-hidden mb-3">
+              <div className="grid grid-cols-2 border border-divider rounded-t-xl overflow-hidden">
                 <div className="p-3 border-r border-divider">
-                  <p className="font-eyebrow text-xs text-ink2 uppercase tracking-widest mb-1">Check-in</p>
+                  <p className="font-eyebrow text-[10px] text-ink2 uppercase tracking-widest mb-0.5">Check-in</p>
                   <p className="font-eyebrow text-sm text-ink">Add date</p>
                 </div>
                 <div className="p-3">
-                  <p className="font-eyebrow text-xs text-ink2 uppercase tracking-widest mb-1">Checkout</p>
+                  <p className="font-eyebrow text-[10px] text-ink2 uppercase tracking-widest mb-0.5">Checkout</p>
                   <p className="font-eyebrow text-sm text-ink">Add date</p>
                 </div>
               </div>
-
-              <div className="border border-divider rounded-xl p-3 mb-4">
-                <p className="font-eyebrow text-xs text-ink2 uppercase tracking-widest mb-1">Guests</p>
-                <p className="font-eyebrow text-sm text-ink">1 guest</p>
+              <div className="border-x border-b border-divider rounded-b-xl overflow-hidden mb-4">
+                {[
+                  { label: 'Adults', value: adults, set: setAdults, min: 1, max: stay.guests },
+                  { label: 'Children', value: children, set: setChildren, min: 0, max: Math.max(0, stay.guests - adults) },
+                ].map(({ label, value, set, min, max }, i, arr) => (
+                  <div key={label} className={`flex items-center justify-between px-3 py-2 ${i < arr.length - 1 ? 'border-b border-divider' : ''}`}>
+                    <p className="font-eyebrow text-xs text-ink">{label}</p>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => set((v: number) => Math.max(min, v - 1))}
+                        className="w-7 h-7 rounded-full border border-divider flex items-center justify-center text-ink2 hover:border-ink hover:text-ink transition-colors text-lg leading-none"
+                      >−</button>
+                      <span className="font-eyebrow text-sm text-ink w-4 text-center">{value}</span>
+                      <button
+                        onClick={() => set((v: number) => Math.min(max, v + 1))}
+                        className="w-7 h-7 rounded-full border border-divider flex items-center justify-center text-ink2 hover:border-ink hover:text-ink transition-colors text-lg leading-none"
+                      >+</button>
+                    </div>
+                  </div>
+                ))}
               </div>
 
               <Button href="#reserve" variant="primary" className="w-full justify-center text-center">
                 Reserve
               </Button>
 
-              <p className="font-eyebrow text-xs text-ink2/60 text-center mt-4">2-night minimum · Free cancellation 14 days out</p>
+              <p className="font-eyebrow text-xs text-ink2/60 text-center mt-4">Free cancellation 14 days out</p>
             </div>
           </div>
         </div>

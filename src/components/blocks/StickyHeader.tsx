@@ -6,7 +6,7 @@ const navLinks = [
   { label: 'The Land', href: '#land' },
   { label: 'Stays', href: '#stays' },
   { label: 'A Day', href: '#day' },
-  { label: 'Dining', href: '#table' },
+  { label: 'Why We', href: '#table' },
   { label: 'Gallery', href: '#gallery' },
 ];
 

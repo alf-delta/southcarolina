@@ -15,7 +15,7 @@ const cols = [
     links: [
       { label: 'The Land', href: '#land' },
       { label: 'Activities', href: '#day' },
-      { label: 'Dining', href: '#table' },
+      { label: 'Why We', href: '#table' },
       { label: 'Gallery', href: '#gallery' },
     ],
   },
