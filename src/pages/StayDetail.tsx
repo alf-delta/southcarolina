@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowLeft, X, ChevronLeft, ChevronRight, Users, BedDouble, Bath, Wifi, Flame, Waves, TreePine, Coffee, Star, Box } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { ArrowLeft, X, ChevronLeft, ChevronRight, Users, BedDouble, Bath, Wifi, Flame, Waves, TreePine, Coffee, Star, Box, LayoutGrid } from 'lucide-react';
 import { sandhillsData } from '../components/data/sandhills';
 import Button from '../components/primitives/Button';
 
@@ -40,59 +40,73 @@ function GalleryModal({
   onClose: () => void;
 }) {
   const allPhotos = rooms.flatMap((r) => r.photos.map((p) => ({ src: p, room: r.name })));
+
+  // compute room start indices once
+  let counter = 0;
+  const roomStartIndices = rooms.map((r) => { const idx = counter; counter += r.photos.length; return idx; });
+
+  // which room contains startIndex
+  const initialRoom = roomStartIndices.findLastIndex((start) => startIndex >= start);
+
+  const [view, setView] = useState<'grid' | 'fullscreen'>('grid');
+  const [activeRoom, setActiveRoom] = useState(Math.max(0, initialRoom));
   const [current, setCurrent] = useState(startIndex);
-  const roomRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const prev = useCallback(() => setCurrent((i) => (i > 0 ? i - 1 : allPhotos.length - 1)), [allPhotos.length]);
   const next = useCallback(() => setCurrent((i) => (i < allPhotos.length - 1 ? i + 1 : 0)), [allPhotos.length]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (view !== 'fullscreen') return;
       if (e.key === 'ArrowLeft') prev();
       else if (e.key === 'ArrowRight') next();
-      else if (e.key === 'Escape') onClose();
+      else if (e.key === 'Escape') setView('grid');
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [prev, next, onClose]);
+  }, [view, prev, next]);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
   }, []);
 
-  const scrollToRoom = (roomIdx: number) => {
-    roomRefs.current[roomIdx]?.scrollIntoView({ behavior: 'smooth' });
+  const openFullscreen = (globalIdx: number) => {
+    setCurrent(globalIdx);
+    setView('fullscreen');
   };
-
-  // figure out which room is active based on current photo
-  let photoCounter = 0;
-  const roomStartIndices = rooms.map((r) => {
-    const idx = photoCounter;
-    photoCounter += r.photos.length;
-    return idx;
-  });
-  const activeRoom = roomStartIndices.findLastIndex((start) => current >= start);
 
   return (
     <div className="fixed inset-0 z-[100] bg-night flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between px-4 md:px-8 h-14 shrink-0 border-b border-white/10">
-        <button onClick={onClose} className="flex items-center gap-2 text-linen/70 hover:text-linen transition-colors">
-          <X size={20} strokeWidth={1.5} />
+        <button
+          onClick={() => view === 'fullscreen' ? setView('grid') : onClose()}
+          className="flex items-center gap-2 text-linen/70 hover:text-linen transition-colors"
+        >
+          {view === 'fullscreen' ? <LayoutGrid size={20} strokeWidth={1.5} /> : <X size={20} strokeWidth={1.5} />}
+          {view === 'fullscreen' && <span className="font-eyebrow text-xs uppercase tracking-widest">Grid</span>}
         </button>
-        <p className="font-eyebrow text-xs text-linen/50 uppercase tracking-widest">
-          {current + 1} / {allPhotos.length}
-        </p>
-        <div className="w-8" />
+
+        {view === 'fullscreen' ? (
+          <p className="font-eyebrow text-xs text-linen/50 uppercase tracking-widest">
+            {current + 1} / {allPhotos.length}
+          </p>
+        ) : (
+          <p className="font-eyebrow text-xs text-linen/50 uppercase tracking-widest">Photos</p>
+        )}
+
+        <button onClick={onClose} className="text-linen/40 hover:text-linen transition-colors">
+          <X size={18} strokeWidth={1.5} />
+        </button>
       </div>
 
       {/* Room tabs */}
-      <div className="flex gap-0 overflow-x-auto scrollbar-none shrink-0 border-b border-white/10">
+      <div className="flex overflow-x-auto scrollbar-none shrink-0 border-b border-white/10">
         {rooms.map((room, i) => (
           <button
             key={room.name}
-            onClick={() => { scrollToRoom(i); setCurrent(roomStartIndices[i]); }}
+            onClick={() => { setActiveRoom(i); if (view === 'fullscreen') setView('grid'); }}
             className={`px-5 py-3 font-eyebrow text-xs uppercase tracking-widest whitespace-nowrap transition-colors border-b-2 ${
               activeRoom === i
                 ? 'text-linen border-signal'
@@ -104,66 +118,70 @@ function GalleryModal({
         ))}
       </div>
 
-      {/* Desktop: big photo + prev/next */}
-      <div className="hidden md:flex flex-1 items-center justify-center relative overflow-hidden">
-        <button
-          onClick={prev}
-          className="absolute left-6 z-10 w-10 h-10 rounded-full bg-night/80 border border-white/20 flex items-center justify-center text-linen hover:bg-night transition-colors"
-        >
-          <ChevronLeft size={20} strokeWidth={1.5} />
-        </button>
-        <img
-          key={current}
-          src={allPhotos[current].src}
-          alt=""
-          className="max-h-full max-w-full object-contain"
-        />
-        <button
-          onClick={next}
-          className="absolute right-6 z-10 w-10 h-10 rounded-full bg-night/80 border border-white/20 flex items-center justify-center text-linen hover:bg-night transition-colors"
-        >
-          <ChevronRight size={20} strokeWidth={1.5} />
-        </button>
-      </div>
-
-      {/* Mobile: scrollable room sections */}
-      <div className="md:hidden flex-1 overflow-y-auto">
-        {rooms.map((room, ri) => (
-          <div key={room.name} ref={(el) => { roomRefs.current[ri] = el; }}>
-            <p className="px-4 pt-6 pb-3 font-eyebrow text-xs text-linen/40 uppercase tracking-widest">{room.name}</p>
-            <div className="flex flex-col gap-1">
-              {room.photos.map((src, pi) => {
-                const globalIdx = roomStartIndices[ri] + pi;
-                return (
+      {/* Grid view */}
+      {view === 'grid' && (
+        <div className="flex-1 overflow-y-auto p-4 md:p-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
+            {rooms[activeRoom].photos.map((src, pi) => {
+              const globalIdx = roomStartIndices[activeRoom] + pi;
+              return (
+                <div
+                  key={src}
+                  className="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer"
+                  onClick={() => openFullscreen(globalIdx)}
+                >
                   <img
-                    key={src}
                     src={src}
                     alt=""
-                    className={`w-full object-cover cursor-pointer transition-opacity ${current === globalIdx ? 'opacity-100' : 'opacity-80'}`}
-                    style={{ maxHeight: '70vw' }}
-                    onClick={() => setCurrent(globalIdx)}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
 
-      {/* Mobile: thumbnail strip at bottom */}
-      <div className="md:hidden flex gap-2 overflow-x-auto px-4 py-3 shrink-0 border-t border-white/10 scrollbar-none">
-        {allPhotos.map((p, i) => (
+      {/* Fullscreen view */}
+      {view === 'fullscreen' && (
+        <div className="flex-1 flex items-center justify-center relative overflow-hidden">
           <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className={`shrink-0 w-14 h-14 rounded overflow-hidden border-2 transition-colors ${
-              current === i ? 'border-signal' : 'border-transparent opacity-50'
-            }`}
+            onClick={prev}
+            className="absolute left-4 md:left-6 z-10 w-10 h-10 rounded-full bg-night/80 border border-white/20 flex items-center justify-center text-linen hover:bg-night transition-colors"
           >
-            <img src={p.src} alt="" className="w-full h-full object-cover" />
+            <ChevronLeft size={20} strokeWidth={1.5} />
           </button>
-        ))}
-      </div>
+          <img
+            key={current}
+            src={allPhotos[current].src}
+            alt=""
+            className="max-h-full max-w-full object-contain"
+          />
+          <button
+            onClick={next}
+            className="absolute right-4 md:right-6 z-10 w-10 h-10 rounded-full bg-night/80 border border-white/20 flex items-center justify-center text-linen hover:bg-night transition-colors"
+          >
+            <ChevronRight size={20} strokeWidth={1.5} />
+          </button>
+        </div>
+      )}
+
+      {/* Fullscreen: thumbnail strip */}
+      {view === 'fullscreen' && (
+        <div className="flex gap-2 overflow-x-auto px-4 py-3 shrink-0 border-t border-white/10 scrollbar-none">
+          {allPhotos.map((p, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`shrink-0 w-14 h-14 rounded overflow-hidden border-2 transition-colors ${
+                current === i ? 'border-signal' : 'border-transparent opacity-40'
+              }`}
+            >
+              <img src={p.src} alt="" className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -237,16 +255,18 @@ export default function StayDetail() {
           )}
         </div>
 
-        {/* Desktop photo grid */}
-        <div className="hidden md:grid grid-cols-4 gap-2 rounded-2xl overflow-hidden mb-10 h-[480px]">
-          <div className="col-span-2 row-span-2 cursor-pointer" onClick={() => openGallery(0)}>
+        {/* Desktop photo grid: big left + 2×2 right */}
+        <div className="hidden md:flex gap-2 rounded-2xl overflow-hidden mb-10 h-[480px]">
+          <div className="w-1/2 shrink-0 cursor-pointer overflow-hidden" onClick={() => openGallery(0)}>
             <img src={stay.gallery[0]} alt={stay.name} className="w-full h-full object-cover hover:brightness-90 transition-all" />
           </div>
-          {stay.gallery.slice(1, 5).map((src, i) => (
-            <div key={i} className="overflow-hidden cursor-pointer" onClick={() => openGallery(i + 1)}>
-              <img src={src} alt="" className="w-full h-full object-cover hover:scale-105 hover:brightness-90 transition-all duration-500" />
-            </div>
-          ))}
+          <div className="w-1/2 grid grid-cols-2 gap-2">
+            {stay.gallery.slice(1, 5).map((src, i) => (
+              <div key={i} className="overflow-hidden cursor-pointer" onClick={() => openGallery(i + 1)}>
+                <img src={src} alt="" className="w-full h-full object-cover hover:scale-105 hover:brightness-90 transition-all duration-500" />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Mobile photo: main + thumbnails */}
@@ -256,11 +276,7 @@ export default function StayDetail() {
             style={{ aspectRatio: '4/3' }}
             onClick={() => openGallery(activeThumb)}
           >
-            <img
-              src={allPhotos[activeThumb]}
-              alt={stay.name}
-              className="w-full h-full object-cover"
-            />
+            <img src={allPhotos[activeThumb]} alt={stay.name} className="w-full h-full object-cover" />
           </div>
           <div className="flex gap-2 overflow-x-auto scrollbar-none pb-1">
             {allPhotos.map((src, i) => (
@@ -272,14 +288,13 @@ export default function StayDetail() {
                 }`}
               >
                 <img src={src} alt="" className="w-full h-full object-cover" />
-            </button>
+              </button>
             ))}
           </div>
         </div>
 
         {/* Two-column layout */}
         <div className="grid md:grid-cols-[1fr_360px] gap-12 xl:gap-20">
-          {/* Left: details */}
           <div>
             <div className="flex flex-wrap gap-6 py-6 border-t border-b border-divider mb-8">
               {[
@@ -330,7 +345,6 @@ export default function StayDetail() {
             </div>
           </div>
 
-          {/* Right: booking card */}
           <div>
             <div className="sticky top-24 bg-white rounded-2xl border border-divider shadow-md p-6 md:p-8">
               <div className="flex items-baseline gap-1 mb-6">
