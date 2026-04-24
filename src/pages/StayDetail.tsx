@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowLeft, X, ChevronLeft, ChevronRight, Users, BedDouble, Bath, Wifi, Flame, Waves, TreePine, Coffee, Star } from 'lucide-react';
+import { ArrowLeft, X, ChevronLeft, ChevronRight, Users, BedDouble, Bath, Wifi, Flame, Waves, TreePine, Coffee, Star, Box } from 'lucide-react';
 import { sandhillsData } from '../components/data/sandhills';
 import Button from '../components/primitives/Button';
 
@@ -12,6 +12,7 @@ type StayData = typeof sandhillsData.stays[0] & {
   baths: number;
   gallery: string[];
   rooms: { name: string; photos: string[] }[];
+  tour3d?: string;
 };
 
 const amenityIcons: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>> = {
@@ -213,14 +214,27 @@ export default function StayDetail() {
 
       <div className="max-w-content mx-auto px-4 md:px-8 py-8 md:py-12">
         {/* Title */}
-        <div className="mb-6">
-          <p className="font-eyebrow text-ink2/60 text-xs uppercase tracking-widest mb-2">{stay.tier}</p>
-          <h1
-            className="font-display font-light text-ink text-[clamp(32px,5vw,64px)]"
-            style={{ letterSpacing: '-0.025em', fontVariationSettings: '"SOFT" 40, "opsz" 72' }}
-          >
-            {stay.name}
-          </h1>
+        <div className="flex items-start justify-between gap-4 mb-6">
+          <div>
+            <p className="font-eyebrow text-ink2/60 text-xs uppercase tracking-widest mb-2">{stay.tier}</p>
+            <h1
+              className="font-display font-light text-ink text-[clamp(32px,5vw,64px)]"
+              style={{ letterSpacing: '-0.025em', fontVariationSettings: '"SOFT" 40, "opsz" 72' }}
+            >
+              {stay.name}
+            </h1>
+          </div>
+          {stay.tour3d && (
+            <a
+              href={stay.tour3d}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 flex items-center gap-2 border border-ink/20 text-ink hover:bg-ink hover:text-bone transition-colors rounded-full px-4 py-2 font-eyebrow text-xs uppercase tracking-widest mt-2"
+            >
+              <Box size={14} strokeWidth={1.5} />
+              3D View
+            </a>
+          )}
         </div>
 
         {/* Desktop photo grid */}
