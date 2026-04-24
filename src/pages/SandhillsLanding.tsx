@@ -46,6 +46,15 @@ export default function SandhillsLanding() {
     document.title = d.meta.title;
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content', d.meta.description);
+
+    const hash = window.location.hash;
+    if (hash) {
+      const id = hash.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 100);
+      }
+    }
   }, []);
 
   return (
