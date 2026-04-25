@@ -1,0 +1,600 @@
+<!--
+  HORIZONS GETAWAYS — THE LAND BLOCK
+  ====================================
+  Self-contained component. No external dependencies except Google Fonts.
+  Drop into any page section. Works on desktop and mobile.
+
+  INTEGRATION NOTES:
+  - Replace the submitForm() fetch stub with your actual endpoint / Zapier webhook
+  - The modal overlay uses position:fixed — works inside any scroll container
+  - Timer starts automatically when block enters viewport (IntersectionObserver)
+  - Scroll acceleration works on both window scroll and touch scroll
+  - Google Fonts load async — fallback serif/sans-serif defined in font-family stacks
+-->
+
+<!-- ─── GOOGLE FONTS ─────────────────────────────────────────────────────── -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+
+<!-- ─── STYLES ────────────────────────────────────────────────────────────── -->
+<style>
+/* === RESET (scoped) === */
+.hg-land *,
+.hg-overlay * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* === LAND BLOCK === */
+.hg-land {
+  background: #f0ebe0;
+  padding: 5rem 2rem 5.5rem;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.hg-land__inner {
+  max-width: 660px;
+  margin: 0 auto;
+}
+
+/* Section mark */
+.hg-land__mark {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+.hg-land__mark span {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: #a09070;
+}
+.hg-land__mark::before,
+.hg-land__mark::after {
+  content: '';
+  flex: 1;
+  max-width: 80px;
+  height: 0.5px;
+  background: #c4aa80;
+}
+
+/* Drop cap hero */
+.hg-land__hero {
+  margin-bottom: 2.25rem;
+}
+.hg-land__dropcap {
+  float: left;
+  font-size: clamp(6rem, 16vw, 10rem);
+  line-height: 0.82;
+  color: #c4541a;
+  font-weight: 400;
+  font-family: 'Playfair Display', Georgia, serif;
+  margin-right: 0.12em;
+}
+.hg-land__headline {
+  font-size: clamp(1.55rem, 3.5vw, 2.35rem);
+  line-height: 1.22;
+  color: #1e1c18;
+  font-weight: 400;
+  padding-top: 0.15em;
+  overflow: hidden; /* clear float */
+}
+
+/* Body copy */
+.hg-land__body {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: clamp(15px, 1.8vw, 17px);
+  line-height: 1.78;
+  color: #3a3630;
+  margin-bottom: 1.6rem;
+}
+.hg-land__body--last {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: clamp(15px, 1.8vw, 17px);
+  line-height: 1.78;
+  color: #3a3630;
+  margin-bottom: 0;
+}
+.hg-land__em {
+  color: #1e1c18;
+  font-weight: 400;
+}
+
+/* Tagline */
+.hg-land__tagline {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  color: #c4541a;
+  margin-top: 2rem;
+  line-height: 1.4;
+}
+
+/* CTA button */
+.hg-land__cta {
+  margin-top: 2.2rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  pointer-events: none;
+}
+.hg-land__cta.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.hg-land__btn {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #f0ebe0;
+  background: #c4541a;
+  border: none;
+  padding: 13px 36px;
+  cursor: pointer;
+  transition: background 0.22s ease, transform 0.15s ease;
+  border-radius: 0;
+}
+.hg-land__btn:hover { background: #a03d10; transform: translateY(-1px); }
+.hg-land__btn:active { transform: translateY(0); }
+
+/* === TIMER EMBED === */
+.hg-timer {
+  margin: 2.25rem 0;
+  padding: 1.6rem 1.8rem;
+  border-left: 2px solid #c4541a;
+  background: #e8e2d4;
+}
+.hg-timer__question {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  color: #3a3630;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+  transition: opacity 0.5s ease;
+}
+.hg-timer__label {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #a09070;
+  margin-bottom: 0.4rem;
+}
+.hg-timer__row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+.hg-timer__num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-weight: 400;
+  color: #c4541a;
+  line-height: 1;
+  transition: color 0.3s ease;
+  min-width: 4ch;
+}
+.hg-timer__num.is-fast { color: #8b3010; }
+.hg-timer__unit {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: #a09070;
+}
+.hg-timer__hint {
+  font-family: 'Jost', sans-serif;
+  font-style: italic;
+  font-size: 13px;
+  color: #b0a080;
+  margin-top: 0.6rem;
+  min-height: 1.2em;
+  transition: opacity 0.4s ease;
+}
+
+/* === MODAL OVERLAY === */
+.hg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 28, 24, 0.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  padding: 1rem;
+}
+.hg-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hg-modal {
+  background: #f0ebe0;
+  border: 0.5px solid #c4aa80;
+  max-width: 400px;
+  width: 100%;
+  padding: 2.25rem 2rem;
+  position: relative;
+  transform: translateY(16px);
+  transition: transform 0.35s ease;
+}
+.hg-overlay.is-open .hg-modal {
+  transform: translateY(0);
+}
+
+.hg-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: #a09070;
+  font-size: 22px;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  line-height: 1;
+}
+
+.hg-modal__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: #1e1c18;
+  margin-bottom: 0.4rem;
+  line-height: 1.25;
+}
+.hg-modal__sub {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: #a09070;
+  margin-bottom: 1.75rem;
+}
+
+.hg-field {
+  margin-bottom: 1.1rem;
+}
+.hg-field label {
+  display: block;
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a09070;
+  margin-bottom: 0.4rem;
+}
+.hg-field input,
+.hg-field select {
+  width: 100%;
+  background: #e8e2d4;
+  border: 0.5px solid #c4aa80;
+  color: #1e1c18;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  padding: 10px 13px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
+.hg-field input::placeholder { color: #b0a080; }
+.hg-field input:focus,
+.hg-field select:focus { border-color: #c4541a; }
+.hg-field select option { background: #f0ebe0; }
+
+.hg-modal__submit {
+  width: 100%;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #f0ebe0;
+  background: #c4541a;
+  border: none;
+  padding: 13px;
+  cursor: pointer;
+  margin-top: 0.4rem;
+  transition: background 0.2s ease;
+  border-radius: 0;
+}
+.hg-modal__submit:hover { background: #a03d10; }
+
+.hg-modal__privacy {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #b0a080;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.hg-modal__success {
+  display: none;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+.hg-modal__success-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: #c4541a;
+  margin-bottom: 0.6rem;
+}
+.hg-modal__success-sub {
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: #a09070;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 480px) {
+  .hg-land { padding: 3.5rem 1.25rem 4rem; }
+  .hg-timer { padding: 1.25rem 1.25rem; }
+  .hg-modal { padding: 2rem 1.5rem; }
+}
+</style>
+
+<!-- ─── THE LAND BLOCK ────────────────────────────────────────────────────── -->
+<section class="hg-land" id="hgLandBlock">
+  <div class="hg-land__inner">
+
+    <!-- Section mark -->
+    <div class="hg-land__mark"><span>§</span></div>
+
+    <!-- Drop cap headline -->
+    <div class="hg-land__hero">
+      <span class="hg-land__dropcap">T</span>
+      <p class="hg-land__headline">he Sandhills run through the middle of the Carolinas like an old memory of the coast.</p>
+    </div>
+
+    <!-- First body paragraph -->
+    <p class="hg-land__body">
+      Ridges of white sand left behind when the ocean moved east, now covered in longleaf pine and wiregrass so quiet the forest almost sounds hollow. In the evening, you can hear a dropped pinecone from the dock. In the morning, a whip-poor-will works its way across the tree line. <span class="hg-land__em">Nothing has hurried here since the Pleistocene.</span>
+    </p>
+
+    <!-- TIMER EMBED -->
+    <div class="hg-timer" id="hgTimer">
+      <p class="hg-timer__question" id="hgTimerQ">When did you last slow down like this?</p>
+      <div class="hg-timer__label">hours since your last real rest</div>
+      <div class="hg-timer__row">
+        <div class="hg-timer__num" id="hgTimerNum">—</div>
+        <div class="hg-timer__unit">hrs</div>
+      </div>
+      <div class="hg-timer__hint" id="hgTimerHint">scroll to see how fast time moves</div>
+    </div>
+
+    <!-- Second body paragraph -->
+    <p class="hg-land__body--last">
+      Our hundred and twenty-six acres sit in the middle of this. An eighteen-acre lake with a dock that creaks in a good way. Six villas, spaced so your neighbor stays a rumor. A sauna above the water. A house at the far end for the people who brought everyone with them.
+    </p>
+
+    <!-- Tagline -->
+    <p class="hg-land__tagline">No neon. No muzak. No app to download.</p>
+
+    <!-- CTA — appears after timer threshold -->
+    <div class="hg-land__cta" id="hgLandCta">
+      <button class="hg-land__btn" onclick="hgOpenModal()">Ready? Let's talk →</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── MODAL ─────────────────────────────────────────────────────────────── -->
+<div class="hg-overlay" id="hgOverlay" onclick="hgOverlayClick(event)">
+  <div class="hg-modal">
+    <button class="hg-modal__close" onclick="hgCloseModal()">&#215;</button>
+
+    <!-- Form -->
+    <div id="hgFormWrap">
+      <p class="hg-modal__title">We'll reach out.<br>You just rest.</p>
+      <p class="hg-modal__sub">Leave your number — we'll call with dates and a quiet offer.</p>
+
+      <div class="hg-field">
+        <label for="hgName">Your name</label>
+        <input type="text" id="hgName" placeholder="First name" autocomplete="given-name" />
+      </div>
+      <div class="hg-field">
+        <label for="hgPhone">Phone number</label>
+        <input type="tel" id="hgPhone" placeholder="+1 (___) ___-____" autocomplete="tel" />
+      </div>
+      <div class="hg-field">
+        <label for="hgWhen">When are you thinking?</label>
+        <select id="hgWhen">
+          <option value="" disabled selected>— select a window —</option>
+          <option value="month">Within a month</option>
+          <option value="1-3mo">1–3 months from now</option>
+          <option value="summer">This summer</option>
+          <option value="fall">Fall or later</option>
+          <option value="exploring">Just exploring</option>
+        </select>
+      </div>
+
+      <button class="hg-modal__submit" onclick="hgSubmitForm()">Call me about Sandhills</button>
+      <p class="hg-modal__privacy">No spam. No pressure. Just a conversation.</p>
+    </div>
+
+    <!-- Success state -->
+    <div class="hg-modal__success" id="hgSuccess">
+      <p class="hg-modal__success-title">We'll be in touch soon.</p>
+      <p class="hg-modal__success-sub">The pines aren't going anywhere.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCRIPT ────────────────────────────────────────────────────────────── -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Config ── */
+  var TIMER_SPEED_BASE   = 1;      // hrs/sec at idle
+  var TIMER_SPEED_SCROLL = 100;    // max boost on fast scroll
+  var TIMER_CTA_THRESHOLD = 2400;  // hrs before CTA appears
+  var SCROLL_DECAY_MS    = 280;    // ms before speed resets after scroll stops
+
+  /* ── State ── */
+  var hours        = 0;
+  var accumulator  = 0;
+  var speed        = TIMER_SPEED_BASE;
+  var lastTs       = null;
+  var running      = false;
+  var ctaShown     = false;
+  var animId       = null;
+  var lastScrollY  = window.scrollY;
+  var slowTimer    = null;
+
+  /* ── Elements ── */
+  var numEl   = document.getElementById('hgTimerNum');
+  var hintEl  = document.getElementById('hgTimerHint');
+  var questionEl = document.getElementById('hgTimerQ');
+  var ctaEl   = document.getElementById('hgLandCta');
+
+  var hints = [
+    'scroll to see how fast time moves',
+    'keep going\u2026',
+    'still counting.',
+    'and counting.',
+    ''
+  ];
+
+  /* ── Timer loop ── */
+  function frame(ts) {
+    if (!lastTs) lastTs = ts;
+    var dt = Math.min((ts - lastTs) / 1000, 0.1);
+    lastTs = ts;
+
+    accumulator += speed * dt * 120;
+    var h = Math.floor(accumulator);
+
+    if (h !== hours) {
+      hours = h;
+      numEl.textContent = hours.toLocaleString();
+    }
+
+    /* Hint rotation */
+    if (hours > 300 && hours < TIMER_CTA_THRESHOLD) {
+      var idx = Math.min(Math.floor(hours / 480), hints.length - 1);
+      hintEl.textContent = hints[idx];
+    }
+
+    /* CTA reveal */
+    if (hours >= TIMER_CTA_THRESHOLD && !ctaShown) {
+      ctaShown = true;
+      ctaEl.classList.add('is-visible');
+      hintEl.style.opacity = '0';
+      questionEl.textContent = 'We know the feeling. The land is ready when you are.';
+    }
+
+    animId = requestAnimationFrame(frame);
+  }
+
+  function startTimer() {
+    if (running) return;
+    running = true;
+    accumulator = 0;
+    hours = 0;
+    lastTs = null;
+    numEl.textContent = '0';
+    animId = requestAnimationFrame(frame);
+  }
+
+  /* ── IntersectionObserver: start on enter ── */
+  var observer = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) {
+      startTimer();
+      observer.disconnect();
+    }
+  }, { threshold: 0.25 });
+
+  observer.observe(document.getElementById('hgLandBlock'));
+
+  /* ── Scroll acceleration ── */
+  window.addEventListener('scroll', function () {
+    if (!running) return;
+    var dy = Math.abs(window.scrollY - lastScrollY);
+    lastScrollY = window.scrollY;
+    var boost = 1 + Math.min(dy * 3, TIMER_SPEED_SCROLL);
+    speed = boost;
+    numEl.classList.add('is-fast');
+    clearTimeout(slowTimer);
+    slowTimer = setTimeout(function () {
+      speed = TIMER_SPEED_BASE;
+      numEl.classList.remove('is-fast');
+    }, SCROLL_DECAY_MS);
+  }, { passive: true });
+
+  /* ── Modal ── */
+  window.hgOpenModal = function () {
+    document.getElementById('hgOverlay').classList.add('is-open');
+  };
+
+  window.hgCloseModal = function () {
+    document.getElementById('hgOverlay').classList.remove('is-open');
+  };
+
+  window.hgOverlayClick = function (e) {
+    if (e.target === document.getElementById('hgOverlay')) hgCloseModal();
+  };
+
+  /* ── Form submit ── */
+  window.hgSubmitForm = function () {
+    var name  = document.getElementById('hgName').value.trim();
+    var phone = document.getElementById('hgPhone').value.trim();
+    var when  = document.getElementById('hgWhen').value;
+
+    if (!name || !phone) {
+      var phoneEl = document.getElementById('hgPhone');
+      phoneEl.style.borderColor = '#c4541a';
+      setTimeout(function () { phoneEl.style.borderColor = ''; }, 1200);
+      return;
+    }
+
+    /* ── TODO: replace with your actual endpoint ─────────────────────────
+       Example — Zapier webhook:
+
+       fetch('https://hooks.zapier.com/hooks/catch/XXXXXX/YYYYYY/', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ name: name, phone: phone, timing: when, source: 'land-block' })
+       });
+
+       Example — native Wix / custom API endpoint:
+
+       fetch('/api/leads', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ name: name, phone: phone, timing: when })
+       });
+    ─────────────────────────────────────────────────────────────────── */
+
+    /* Show success state */
+    document.getElementById('hgFormWrap').style.display = 'none';
+    document.getElementById('hgSuccess').style.display  = 'block';
+  };
+
+})();
+</script>

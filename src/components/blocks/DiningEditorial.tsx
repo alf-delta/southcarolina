@@ -47,7 +47,7 @@ export default function DiningEditorial() {
       <div className="max-w-content mx-auto">
 
         <RevealOnScroll>
-          <p className="eyebrow-lg text-ink2 mb-6" style={{ fontSize: '11px', letterSpacing: '0.25em' }}>Why Horizons — Why Here</p>
+          <p className="eyebrow-lg text-ink2 mb-6" style={{ fontSize: '16px' }}>Why Horizons — Why Here</p>
           <h2
             className="font-display font-light text-ink mb-4 leading-[1.15]"
             style={{ fontSize: 'clamp(32px,5vw,52px)', letterSpacing: '-0.02em', fontVariationSettings: '"SOFT" 30, "opsz" 72' }}

@@ -13,7 +13,6 @@ import IncludedList from '../components/blocks/IncludedList';
 // import DayScenes from '../components/blocks/DayScenes';
 import DiningEditorial from '../components/blocks/DiningEditorial';
 import ActivitiesGrid from '../components/blocks/ActivitiesGrid';
-import SustainabilityStory from '../components/blocks/SustainabilityStory';
 import MapBlock from '../components/blocks/MapBlock';
 import GalleryMasonry from '../components/blocks/GalleryMasonry';
 import ProofSocial from '../components/blocks/ProofSocial';
@@ -120,18 +119,10 @@ export default function SandhillsLanding() {
         <RoundedEntry style={{ position: 'relative', zIndex: 40 }}>
           <DiningEditorial />
           <ActivitiesGrid activities={d.activities} />
-          <SustainabilityStory
-            headline={d.sustainability.headline}
-            lede={d.sustainability.lede}
-            body={d.sustainability.body}
-            stats={d.sustainability.stats}
-            certs={d.sustainability.certs}
-            image={d.sustainability.image}
-          />
+          <NearbyGrid nearby={d.nearby} />
           <MapBlock directions={d.directions} />
           <GalleryMasonry images={d.gallery} />
           <ProofSocial reviews={d.reviews} pressQuote={d.pressQuote} />
-          <NearbyGrid nearby={d.nearby} />
           <FaqAccordion items={d.faq} />
         </RoundedEntry>
 

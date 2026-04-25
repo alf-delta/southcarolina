@@ -24,3 +24,5 @@ graphify-out
 *.njsproj
 *.sln
 *.sw?
+*.html
+Yagrumo*

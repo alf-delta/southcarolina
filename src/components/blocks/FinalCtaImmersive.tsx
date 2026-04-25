@@ -35,19 +35,21 @@ export default function FinalCtaImmersive({ bigType, headline, sub, image }: Pro
 
       {/* WAITING watermark — верхняя половина */}
       <motion.div
-        className="absolute inset-0 flex items-center justify-center z-[1] pointer-events-none"
-        style={{ alignItems: 'flex-start', paddingTop: '12%' }}
+        className="absolute inset-0 flex justify-center z-[1] pointer-events-none"
+        style={{ alignItems: 'flex-start', paddingTop: '12%', mixBlendMode: 'soft-light' }}
         initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
         animate={inView ? { opacity: 1, scale: 1 } : {}}
         transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
       >
         <p
-          className="font-display text-center leading-[0.88] whitespace-nowrap text-linen/90"
+          className="font-display text-center leading-[0.88] whitespace-nowrap"
           style={{
             fontSize: 'clamp(48px, 14vw, 220px)',
             fontWeight: 200,
             letterSpacing: '-0.04em',
             fontVariationSettings: '"SOFT" 70, "opsz" 144',
+            color: 'rgba(255, 248, 235, 1)',
+            filter: 'drop-shadow(0 0 80px rgba(255, 240, 200, 0.7)) drop-shadow(0 0 20px rgba(255,230,170,0.5))',
           }}
           aria-hidden="true"
         >

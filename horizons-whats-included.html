@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What's Included — Horizons Getaways</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    .wi-wrap {
+      font-family: 'DM Sans', sans-serif;
+      background: #F0EBE0;
+      padding: 80px 64px;
+    }
+
+    .wi-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8A7F6E;
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .wi-accent-bar {
+      width: 32px;
+      height: 2px;
+      background: #C4531A;
+      margin-bottom: 44px;
+    }
+
+    .wi-headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: 56px;
+      line-height: 1.05;
+      color: #1C1A16;
+      margin: 0 0 56px;
+    }
+
+    .wi-headline em {
+      font-style: italic;
+      color: #C4531A;
+    }
+
+    .wi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(100, 90, 70, 0.15);
+    }
+
+    .wi-card {
+      background: #F0EBE0;
+      padding: 36px 32px 32px;
+      transition: background 0.18s ease;
+      cursor: default;
+    }
+
+    .wi-card:hover {
+      background: #EAE4D6;
+    }
+
+    .wi-icon {
+      display: block;
+      margin-bottom: 20px;
+      width: 36px;
+      height: 36px;
+    }
+
+    .wi-icon svg {
+      width: 36px;
+      height: 36px;
+      fill: none;
+      stroke: #4A3F30;
+      stroke-width: 1.3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .wi-name {
+      font-size: 16px;
+      font-weight: 500;
+      color: #1C1A16;
+      margin: 0 0 8px;
+      line-height: 1.3;
+    }
+
+    .wi-sub {
+      font-size: 12.5px;
+      color: #C4531A;
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .wi-wrap { padding: 56px 24px; }
+      .wi-headline { font-size: 38px; }
+      .wi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .wi-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<section class="wi-wrap">
+  <p class="wi-eyebrow">What's included</p>
+  <div class="wi-accent-bar"></div>
+  <h2 class="wi-headline">Every stay,<br><em>without asking.</em></h2>
+
+  <div class="wi-grid">
+
+    <!-- 01 Sauna -->
+    <div class="wi-card">
+      <span class="wi-icon">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4C8B4"/>
+              <stop offset="100%" stop-color="#8A7A65"/>
+            </linearGradient>
+          </defs>
+          <path d="M8 30 L8 18 Q8 8 18 8 Q28 8 28 18 L28 30" stroke="#4A3F30"/>
+          <path d="M13 30 L13 20 Q13 14 18 14 Q23 14 23 20 L23 30" fill="url(#g1)" stroke="#4A3F30"/>
+        </svg>
+      </span>
+      <div class="wi-name">Sauna sessions</div>
+      <div class="wi-sub">Unlimited, heated by six</div>
+    </div>
+
+    <!-- 02 Canoes -->
+    <div class="wi-card">
+      <span class="wi-icon">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4C8B4"/>
+              <stop offset="100%" stop-color="#8A7A65"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="18" cy="18" rx="6" ry="11" fill="url(#g2)" stroke="#4A3F30"/>
+          <line x1="18" y1="7" x2="18" y2="29" stroke="#4A3F30"/>
+          <path d="M6 18 Q10 14 14 18 Q18 22 22 18 Q26 14 30 18" stroke="#4A3F30"/>
+        </svg>
+      </span>
+      <div class="wi-name">Canoes & paddleboards</div>
+      <div class="wi-sub">Two Kevlar, two SUP</div>
+    </div>
+
+    <!-- 03 Coffee -->
+    <div class="wi-card">
+      <span class="wi-icon">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4C8B4"/>
+              <stop offset="100%" stop-color="#8A7A65"/>
+            </linearGradient>
+          </defs>
+          <path d="M9 14 Q9 8 18 8 Q27 8 27 14 L25 26 Q24 28 18 28 Q12 28 11 26 Z" fill="url(#g3)" stroke="#4A3F30"/>
+          <path d="M27 16 Q31 16 31 20 Q31 24 27 23" stroke="#4A3F30"/>
+          <path d="M15 6 Q15 4 18 4 Q21 4 21 6" stroke="#4A3F30"/>
+        </svg>
+      </span>
+      <div class="wi-name">Premium coffee/tea kit</div>
+      <div class="wi-sub">Beans from Camden, 30mi</div>
+    </div>
+
+    <!-- 04 Firepit -->
+    <div class="wi-card">
+      <span class="wi-icon">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4C8B4"/>
+              <stop offset="100%" stop-color="#8A7A65"/>
+            </linearGradient>
+          </defs>
+          <polygon points="18,6 28,26 8,26" fill="url(#g4)" stroke="#4A3F30"/>
+          <line x1="10" y1="30" x2="26" y2="30" stroke="#4A3F30"/>
+          <line x1="14" y1="30" x2="12" y2="26" stroke="#4A3F30"/>
+          <line x1="22" y1="30" x2="24" y2="26" stroke="#4A3F30"/>
+        </svg>
+      </span>
+      <div class="wi-name">Outdoor firepit</div>
+      <div class="wi-sub">Wood stacked, lighter too</div>
+    </div>
+
+    <!-- 05 Trail -->
+    <div class="wi-card">
+      <span class="wi-icon">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g5" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4C8B4"/>
+              <stop offset="100%" stop-color="#8A7A65"/>
+            </linearGradient>
+          </defs>
+          <polygon points="18,4 25,20 11,20" fill="url(#g5)" stroke="#4A3F30"/>
+          <polygon points="10,10 16,24 4,24" stroke="#4A3F30"/>
+          <polygon points="26,10 32,24 20,24" stroke="#4A3F30"/>
+          <line x1="18" y1="20" x2="18" y2="30" stroke="#4A3F30"/>
+          <line x1="10" y1="24" x2="10" y2="30" stroke="#4A3F30"/>
+          <line x1="26" y1="24" x2="26" y2="30" stroke="#4A3F30"/>
+        </svg>
+      </span>
+      <div class="wi-name">Twelve miles of trail</div>
+      <div class="wi-sub">Illustrated map per cabin</div>
+    </div>
+
+    <!-- 06 Stargazing chairs -->
+    <div class="wi-card">
+      <span class="wi-icon">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g6" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4C8B4"/>
+              <stop offset="100%" stop-color="#8A7A65"/>
+            </linearGradient>
+          </defs>
+          <path d="M6 28 L14 14 L22 20 L30 10" stroke="#4A3F30"/>
+          <path d="M20 28 Q20 22 26 20 L30 22 L30 28 Z" fill="url(#g6)" stroke="#4A3F30"/>
+          <circle cx="8" cy="26" r="2.5" fill="url(#g6)" stroke="#4A3F30"/>
+        </svg>
+      </span>
+      <div class="wi-name">Stargazing chairs</div>
+      <div class="wi-sub">Two, reclining, per deck</div>
+    </div>
+
+    <!-- 07 Pantry -->
+    <div class="wi-card">
+      <span class="wi-icon">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g7" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4C8B4"/>
+              <stop offset="100%" stop-color="#8A7A65"/>
+            </linearGradient>
+          </defs>
+          <rect x="8" y="14" width="20" height="16" rx="1.5" fill="url(#g7)" stroke="#4A3F30"/>
+          <line x1="8" y1="18" x2="28" y2="18" stroke="#4A3F30"/>
+          <path d="M11 14 L11 10 Q11 7 18 7 Q25 7 25 10 L25 14" stroke="#4A3F30"/>
+          <path d="M15 7 Q15 5 18 5 Q21 5 21 7" stroke="#4A3F30"/>
+        </svg>
+      </span>
+      <div class="wi-name">Welcome pantry box</div>
+      <div class="wi-sub">Bread, honey, pine-salt</div>
+    </div>
+
+    <!-- 08 Bath salts -->
+    <div class="wi-card">
+      <span class="wi-icon">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g8" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4C8B4"/>
+              <stop offset="100%" stop-color="#8A7A65"/>
+            </linearGradient>
+          </defs>
+          <path d="M18 4 C18 4 8 12 8 20 C8 26 12 30 18 30 C24 30 28 26 28 20 C28 12 18 4 18 4 Z" fill="url(#g8)" stroke="#4A3F30"/>
+          <line x1="18" y1="4" x2="18" y2="30" stroke="#4A3F30"/>
+          <path d="M11 18 Q14 15 18 17 Q22 15 25 18" stroke="#4A3F30"/>
+        </svg>
+      </span>
+      <div class="wi-name">Pine-needle bath salts</div>
+      <div class="wi-sub">Hand-mixed on property</div>
+    </div>
+
+    <!-- 09 Linens -->
+    <div class="wi-card">
+      <span class="wi-icon">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g9" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4C8B4"/>
+              <stop offset="100%" stop-color="#8A7A65"/>
+            </linearGradient>
+          </defs>
+          <rect x="6" y="10" width="24" height="18" rx="2" fill="url(#g9)" stroke="#4A3F30"/>
+          <line x1="6" y1="18" x2="30" y2="18" stroke="#4A3F30"/>
+          <line x1="6" y1="22" x2="30" y2="22" stroke="#4A3F30"/>
+        </svg>
+      </span>
+      <div class="wi-name">Linens & towels</div>
+      <div class="wi-sub">European, heavyweight</div>
+    </div>
+
+    <!-- 10 Host -->
+    <div class="wi-card">
+      <span class="wi-icon">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g10" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4C8B4"/>
+              <stop offset="100%" stop-color="#8A7A65"/>
+            </linearGradient>
+          </defs>
+          <circle cx="18" cy="11" r="5" fill="url(#g10)" stroke="#4A3F30"/>
+          <path d="M8 32 C8 24 12 20 18 20 C24 20 28 24 28 32" stroke="#4A3F30"/>
+        </svg>
+      </span>
+      <div class="wi-name">Your personal host</div>
+      <div class="wi-sub">Someone who genuinely cares is always nearby</div>
+    </div>
+
+    <!-- 11 Wi-Fi -->
+    <div class="wi-card">
+      <span class="wi-icon">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g11" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4C8B4"/>
+              <stop offset="100%" stop-color="#8A7A65"/>
+            </linearGradient>
+          </defs>
+          <path d="M5 16 Q18 4 31 16" stroke="#4A3F30"/>
+          <path d="M9 20 Q18 11 27 20" stroke="#4A3F30"/>
+          <path d="M13 24 Q18 19 23 24" stroke="#4A3F30"/>
+          <circle cx="18" cy="28" r="2.5" fill="url(#g11)" stroke="#4A3F30"/>
+        </svg>
+      </span>
+      <div class="wi-name">Starlink Wi-Fi</div>
+      <div class="wi-sub">In The House & sauna. Boxbles stay offline — by design</div>
+    </div>
+
+    <!-- 12 Speaker -->
+    <div class="wi-card">
+      <span class="wi-icon">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g12" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4C8B4"/>
+              <stop offset="100%" stop-color="#8A7A65"/>
+            </linearGradient>
+          </defs>
+          <circle cx="18" cy="18" r="13" stroke="#4A3F30"/>
+          <circle cx="18" cy="18" r="8" stroke="#4A3F30"/>
+          <circle cx="18" cy="18" r="3.5" fill="url(#g12)" stroke="#4A3F30"/>
+        </svg>
+      </span>
+      <div class="wi-name">Bluetooth speaker</div>
+      <div class="wi-sub">Every villa & The House · <em>Marshall</em></div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

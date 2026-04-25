@@ -215,6 +215,7 @@ export const sandhillsData = {
   reviews: [
     {
       rating: 5,
+      source: 'direct' as const,
       quote: "We didn't speak for two days.",
       body: "Thought that might be a problem. Turned out to be the point. The sauna, the lake, the pines. Everything they said and nothing they didn't.",
       author: 'Hannah M.',
@@ -223,6 +224,7 @@ export const sandhillsData = {
     },
     {
       rating: 5,
+      source: 'airbnb' as const,
       quote: 'The phone went in a drawer on Friday.',
       body: "Didn't come out until Sunday evening, by which point I'd forgotten about three meetings and felt better than I had in six months.",
       author: 'Daniel K.',
@@ -231,6 +233,7 @@ export const sandhillsData = {
     },
     {
       rating: 5,
+      source: 'booking' as const,
       quote: "Booked The House for my mother's 70th.",
       body: 'Eight of us, four nights. The concierge set up a private chef for one dinner. She cried on the dock the first morning and again when we left.',
       author: 'Jessica P.',
@@ -243,10 +246,58 @@ export const sandhillsData = {
     source: 'Garden & Gun · Spring 2025',
   },
   nearby: [
-    { distance: '20 minutes · state park', name: 'Cheraw State Park', description: 'Oldest state park in SC. Longleaf trails, a horseshoe lake, the quiet kind.' },
-    { distance: '35 minutes · wildlife refuge', name: 'Carolina Sandhills NWR', description: '47,850 acres. Red-cockaded woodpecker country. Bring binoculars.' },
-    { distance: '30 minutes · historic town', name: 'Camden', description: "Revolutionary War streets. Saturday farmers' market. Two good coffee shops." },
-    { distance: '45 minutes · river', name: 'Peedee River', description: 'Blackwater paddling. Fish camps that have been there since 1952.' },
+    {
+      distance: '20 min · state park',
+      name: 'Cheraw State Park',
+      description: 'Oldest state park in SC. Longleaf trails, a horseshoe lake, the quiet kind.',
+      image: '/images/nearby/Cheraw_State_Park.png',
+      why: "South Carolina's oldest state park. A horseshoe lake, ancient longleaf pines, and trails quiet enough to hear the woodpeckers work. No crowds, no agenda — just the forest doing what it's always done.",
+      stats: [
+        { label: 'Drive', value: '20 min' },
+        { label: 'Type', value: 'State Park' },
+        { label: 'Trails', value: '9 miles' },
+        { label: 'Est.', value: '1934' },
+      ],
+    },
+    {
+      distance: '35 min · wildlife refuge',
+      name: 'Carolina Sandhills NWR',
+      description: '47,850 acres. Red-cockaded woodpecker country. Bring binoculars.',
+      image: '/images/nearby/Carolina_Sandhills_National_Wildlife.png',
+      why: '47,850 acres of managed longleaf pine savanna — the same habitat we\'re restoring at Horizons. Home to red-cockaded woodpeckers, bobwhite quail, and the kind of open-sky silence that recalibrates something in you.',
+      stats: [
+        { label: 'Drive', value: '35 min' },
+        { label: 'Type', value: 'Wildlife Refuge' },
+        { label: 'Size', value: '47,850 ac' },
+        { label: 'Open', value: 'Year-round' },
+      ],
+    },
+    {
+      distance: '30 min · historic town',
+      name: 'Camden',
+      description: "Revolutionary War streets. Saturday farmers' market. Two good coffee shops.",
+      image: '/images/nearby/Camden.png',
+      why: "The oldest inland city in South Carolina. Antebellum streets, a serious equestrian scene, two coffee shops worth the detour, and a Saturday farmers' market worth setting an alarm for.",
+      stats: [
+        { label: 'Drive', value: '30 min' },
+        { label: 'Type', value: 'Historic Town' },
+        { label: 'Founded', value: '1732' },
+        { label: 'Market', value: 'Saturdays' },
+      ],
+    },
+    {
+      distance: '45 min · river',
+      name: 'Peedee River',
+      description: 'Blackwater paddling. Fish camps that have been there since 1952.',
+      image: '/images/nearby/Great_PeeDee_River.png',
+      why: 'Blackwater paddling through tannin-dark water under cypress canopy. Fish camps on the banks since before living memory. The kind of river that reminds you some things are better left exactly as they are.',
+      stats: [
+        { label: 'Drive', value: '45 min' },
+        { label: 'Type', value: 'River' },
+        { label: 'Length', value: '233 mi' },
+        { label: 'Known for', value: 'Bass & paddling' },
+      ],
+    },
   ],
   faq: [
     { q: 'Can we bring our dog?', a: 'Dogs are welcome in three of our six Boxbles for a one-time $75 cleaning fee. The House is not dog-friendly. Trails are all dog-friendly leashed.' },

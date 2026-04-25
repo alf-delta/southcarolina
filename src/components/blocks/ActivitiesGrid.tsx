@@ -22,7 +22,7 @@ export default function ActivitiesGrid({ activities }: { activities: Activity[] 
     <section data-zone="light" data-bg="#F2EDE3" className="bg-bone pt-10 md:pt-14 pb-24 md:pb-32 px-6">
       <div className="max-w-content mx-auto">
         <div className="mb-14">
-          <p className="eyebrow text-ink2 mb-3">What to do</p>
+          <p className="eyebrow-lg text-ink2 mb-3" style={{ fontSize: "16px" }}>What to do</p>
           <h3
             className="font-display font-light text-ink text-[clamp(28px,4vw,52px)]"
             style={{ fontVariationSettings: '"SOFT" 30, "opsz" 72', letterSpacing: '-0.02em' }}

@@ -16,7 +16,7 @@ export default function GalleryMasonry({ images }: { images: GalleryImage[] }) {
     <section id="gallery" className="bg-bone py-24 md:py-32 px-6">
       <div className="max-w-content mx-auto">
         <RevealOnScroll>
-          <p className="eyebrow text-ink2 mb-4">Gallery</p>
+          <p className="eyebrow-lg text-ink2 mb-4" style={{ fontSize: "16px" }}>Gallery</p>
           <h3
             className="font-display font-light text-ink text-[clamp(28px,4vw,48px)] mb-12"
             style={{ fontVariationSettings: '"SOFT" 30, "opsz" 72', letterSpacing: '-0.02em' }}

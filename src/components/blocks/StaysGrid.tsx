@@ -19,7 +19,7 @@ export default function StaysGrid({ stays }: { stays: Stay[] }) {
     <section id="stays" data-zone="dark" className="bg-nightWarm pt-12 pb-24 md:pt-16 md:pb-36 px-6">
       <div className="max-w-content mx-auto">
         <RevealOnScroll>
-          <p className="eyebrow text-linen2 text-center mb-4">Where you'll living</p>
+          <p className="eyebrow-lg text-linen2 text-center mb-4" style={{ fontSize: "16px" }}>Where you'll living</p>
           <h3
             className="font-display font-light text-linen text-center text-[clamp(36px,5vw,72px)] mb-16"
             style={{ fontVariationSettings: '"SOFT" 40, "opsz" 72', letterSpacing: '-0.025em' }}
