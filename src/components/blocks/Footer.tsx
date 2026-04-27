@@ -4,7 +4,7 @@ const cols = [
   {
     title: 'Stay',
     links: [
-      { label: 'The Boxble', href: '#stays' },
+      { label: 'The Forest Villa', href: '#stays' },
       { label: 'The House', href: '#stays' },
       { label: 'Rates & Availability', href: '#reserve' },
       { label: 'Gift Cards', href: '#' },

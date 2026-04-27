@@ -24,7 +24,7 @@ const popups: Record<string, React.ReactNode> = {
   '08': <><A>Mixed by hand, on the property,</A> from longleaf needles and mineral salts pulled from the Pee Dee basin. The tub is deep. The evening is long. <A>Both are yours.</A></>,
   '09': <>Portuguese linen, <A>400 thread count,</A> heavyweight Turkish towels. The kind that hold heat and age well. Changed mid-stay for longer visits. <A>No corners cut</A> where it touches your skin.</>,
   '10': <>Not a number, not an app. <A>A person nearby</A> who knows where the good heron spot is and when the fog usually lifts. Available. Unhurried. <A>Genuinely pleased you came.</A></>,
-  '11': <><A>Starlink at The House and sauna.</A> Fast enough to work, present enough not to need it. The Boxbles stay offline — <A>by design,</A> not oversight. The trees have better coverage anyway.</>,
+  '11': <><A>Starlink at The House and sauna.</A> Fast enough to work, present enough not to need it. The Forest Villas stay offline — <A>by design,</A> not oversight. The trees have better coverage anyway.</>,
   '12': <><A>A Marshall, per room.</A> Charged, connected, volume set to wherever you want it. Play the thing you've been saving for <A>a place that deserves it.</A> This is that place.</>,
 };
 

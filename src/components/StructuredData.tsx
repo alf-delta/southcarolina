@@ -6,7 +6,7 @@ const resort = {
   '@id': `${SITE_URL}/#resort`,
   name: 'Horizons Sandhills',
   description:
-    'Premium glamping retreat on 126 acres of longleaf pine savanna in the Carolina Sandhills. Private lake, six Boxble villas, and The House — 90 minutes from Charlotte.',
+    'Premium glamping retreat on 126 acres of longleaf pine savanna in the Carolina Sandhills. Private lake, six Forest Villa villas, and The House — 90 minutes from Charlotte.',
   url: SITE_URL,
   telephone: '+18035550180',
   address: {
@@ -47,7 +47,7 @@ const resort = {
     {
       '@type': 'Accommodation',
       '@id': `${SITE_URL}/stays/boxble-villa#accommodation`,
-      name: 'The Boxble Villa',
+      name: 'The Forest Villa',
       description:
         'Private lakefront cabin with king bed, outdoor deck, and outdoor shower. Six cabins spaced so you cannot see your neighbor. Intentionally offline.',
       url: `${SITE_URL}/stays/boxble-villa`,
@@ -119,12 +119,12 @@ const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Can we bring our dog?', acceptedAnswer: { '@type': 'Answer', text: 'Dogs are welcome in three of our six Boxbles for a one-time $75 cleaning fee. The House is not dog-friendly. Trails are all dog-friendly leashed.' } },
+    { '@type': 'Question', name: 'Can we bring our dog?', acceptedAnswer: { '@type': 'Answer', text: 'Dogs are welcome in three of our six Forest Villas for a one-time $75 cleaning fee. The House is not dog-friendly. Trails are all dog-friendly leashed.' } },
     { '@type': 'Question', name: 'What should I pack?', acceptedAnswer: { '@type': 'Answer', text: "Whatever you'd bring to a friend's lake house. A headlamp. Bug spray in summer. A sweater even in July — nights cool fast." } },
-    { '@type': 'Question', name: "How's cell reception?", acceptedAnswer: { '@type': 'Answer', text: 'Honest answer: patchy. Verizon works in about half the property. We have Wi-Fi in The House and at the sauna. The Boxbles are intentionally offline.' } },
+    { '@type': 'Question', name: "How's cell reception?", acceptedAnswer: { '@type': 'Answer', text: 'Honest answer: patchy. Verizon works in about half the property. We have Wi-Fi in The House and at the sauna. The Forest Villas are intentionally offline.' } },
     { '@type': 'Question', name: 'When is the best time to come?', acceptedAnswer: { '@type': 'Answer', text: 'October–November for pine gold. March–April for bird migration. July–August for lake swimming. December–February is our quietest — and cheapest.' } },
     { '@type': 'Question', name: "What's your cancellation policy?", acceptedAnswer: { '@type': 'Answer', text: 'Full refund 14 days out. 50% refund 7–13 days. No refund inside 7 days.' } },
-    { '@type': 'Question', name: 'Are kids welcome?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. The House sleeps families — four bedrooms, bunks in one. Boxbles are couples-first but kids over ten are fine.' } },
+    { '@type': 'Question', name: 'Are kids welcome?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. The House sleeps families — four bedrooms, bunks in one. Forest Villas are couples-first but kids over ten are fine.' } },
     { '@type': 'Question', name: 'Can we host an event here?', acceptedAnswer: { '@type': 'Answer', text: 'Yes — weddings up to 40, retreats and buyouts up to 20. We have a dedicated planner.' } },
   ],
 };

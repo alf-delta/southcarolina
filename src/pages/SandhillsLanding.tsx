@@ -146,7 +146,7 @@ export default function SandhillsLanding() {
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-[100] bg-night/95 backdrop-blur-md border-t border-linen/10 px-4 py-3 flex items-center justify-between">
         <div>
           <p className="text-linen font-medium text-sm">From $450 / night</p>
-          <p className="text-linen/50 text-xs">Boxble · 2-night minimum</p>
+          <p className="text-linen/50 text-xs">Forest Villa · 2-night minimum</p>
         </div>
         <a
           href="#reserve"
