@@ -19,7 +19,6 @@ export default function RoundedEntry({ children, radius = 48, className, style }
   });
 
   const borderRadius = useTransform(scrollYProgress, [0, 1], [radius, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
   const shadow = useTransform(
     scrollYProgress,
     [0, 1],
@@ -27,13 +26,12 @@ export default function RoundedEntry({ children, radius = 48, className, style }
   );
 
   return (
-    <div ref={ref} style={{ backgroundColor: '#0E1208' }}>
+    <div ref={ref}>
       <motion.div
         className={className}
         style={{
           borderTopLeftRadius: reduceMotion ? 0 : borderRadius,
           borderTopRightRadius: reduceMotion ? 0 : borderRadius,
-          scale: reduceMotion ? 1 : scale,
           boxShadow: reduceMotion ? 'none' : shadow,
           overflow: 'hidden',
           ...style,

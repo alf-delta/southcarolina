@@ -302,7 +302,7 @@ export default function StayDetail() {
         {/* Two-column layout */}
         <div className="grid md:grid-cols-[1fr_360px] gap-12 xl:gap-20">
           <div>
-            <div className="flex flex-wrap items-center gap-6 py-6 border-t border-b border-divider mb-8">
+            <div className="flex flex-wrap md:flex-nowrap items-center gap-4 md:gap-5 py-6 border-t border-b border-divider mb-8">
               {[
                 { icon: Users, label: `${stay.guests} guests` },
                 { icon: BedDouble, label: `${stay.bedrooms} bedroom${stay.bedrooms > 1 ? 's' : ''}` },
@@ -405,7 +405,7 @@ export default function StayDetail() {
             </div>
 
             <div className="border-t border-divider mt-10 pt-8">
-              <p className="font-eyebrow text-sm text-ink2 uppercase tracking-widest">{stay.sleeps}</p>
+              <p className="font-eyebrow text-ink2 uppercase md:whitespace-nowrap" style={{ fontSize: '11px', letterSpacing: '0.06em' }}>{stay.sleeps}</p>
             </div>
           </div>
 

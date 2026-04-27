@@ -51,7 +51,7 @@ export default function ChapterOpener({
       {/* Background with parallax */}
       <motion.div
         className="absolute inset-x-0"
-        style={{ y: reduceMotion ? 0 : bgY, willChange: 'transform', zIndex: 0, top: '-20%', bottom: '-20%' }}
+        style={{ y: reduceMotion ? 0 : bgY, willChange: 'transform', zIndex: 0, top: '-20vh', bottom: '-20vh' }}
       >
         <img
           src={image}

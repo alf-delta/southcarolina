@@ -35,29 +35,29 @@ export default function StaysGrid({ stays }: { stays: Stay[] }) {
                 className="bg-night overflow-hidden rounded-2xl group flex flex-col w-full cursor-pointer"
                 onClick={() => stay.slug && navigate(`/stays/${stay.slug}`)}
               >
-                <div className="aspect-[4/3] overflow-hidden bg-surface">
+                <div className="aspect-[16/9] overflow-hidden bg-surface">
                   <img
                     src={stay.image}
                     alt={stay.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                     width={800}
-                    height={600}
+                    height={450}
                   />
                 </div>
-                <div className="p-8 md:p-10 flex flex-col flex-1">
-                  <p className="eyebrow text-linen2/60 mb-3">{stay.tier}</p>
+                <div className="p-6 md:p-8 flex flex-col flex-1">
+                  <p className="eyebrow text-linen2/60 mb-2">{stay.tier}</p>
                   <h4
-                    className="font-display font-light text-linen text-[clamp(28px,3vw,44px)] mb-3"
+                    className="font-display font-light text-linen text-[clamp(24px,2.5vw,36px)] mb-2"
                     style={{ fontVariationSettings: '"SOFT" 40, "opsz" 48', letterSpacing: '-0.02em' }}
                   >
                     {stay.name}
                   </h4>
-                  <p className="eyebrow text-linen2/50 mb-4">{stay.sleeps}</p>
-                  <p className="text-linen/70 mb-6">{stay.description}</p>
+                  <p className="eyebrow text-linen2/50 mb-3">{stay.sleeps}</p>
+                  <p className="text-linen/70 text-sm mb-5">{stay.description}</p>
                   <div className="flex items-center justify-between mt-auto">
                     <p className="text-linen/50 text-sm">
-                      From <span className="text-linen font-medium text-xl">${stay.priceFrom}</span> / night
+                      From <span className="text-linen font-medium text-lg">${stay.priceFrom}</span> / night
                     </p>
                     <Button
                       href={stay.slug ? `/stays/${stay.slug}` : '#reserve'}

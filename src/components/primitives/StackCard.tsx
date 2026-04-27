@@ -17,7 +17,6 @@ export default function StackCard({ children, zIndex }: Props) {
     offset: ['start end', 'start 0.1'],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 1], [0.88, 1]);
   const radius = useTransform(scrollYProgress, [0, 1], [48, 0]);
   const shadow = useTransform(
     scrollYProgress,
@@ -29,7 +28,6 @@ export default function StackCard({ children, zIndex }: Props) {
     <div ref={ref} style={{ position: 'sticky', top: 0, zIndex }}>
       <motion.div
         style={{
-          scale: reduceMotion ? 1 : scale,
           borderRadius: reduceMotion ? 0 : radius,
           boxShadow: reduceMotion ? 'none' : shadow,
           overflow: 'hidden',
