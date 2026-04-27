@@ -1,3 +1,8 @@
+// ── Cloudbeds IDs ───────────────────────────────────────────────────────────
+// Find in Cloudbeds → Settings → Property (property ID in URL or API section)
+// Room type IDs: Cloudbeds → Property Setup → Room Types → click type → ID in URL
+export const CLOUDBEDS_PROPERTY_ID = 'REPLACE_WITH_PROPERTY_ID';
+
 export const sandhillsData = {
   meta: {
     title: 'Horizons Sandhills — A Hundred and Twenty-Six Acres of Quiet',
@@ -40,6 +45,7 @@ export const sandhillsData = {
   stays: [
     {
       slug: 'boxble-villa',
+      cloudbedsRoomTypeId: 'REPLACE_WITH_FOREST_VILLA_ROOM_TYPE_ID',
       tour3d: 'https://my.matterport.com/show/?m=GPpLxZUeP9s',
       tier: 'Tier 01 · Six cabins',
       name: 'The Forest Villa',
@@ -67,6 +73,7 @@ export const sandhillsData = {
     },
     {
       slug: 'the-house',
+      cloudbedsRoomTypeId: 'REPLACE_WITH_THE_HOUSE_ROOM_TYPE_ID',
       tour3d: 'https://my.matterport.com/show/?m=t9pbFFttHbk',
       tier: 'Tier 02 · The flagship',
       name: 'The House',
