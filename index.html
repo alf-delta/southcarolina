@@ -15,13 +15,9 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,200;9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500&family=Inter+Tight:wght@500&display=swap"
     />
 
-    <!-- Hero image preload — tells browser to fetch it immediately -->
-    <link
-      rel="preload"
-      as="image"
-      href="/images/sandhills/1.png"
-      fetchpriority="high"
-    />
+    <!-- Hero image preload — tells browser to fetch immediately -->
+    <link rel="preload" as="image" href="/images/sandhills/desktop.webp" fetchpriority="high" media="(min-width: 768px)" />
+    <link rel="preload" as="image" href="/images/sandhills/mobile.webp" fetchpriority="high" media="(max-width: 767px)" />
   </head>
   <body>
     <div id="root"></div>

@@ -44,7 +44,7 @@ const SOURCE_CONFIG = {
 function AirbnbLogo() {
   return (
     <img
-      src="/images/airbnb_logo.png"
+      src="/images/airbnb_logo.webp"
       alt="Airbnb"
       style={{ height: 22, width: 'auto', display: 'block' }}
     />
@@ -54,7 +54,7 @@ function AirbnbLogo() {
 function BookingLogo() {
   return (
     <img
-      src="/images/booking_logo.png"
+      src="/images/booking_logo.webp"
       alt="Booking.com"
       style={{ height: 18, width: 'auto', display: 'block' }}
     />
