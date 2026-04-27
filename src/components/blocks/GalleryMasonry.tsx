@@ -36,6 +36,7 @@ export default function GalleryMasonry({ images }: { images: GalleryImage[] }) {
               src={images[active].src}
               alt={images[active].alt}
               className="w-full h-full object-cover transition-opacity duration-300"
+              loading="lazy"
             />
           </div>
           <div className="flex gap-2 overflow-x-auto scrollbar-none pb-1">
@@ -47,7 +48,7 @@ export default function GalleryMasonry({ images }: { images: GalleryImage[] }) {
                   active === i ? 'border-signal' : 'border-transparent opacity-50'
                 }`}
               >
-                <img src={img.src} alt="" className="w-full h-full object-cover" />
+                <img src={img.src} alt="" className="w-full h-full object-cover" loading="lazy" />
               </button>
             ))}
           </div>

@@ -87,10 +87,7 @@ export default function FinalCtaImmersive({ bigType, headline, sub, image }: Pro
         <p className="text-linen/70 mb-8 text-base md:text-lg">{sub}</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Button href="#" variant="primary">Check Availability</Button>
-          <a
-            href="tel:+18035550180"
-            className="inline-flex items-center justify-center font-eyebrow font-medium uppercase text-[11px] tracking-[0.22em] px-8 py-4 rounded-full border border-linen/60 text-linen backdrop-blur-md bg-linen/10 hover:bg-linen/20 transition-all duration-300 min-h-[44px]"
-          >Call Us</a>
+          <Button href="tel:+18035550180" variant="ghost-light" className="backdrop-blur-md">Call Us</Button>
         </div>
       </motion.div>
     </section>
