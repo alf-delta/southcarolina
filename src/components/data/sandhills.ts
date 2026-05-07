@@ -14,7 +14,7 @@ export const sandhillsData = {
     titleLine2: 'Sandhills',
     subtitle: 'A hundred and twenty-six acres of longleaf pine, a private lake, and the seven rooms we built to give it back to you.',
     primaryCta: { label: 'Check Availability', href: '#reserve' },
-    secondaryCta: { label: 'Walk the Land', href: '#story' },
+    secondaryCta: { label: 'Walk the Land', href: '#land' },
     env: '/images/sandhills/1.png',
     subject: '/images/sandhills/2.png',
   },

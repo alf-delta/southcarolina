@@ -194,6 +194,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
             zIndex: 12,
             y: wordmarkY,
             transformOrigin: 'left center',
+            pointerEvents: 'none',
           }}
         >
           <motion.div style={{ fontFamily: FONT, fontSize: 'clamp(42px, 6.5vw, 88px)', fontWeight: 200, letterSpacing: '0.18em', textTransform: 'uppercase', lineHeight: 1, color: wordmarkColor }}>
@@ -298,7 +299,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
                       </>
                     );
                     return p.href
-                      ? <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none' }}>{inner}</a>
+                      ? <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', pointerEvents: 'auto' }}>{inner}</a>
                       : <div key={p.name} style={{ display: 'flex', flexDirection: 'column' }}>{inner}</div>;
                   })}
                 </div>
