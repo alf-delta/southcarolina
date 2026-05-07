@@ -10,12 +10,12 @@ import LandStory from '../components/blocks/LandStory';
 import AtAGlance from '../components/blocks/AtAGlance';
 import VillaCascade from '../components/blocks/VillaCascade';
 // import DayScenes from '../components/blocks/DayScenes';
-import DiningEditorial from '../components/blocks/DiningEditorial';
-import MapBlock from '../components/blocks/MapBlock';
-import GalleryMasonry from '../components/blocks/GalleryMasonry';
-import ProofSocial from '../components/blocks/ProofSocial';
-import NearbyGrid from '../components/blocks/NearbyGrid';
-import FaqAccordion from '../components/blocks/FaqAccordion';
+// import DiningEditorial from '../components/blocks/DiningEditorial';
+// import MapBlock from '../components/blocks/MapBlock';
+// import GalleryMasonry from '../components/blocks/GalleryMasonry';
+// import ProofSocial from '../components/blocks/ProofSocial';
+// import NearbyGrid from '../components/blocks/NearbyGrid';
+// import FaqAccordion from '../components/blocks/FaqAccordion';
 import FinalCtaImmersive from '../components/blocks/FinalCtaImmersive';
 import Footer from '../components/blocks/Footer';
 import StackCard from '../components/primitives/StackCard';
@@ -79,11 +79,11 @@ export default function SandhillsLanding() {
         </div>
 
         {/* STAYS content: IncludedList → Activities → Nearby */}
-        <RoundedEntry style={{ position: 'relative', zIndex: 20 }}>
-          {/* <IncludedList items={d.included} /> */}
-          {/* <ActivitiesGrid activities={d.activities} /> */}
-          {/* <NearbyGrid nearby={d.nearby} /> */}
-        </RoundedEntry>
+        {/* <RoundedEntry style={{ position: 'relative', zIndex: 20 }}>
+          <IncludedList items={d.included} />
+          <ActivitiesGrid activities={d.activities} />
+          <NearbyGrid nearby={d.nearby} />
+        </RoundedEntry> */}
 
         {/* ── Land chapter + story (moved after STAYS) ── */}
         <div style={{ position: 'relative', zIndex: 20 }}>

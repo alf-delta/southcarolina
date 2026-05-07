@@ -188,19 +188,19 @@ const FISH_DATA = [
   },
 ] as const;
 
-const BEACH_ROWS = [
-  'A concierge who knows your reservation number, not your name.',
-  'Two hundred rooms. Your neighbors audible through the wall.',
-  "Checkout at eleven. Pool hours. A schedule you didn't ask for.",
-  'Resort fee, parking fee, amenity fee. The bill surprises no one more than you.',
-];
+// const BEACH_ROWS = [
+//   'A concierge who knows your reservation number, not your name.',
+//   'Two hundred rooms. Your neighbors audible through the wall.',
+//   "Checkout at eleven. Pool hours. A schedule you didn't ask for.",
+//   'Resort fee, parking fee, amenity fee. The bill surprises no one more than you.',
+// ];
 
-const HORIZONS_ROWS = [
-  'A host who knew your coffee order before you arrived.',
-  'Six villas. Your nearest neighbor is a rumor.',
-  'Stay as long as the wood holds. No checkout clock.',
-  'One price. Everything in it. No fine print.',
-];
+// const HORIZONS_ROWS = [
+//   'A host who knew your coffee order before you arrived.',
+//   'Six villas. Your nearest neighbor is a rumor.',
+//   'Stay as long as the wood holds. No checkout clock.',
+//   'One price. Everything in it. No fine print.',
+// ];
 
 const PRIVATE_STATS = [
   { num: '6',  label: 'Villas',      desc: 'Never crowded'  },

@@ -181,7 +181,7 @@ export default function LandStory() {
       map.addLayer({ id: 'route-line', type: 'line', source: 'route', layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': '#B05329', 'line-width': 2.5, 'line-opacity': 0.8 } });
 
       const layers = map.getStyle().layers;
-      layers.forEach(layer => {
+      layers.forEach((layer: mapboxgl.AnyLayer) => {
         try {
           // Land / background
           if (layer.id === 'land' || layer.id === 'background') {
@@ -608,7 +608,7 @@ export default function LandStory() {
 
             {/* Towns list */}
             <div ref={townsRef}>
-              {TOWNS.map((t, i) => {
+              {TOWNS.map((t) => {
                 const isActive = activeCity === t.name;
                 return (
                   <button
