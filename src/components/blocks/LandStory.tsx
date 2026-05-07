@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoiYWxmZGVsdGE3MjciLCJhIjoiY21vdWxiNzFyMGdveTJ4b25hYnl3bDRrdyJ9.cYOVbJJOGULBsqol1LpCVg';
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN as string;
 
 // ── Decorative text fill styles ───────────────────────────────────────────────
 
