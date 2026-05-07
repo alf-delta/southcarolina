@@ -49,7 +49,7 @@ export const sandhillsData = {
       tour3d: 'https://my.matterport.com/show/?m=GPpLxZUeP9s',
       tier: 'Tier 01 · Six cabins',
       name: 'The Forest Villa',
-      sleeps: 'Sleeps two · King bed · Private deck · Outdoor shower',
+      sleeps: 'Sleeps two · King bed · Private deck · En-suite bathroom',
       guests: 2,
       bedrooms: 1,
       beds: 1,

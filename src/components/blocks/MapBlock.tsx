@@ -45,7 +45,7 @@ export default function MapBlock({ directions }: { directions: Direction[] }) {
           <RevealOnScroll delay={0.1}>
             <div className="space-y-8">
               {directions.map((d) => (
-                <div key={d.from} className="border-b border-divider pb-8">
+                <div key={d.from} className="pb-8">
                   <div className="flex items-baseline justify-between mb-2">
                     <p className="font-body font-medium text-ink">{d.from}</p>
                     <p

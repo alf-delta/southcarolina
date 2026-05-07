@@ -78,6 +78,54 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Coco Sharp';
+  src: url('/fonts/CocoSharp-Extralight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Coco Sharp';
+  src: url('/fonts/CocoSharp-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Coco Sharp';
+  src: url('/fonts/CocoSharp-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Coco Sharp';
+  src: url('/fonts/CocoSharp-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Coco Sharp';
+  src: url('/fonts/CocoSharp-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Coco Sharp';
+  src: url('/fonts/CocoSharp-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

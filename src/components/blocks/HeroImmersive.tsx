@@ -156,7 +156,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
             {/* Desktop — wordmark placeholder (invisible, holds layout) + tagline + buttons */}
             <div
               className="hidden md:flex h-full items-center justify-between"
-              style={{ paddingLeft: LEFT, paddingRight: '40px' }}
+              style={{ paddingLeft: LEFT, paddingRight: LEFT }}
             >
               {/* Invisible placeholder keeps buttons pushed right */}
               <div className="flex flex-col gap-0.5" style={{ transform: 'translateY(-20px)', visibility: 'hidden', pointerEvents: 'none' }}>
@@ -174,7 +174,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
             </div>
 
             {/* Center tagline */}
-            <div className="hidden md:flex" style={{ position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', transform: 'translate(180px, 25px)' }}>
+            <div className="hidden md:flex" style={{ position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', transform: 'translate(clamp(80px, 13vw, 200px), clamp(15px, 2.2vh, 30px))' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                 <span style={{ fontFamily: FONT, fontSize: 'clamp(20px, 1.75vw, 25px)', fontWeight: 300, letterSpacing: '0.38em', textTransform: 'uppercase', color: 'rgba(242,237,227,0.55)' }}>
                   Your Getaway Redefined

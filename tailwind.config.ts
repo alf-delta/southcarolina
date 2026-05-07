@@ -28,7 +28,8 @@ export default {
       },
       fontFamily: {
         display: ['Fraunces', 'Canela', 'Georgia', 'serif'],
-        sans2: ['Montserrat', 'system-ui', 'sans-serif'],
+        coco: ['"Coco Sharp"', '"Encode Sans Expanded"', 'ui-sans-serif', 'sans-serif'],
+        sans2: ['"Coco Sharp"', '"Encode Sans Expanded"', 'ui-sans-serif', 'sans-serif'],
         body: ['Inter', 'system-ui', 'sans-serif'],
         eyebrow: ['"Inter Tight"', 'Inter', 'sans-serif'],
       },

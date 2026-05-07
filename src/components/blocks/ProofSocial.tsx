@@ -275,7 +275,7 @@ export default function ProofSocial({ reviews, pressQuote }: Props) {
         </div>
 
         <RevealOnScroll>
-          <div className="text-center py-12 border-t border-divider">
+          <div className="text-center py-12">
             <p
               className="font-display font-light text-ink text-[clamp(22px,3vw,38px)] mb-8 italic max-w-3xl mx-auto"
               style={{ fontVariationSettings: '"SOFT" 50, "opsz" 48', letterSpacing: '-0.02em' }}

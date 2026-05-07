@@ -19,10 +19,10 @@ export default function FaqAccordion({ items }: { items: FaqItem[] }) {
           </h3>
         </RevealOnScroll>
 
-        <div className="space-y-0 border-t border-divider">
+        <div className="space-y-0">
           {items.map((item) => (
             <RevealOnScroll key={item.q}>
-              <details className="border-b border-divider group">
+              <details className="group">
                 <summary className="flex items-center justify-between py-6 cursor-pointer list-none">
                   <span className="font-body font-medium text-ink pr-8">{item.q}</span>
                   <span className="chev text-ink2 text-2xl font-light flex-shrink-0">+</span>

@@ -60,7 +60,6 @@ export default function DiningEditorial() {
         {/* Section label */}
         <div className="flex items-center gap-4 mb-5">
           <span className="eyebrow text-signal/70" style={{ fontSize: '12px', letterSpacing: '0.25em' }}>The numbers behind the shift</span>
-          <div className="flex-1 h-px bg-divider" />
         </div>
 
         {/* Stats */}
@@ -79,7 +78,6 @@ export default function DiningEditorial() {
         {/* Section label */}
         <div className="flex items-center gap-4 mb-5">
           <span className="eyebrow text-signal/70" style={{ fontSize: '12px', letterSpacing: '0.25em' }}>Sandhills vs. the beach</span>
-          <div className="flex-1 h-px bg-divider" />
         </div>
 
         {/* Versus */}
@@ -142,7 +140,6 @@ export default function DiningEditorial() {
         {/* Section label */}
         <div className="flex items-center gap-4 mb-5">
           <span className="eyebrow text-signal/70" style={{ fontSize: '12px', letterSpacing: '0.25em' }}>Privately owned. Personally run.</span>
-          <div className="flex-1 h-px bg-divider" />
         </div>
 
         {/* Private stats */}

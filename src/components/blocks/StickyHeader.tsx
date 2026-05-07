@@ -70,7 +70,7 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
     {/* Top gradient scrim */}
     <motion.div
       style={{
-        position: 'fixed', top: 0, left: 0, right: 0, height: 120,
+        position: 'fixed', top: 0, left: 0, right: 0, height: 'clamp(100px, 14vh, 140px)',
         zIndex: 199,
         opacity: pillOpacity,
         background: 'linear-gradient(to bottom, rgba(0,0,0,0.42) 0%, transparent 100%)',
@@ -133,7 +133,7 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
         <a
           href="#"
           className="flex items-center"
-          style={{ transform: 'translateX(-100px)' }}
+          style={{ transform: 'translateX(max(-100px, min(-16px, calc(684px - 50vw))))' }}
           onClick={(e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -144,7 +144,7 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
             src="/logo.svg"
             alt="Horizons Sandhills"
             style={{
-              height: 32,
+              height: 'clamp(26px, 2.2vw, 36px)',
               width: 'auto',
               filter: overDark ? 'brightness(0) invert(1)' : 'brightness(0)',
               opacity: smallLogoOpacity,

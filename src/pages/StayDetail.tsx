@@ -1,9 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { useState, useEffect, useCallback } from 'react';
-import { ArrowLeft, X, ChevronLeft, ChevronRight, BedDouble, Bath, Wifi, Flame, Waves, TreePine, Coffee, Star, Box, LayoutGrid, Users } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowLeft, BedDouble, Bath, Wifi, Flame, Waves, TreePine, Coffee, Star, Box, Users } from 'lucide-react';
 import { sandhillsData, CLOUDBEDS_PROPERTY_ID } from '../components/data/sandhills';
 import BookingWidget from '../components/primitives/BookingWidget';
 import { StayBreadcrumb } from '../components/StructuredData';
+import GalleryModal from '../components/blocks/GalleryModal';
 
 type StayData = typeof sandhillsData.stays[0] & {
   slug: string;
@@ -32,161 +33,6 @@ const amenityIcons: Record<string, React.ComponentType<{ size?: number; strokeWi
   'Bluetooth speaker': Star,
 };
 
-function GalleryModal({
-  rooms,
-  startIndex,
-  onClose,
-}: {
-  rooms: { name: string; photos: string[] }[];
-  startIndex: number;
-  onClose: () => void;
-}) {
-  const allPhotos = rooms.flatMap((r) => r.photos.map((p) => ({ src: p, room: r.name })));
-
-  // compute room start indices once
-  let counter = 0;
-  const roomStartIndices = rooms.map((r) => { const idx = counter; counter += r.photos.length; return idx; });
-
-  // which room contains startIndex
-  const initialRoom = roomStartIndices.findLastIndex((start) => startIndex >= start);
-
-  const [view, setView] = useState<'grid' | 'fullscreen'>('grid');
-  const [activeRoom, setActiveRoom] = useState(Math.max(0, initialRoom));
-  const [current, setCurrent] = useState(startIndex);
-
-  const prev = useCallback(() => setCurrent((i) => (i > 0 ? i - 1 : allPhotos.length - 1)), [allPhotos.length]);
-  const next = useCallback(() => setCurrent((i) => (i < allPhotos.length - 1 ? i + 1 : 0)), [allPhotos.length]);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (view !== 'fullscreen') return;
-      if (e.key === 'ArrowLeft') prev();
-      else if (e.key === 'ArrowRight') next();
-      else if (e.key === 'Escape') setView('grid');
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [view, prev, next]);
-
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
-  }, []);
-
-  const openFullscreen = (globalIdx: number) => {
-    setCurrent(globalIdx);
-    setView('fullscreen');
-  };
-
-  return (
-    <div className="fixed inset-0 z-[100] bg-night flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 md:px-8 h-14 shrink-0 border-b border-white/10">
-        <button
-          onClick={() => view === 'fullscreen' ? setView('grid') : onClose()}
-          className="flex items-center gap-2 text-linen/70 hover:text-linen transition-colors"
-        >
-          {view === 'fullscreen' ? <LayoutGrid size={20} strokeWidth={1.5} /> : <X size={20} strokeWidth={1.5} />}
-          {view === 'fullscreen' && <span className="font-eyebrow text-xs uppercase tracking-widest">Grid</span>}
-        </button>
-
-        {view === 'fullscreen' ? (
-          <p className="font-eyebrow text-xs text-linen/50 uppercase tracking-widest">
-            {current + 1} / {allPhotos.length}
-          </p>
-        ) : (
-          <p className="font-eyebrow text-xs text-linen/50 uppercase tracking-widest">Photos</p>
-        )}
-
-        <button onClick={onClose} className="text-linen/40 hover:text-linen transition-colors">
-          <X size={18} strokeWidth={1.5} />
-        </button>
-      </div>
-
-      {/* Room tabs */}
-      <div className="flex overflow-x-auto scrollbar-none shrink-0 border-b border-white/10">
-        {rooms.map((room, i) => (
-          <button
-            key={room.name}
-            onClick={() => { setActiveRoom(i); if (view === 'fullscreen') setView('grid'); }}
-            className={`px-5 py-3 font-eyebrow text-xs uppercase tracking-widest whitespace-nowrap transition-colors border-b-2 ${
-              activeRoom === i
-                ? 'text-linen border-signal'
-                : 'text-linen/40 border-transparent hover:text-linen/70'
-            }`}
-          >
-            {room.name}
-          </button>
-        ))}
-      </div>
-
-      {/* Grid view */}
-      {view === 'grid' && (
-        <div className="flex-1 overflow-y-auto p-4 md:p-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
-            {rooms[activeRoom].photos.map((src, pi) => {
-              const globalIdx = roomStartIndices[activeRoom] + pi;
-              return (
-                <div
-                  key={src}
-                  className="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer"
-                  onClick={() => openFullscreen(globalIdx)}
-                >
-                  <img
-                    src={src}
-                    alt=""
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Fullscreen view */}
-      {view === 'fullscreen' && (
-        <div className="flex-1 flex items-center justify-center relative overflow-hidden">
-          <button
-            onClick={prev}
-            className="absolute left-4 md:left-6 z-10 w-10 h-10 rounded-full bg-night/80 border border-white/20 flex items-center justify-center text-linen hover:bg-night transition-colors"
-          >
-            <ChevronLeft size={20} strokeWidth={1.5} />
-          </button>
-          <img
-            key={current}
-            src={allPhotos[current].src}
-            alt=""
-            className="max-h-full max-w-full object-contain"
-          />
-          <button
-            onClick={next}
-            className="absolute right-4 md:right-6 z-10 w-10 h-10 rounded-full bg-night/80 border border-white/20 flex items-center justify-center text-linen hover:bg-night transition-colors"
-          >
-            <ChevronRight size={20} strokeWidth={1.5} />
-          </button>
-        </div>
-      )}
-
-      {/* Fullscreen: thumbnail strip */}
-      {view === 'fullscreen' && (
-        <div className="flex gap-2 overflow-x-auto px-4 py-3 shrink-0 border-t border-white/10 scrollbar-none">
-          {allPhotos.map((p, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              className={`shrink-0 w-14 h-14 rounded overflow-hidden border-2 transition-colors ${
-                current === i ? 'border-signal' : 'border-transparent opacity-40'
-              }`}
-            >
-              <img src={p.src} alt="" className="w-full h-full object-cover" />
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
 
 export default function StayDetail() {
   const { slug } = useParams<{ slug: string }>();

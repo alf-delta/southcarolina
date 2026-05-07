@@ -348,8 +348,13 @@ export default function LandStory() {
         `https://api.mapbox.com/directions/v5/mapbox/driving/${town.coords[0]},${town.coords[1]};${PROPERTY_COORDS[0]},${PROPERTY_COORDS[1]}?geometries=geojson&overview=full&access_token=${MAPBOX_TOKEN}`
       );
       const data = await res.json();
+      if (data.message) {
+        console.error('[Directions API]', data.message, '— check token scopes at account.mapbox.com');
+        setActiveCity(null);
+        return;
+      }
       const geometry = data.routes?.[0]?.geometry;
-      if (!geometry) return;
+      if (!geometry) { setActiveCity(null); return; }
 
       (map.getSource('route') as mapboxgl.GeoJSONSource).setData({ type: 'Feature', properties: {}, geometry });
 

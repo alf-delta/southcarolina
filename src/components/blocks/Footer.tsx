@@ -44,7 +44,7 @@ export default function Footer() {
   return (
     <footer data-zone="dark" className="bg-nightWarm text-linen/70 pt-16 pb-10 px-6">
       <div className="max-w-content mx-auto">
-        <div className="mb-12 pb-12 border-b border-linen/10">
+        <div className="mb-12 pb-12">
           <p className="eyebrow text-linen/40 mb-3">The occasional letter</p>
           <p className="font-display font-light text-linen text-xl mb-6"
             style={{ fontVariationSettings: '"SOFT" 30, "opsz" 24', letterSpacing: '-0.01em' }}>
@@ -91,7 +91,7 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-linen/10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8">
           <a href="#" className="font-display font-light text-linen text-xl"
             style={{ fontVariationSettings: '"SOFT" 50, "opsz" 36', letterSpacing: '-0.02em' }}>
             Horizons Sandhills

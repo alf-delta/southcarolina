@@ -53,6 +53,7 @@ export default function ActivitiesGrid({ activities }: { activities: Activity[] 
                 loading="lazy"
                 width={600}
                 height={450}
+                style={isAddon(act.tag) ? { filter: 'grayscale(0.9) brightness(0.85)' } : undefined}
               />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.18) 55%, transparent 100%)' }} />
 

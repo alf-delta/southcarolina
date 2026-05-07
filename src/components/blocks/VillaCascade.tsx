@@ -310,7 +310,7 @@ export default function VillaCascade() {
   return (
     <>
       {/* Intro strip */}
-      <div className="w-full flex items-center justify-center" style={{ height: '100px', background: '#EAE3D3' }}>
+      <div className="w-full flex items-center justify-center" style={{ height: 'clamp(80px, 11vh, 120px)', background: '#EAE3D3' }}>
         <p className="flex items-baseline gap-[10px] flex-wrap justify-center px-6">
           <span style={{ fontFamily: 'Montserrat, ui-sans-serif', fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)', fontWeight: 300, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(20,16,10,0.38)' }}>
             Where the
@@ -425,7 +425,7 @@ export default function VillaCascade() {
               We took everything a great hotel does well — the linens, the espresso, the speakers, the grill on the deck — and placed it somewhere no hotel could afford to be. A hundred and twenty-six acres of longleaf pine. A private lake with nobody else on it. The kind of quiet that makes you realize how much noise you were carrying.
             </p>
           </div>
-          <div style={{ marginTop: '40px' }}>
+          <div style={{ marginTop: 'clamp(24px, 4vh, 52px)' }}>
             <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
               {/* Placeholder cell */}
               <div className="rounded-xl flex flex-col justify-between p-6 md:p-8" style={{ height: 'clamp(192px, 31vh, 308px)', background: 'rgba(242,237,227,0.06)', border: '1px solid rgba(242,237,227,0.08)' }}>
@@ -542,7 +542,7 @@ export default function VillaCascade() {
                 </div>
               ) : (
                 <div key={slot.card.title} className="flex flex-col">
-                  <div className="mb-[6px] w-full flex items-center justify-center" style={{ height: '33px', borderRadius: '8px', background: 'rgba(31,36,32,0.11)', border: '1px solid rgba(31,36,32,0.14)' }}>
+                  <div className="mb-[6px] w-full flex items-center justify-center" style={{ height: 'clamp(28px, 4vh, 40px)', borderRadius: '8px', background: 'rgba(31,36,32,0.11)', border: '1px solid rgba(31,36,32,0.14)' }}>
                     <span className="font-display italic" style={{ fontVariationSettings: '"opsz" 20, "SOFT" 30', fontWeight: 520, fontSize: '15px', letterSpacing: '-0.01em', color: '#B05329', lineHeight: 1 }}>{slot.card.badge}</span>
                   </div>
                   <button onClick={() => setExperienceIdx(slot.idx)} className="w-full rounded-xl overflow-hidden relative group text-left" style={{ height: 'clamp(220px, 35vh, 360px)' }}>
@@ -594,7 +594,7 @@ export default function VillaCascade() {
           <div aria-hidden="true" style={{
             position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0,
             backgroundImage: 'linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)',
-            backgroundSize: '72px 72px',
+            backgroundSize: 'clamp(56px, 5vw, 88px) clamp(56px, 5vw, 88px)',
             maskImage: 'radial-gradient(circle at 50% 45%, black, transparent 72%)',
             WebkitMaskImage: 'radial-gradient(circle at 50% 45%, black, transparent 72%)',
             opacity: 0.35,
@@ -606,7 +606,7 @@ export default function VillaCascade() {
             display: 'grid',
             gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 0.72fr)',
             gap: 'clamp(24px, 4vw, 64px)',
-            minHeight: 'calc(100vh - 96px)',
+            minHeight: 'calc(100dvh - clamp(72px, 10vh, 112px))',
             border: '1px solid rgba(255,255,255,0.10)',
             borderRadius: '24px',
             padding: 'clamp(24px, 3.5vw, 52px)',
