@@ -4,15 +4,13 @@ import StructuredData from '../components/StructuredData';
 
 import StickyHeader from '../components/blocks/StickyHeader';
 import HeroImmersive from '../components/blocks/HeroImmersive';
-import PressStrip from '../components/blocks/PressStrip';
+
 import ChapterOpener from '../components/blocks/ChapterOpener';
 import LandStory from '../components/blocks/LandStory';
 import AtAGlance from '../components/blocks/AtAGlance';
-import StaysGrid from '../components/blocks/StaysGrid';
-import IncludedList from '../components/blocks/IncludedList';
+import VillaCascade from '../components/blocks/VillaCascade';
 // import DayScenes from '../components/blocks/DayScenes';
 import DiningEditorial from '../components/blocks/DiningEditorial';
-import ActivitiesGrid from '../components/blocks/ActivitiesGrid';
 import MapBlock from '../components/blocks/MapBlock';
 import GalleryMasonry from '../components/blocks/GalleryMasonry';
 import ProofSocial from '../components/blocks/ProofSocial';
@@ -57,34 +55,15 @@ export default function SandhillsLanding() {
 
         {/* ── Группа 1: обычный скролл ── */}
         <HeroImmersive
-          eyebrow={d.hero.eyebrow}
-          titleLine1={d.hero.titleLine1}
-          titleLine2={d.hero.titleLine2}
-          subtitle={d.hero.subtitle}
           primaryCta={d.hero.primaryCta}
           secondaryCta={d.hero.secondaryCta}
-          env={d.hero.env}
-          subject={d.hero.subject}
         />
-        <PressStrip />
-        <RoundedEntry radius={32}>
-          <ChapterOpener
-            id="land"
-            numeral={d.chapters[0].numeral}
-            subtitle={d.chapters[0].subtitle}
-            bigType={d.chapters[0].bigType}
-            image={d.chapters[0].image}
-            zone="pine-deep"
-            minHeight="49vh"
-          />
-        </RoundedEntry>
-        <LandStory />
-        <AtAGlance />
+        {/* Anchor — must be in normal flow, not inside sticky StackCard */}
+        <span id="stays" style={{ display: 'block', height: 0, pointerEvents: 'none' }} aria-hidden="true" />
 
         {/* ── Карточка 1: STAYS наплывает и остаётся (z-index 10) ── */}
         <StackCard zIndex={10}>
           <ChapterOpener
-            id="stays"
             numeral={d.chapters[1].numeral}
             subtitle={d.chapters[1].subtitle}
             bigType={d.chapters[1].bigType}
@@ -94,16 +73,37 @@ export default function SandhillsLanding() {
           />
         </StackCard>
 
-        {/* Контент Stays: z-index 20 — наезжает поверх застрявшего opener'а */}
+        {/* VillaCascade: z-index 20, без overflow:hidden — sticky внутри работает */}
+        <div style={{ position: 'relative', zIndex: 20 }}>
+          <VillaCascade />
+        </div>
+
+        {/* STAYS content: IncludedList → Activities → Nearby */}
         <RoundedEntry style={{ position: 'relative', zIndex: 20 }}>
-          <StaysGrid stays={d.stays} />
-          <IncludedList items={d.included} />
+          {/* <IncludedList items={d.included} /> */}
+          {/* <ActivitiesGrid activities={d.activities} /> */}
+          {/* <NearbyGrid nearby={d.nearby} /> */}
         </RoundedEntry>
 
-        {/* ── Карточка 2: A DAY — скрыто ── */}
-        {/* ── Карточка 2: WORTH IT наплывает и остаётся (z-index 30) ── */}
-        {/* A DAY скрыт — z-30 теперь занимает WORTH IT */}
-        <StackCard zIndex={30}>
+        {/* ── Land chapter + story (moved after STAYS) ── */}
+        <div style={{ position: 'relative', zIndex: 20 }}>
+          <RoundedEntry radius={32}>
+            <ChapterOpener
+              id="land"
+              numeral={d.chapters[0].numeral}
+              subtitle={d.chapters[0].subtitle}
+              bigType={d.chapters[0].bigType}
+              image={d.chapters[0].image}
+              zone="pine-deep"
+              minHeight="49vh"
+            />
+          </RoundedEntry>
+          <LandStory />
+          <div style={{ marginTop: -20 }}><AtAGlance /></div>
+        </div>
+
+        {/* ── Карточка 2: WORTH IT — скрыта ── */}
+        {/* <StackCard zIndex={30}>
           <ChapterOpener
             id="table"
             numeral={d.chapters[3].numeral}
@@ -115,16 +115,13 @@ export default function SandhillsLanding() {
           />
         </StackCard>
 
-        {/* Контент Worth It: z-index 40 — наезжает поверх застрявшего opener'а */}
         <RoundedEntry style={{ position: 'relative', zIndex: 40 }}>
           <DiningEditorial />
-          <ActivitiesGrid activities={d.activities} />
-          <NearbyGrid nearby={d.nearby} />
           <MapBlock directions={d.directions} />
           <GalleryMasonry images={d.gallery} />
           <ProofSocial reviews={d.reviews} pressQuote={d.pressQuote} />
           <FaqAccordion items={d.faq} />
-        </RoundedEntry>
+        </RoundedEntry> */}
 
         {/* ── Карточка 3: WAITING наплывает (z-index 50) ── */}
         <StackCard zIndex={50}>

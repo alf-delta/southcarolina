@@ -54,7 +54,7 @@ export const sandhillsData = {
       bedrooms: 1,
       beds: 1,
       baths: 1,
-      description: "Each in its own clearing, spaced so you can't see your neighbor. Step outside to your private deck, where the longleaf pines close in and the lake glints through the trees. Deliberately offline — no Wi-Fi, no noise, no neighbors in sight.",
+      description: "Each villa in its own clearing — close enough to the lake, far enough from everything else. Step outside to your private deck where the longleaf pines frame the water. The kind of quiet that takes a day to stop feeling strange.",
       priceFrom: 609,
       image: '/images/villa/01_Exterior/1.webp',
       gallery: [
@@ -173,14 +173,9 @@ export const sandhillsData = {
       points: ['Bass, bream, catfish in the lake', 'Rods & tackle available at the dock box', 'Catch-and-release only', 'No license required on private water'],
     },
     {
-      title: 'Guided sunrise paddle', note: 'Two hours · Sat & Sun', tag: '$45 · Add-on', image: '/images/sandhills/Guided_sunrise_paddle.webp',
-      schedule: 'Sat & Sun · 6:30 am sharp', location: 'Main dock',
-      points: ['2-hour guided lake circuit', 'Focus on bird & wildlife sighting', 'Max 4 guests per session', 'Book 24 h in advance via your host'],
-    },
-    {
-      title: 'Forest bathing walk', note: 'Ninety minutes · by request', tag: '$80 · Add-on', image: '/images/sandhills/Forest_bathing_walk.webp',
-      schedule: 'By request · any morning', location: 'Trailhead 2, west entrance',
-      points: ['90-min slow walk, no fitness required', 'Led by a certified shinrin-yoku guide', 'Ends with tea at the pavilion', 'Private sessions only · up to 4 guests'],
+      title: 'Bikes through the pines', note: 'Gravel & trail bikes available', tag: 'Included', image: '/images/sandhills/twelve_miles.webp',
+      schedule: 'All day · self-guided', location: 'Bike rack at the main cabin',
+      points: ['4 gravel bikes + 2 trail bikes on property', 'Helmets, locks, and a printed route map included', '12 miles of marked paths — flat to moderate', 'Best morning ride: lake loop before 8 am'],
     },
   ],
   sustainability: {
@@ -318,7 +313,7 @@ export const sandhillsData = {
   finalCta: {
     bigType: 'WAITING',
     headline: 'A hundred and twenty-six acres is waiting.',
-    sub: 'Weekend getaways from $609. The House from $1,200.',
+    sub: '',
     image: '/images/sandhills/waiting.webp',
   },
 };
