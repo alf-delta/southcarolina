@@ -270,7 +270,6 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
                   backgroundColor: 'rgba(234,227,211,0.14)',
                   borderRadius: '12px',
                   padding: 'clamp(14px, 2.2vh, 22px) clamp(18px, 2.2vw, 28px)',
-                  isolation: 'isolate',
                 }}
               >
                 <span style={{ fontFamily: FONT, fontSize: '14px', fontWeight: 700, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#B05329', display: 'block', marginBottom: '14px' }}>
