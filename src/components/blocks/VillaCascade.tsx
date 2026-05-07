@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { UserCheck, Wifi, Gem } from 'lucide-react';
 import Button from '../primitives/Button';
+import Img from '../primitives/Img';
 import { sandhillsData } from '../data/sandhills';
 import GalleryModal from './GalleryModal';
 
@@ -59,7 +60,7 @@ const EXPERIENCE_CARDS = [
     points:   ['Wood-fired, reaches 194 °F in 40 min', 'Cold plunge in the lake, steps away', 'Seats 6 · towels provided', 'No booking needed'],
   },
   {
-    image:    '/qaYcANUQR-PNzw3QPCqKA_uEzp7Ijh.jpg',
+    image:    '/qaYcANUQR-PNzw3QPCqKA_uEzp7Ijh.webp',
     title:    'The lake',
     note:     '18 acres · private · no motor boats',
     badge:    'Your ocean. No salt, no strangers.',
@@ -103,7 +104,7 @@ const EXPERIENCE_CARDS = [
     points:   ['4 gravel bikes + 2 trail bikes on property', 'Helmets, locks, and a printed route map included', '12 miles of marked paths', 'Best morning ride: lake loop before 8 am'],
   },
   {
-    image:    '/images/aKbo_jkSiGvo_scLOlbIM_BngwcJ7U.png',
+    image:    '/images/aKbo_jkSiGvo_scLOlbIM_BngwcJ7U.webp',
     title:    'Peach orchard',
     note:     'On property · seasonal',
     badge:    'Picked this morning.',
@@ -114,7 +115,7 @@ const EXPERIENCE_CARDS = [
     points:   ['Private orchard, guests only', 'Pick your own in season', 'Peaches available year-round from the welcome pantry', 'Jam, preserves, and fresh fruit on arrival'],
   },
   {
-    image:    '/images/hiveboxx-65icrs88YYs-unsplash.jpg',
+    image:    '/images/hiveboxx-65icrs88YYs-unsplash.webp',
     title:    'Apiary',
     note:     '20 hives · 1M+ bees',
     badge:    'A million bees. All ours.',
@@ -125,7 +126,7 @@ const EXPERIENCE_CARDS = [
     points:   ['20 active hives on property', '1M+ bees · longleaf pine + wildflower honey', 'Honey in every welcome pantry', 'Guided hive walk available on request'],
   },
   {
-    image:    '/images/XkTlrQ8rNu5Jhl58SsHSB_7By5mrT8.png',
+    image:    '/images/XkTlrQ8rNu5Jhl58SsHSB_7By5mrT8.webp',
     title:    'Farm tours',
     note:     'Local farms · 15–30 min away',
     badge:    'Where your food starts.',
@@ -348,7 +349,7 @@ export default function VillaCascade() {
           {/* Photo frame */}
           <div className="flex-1 min-w-0 rounded-2xl overflow-hidden" style={{ minHeight: 0 }}>
             <div className="relative w-full h-full overflow-hidden rounded-xl cursor-pointer group" onClick={() => setGalleryStartIdx(0)}>
-              <img src="/qGBP68_WYGc6iPdsayAE4_EqosgDho.jpg" alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" fetchPriority="high" decoding="async" />
+              <Img src="/qGBP68_WYGc6iPdsayAE4_EqosgDho.jpg" alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" fetchPriority="high" decoding="async" />
             </div>
           </div>
 
@@ -682,7 +683,7 @@ export default function VillaCascade() {
 
             {/* ── Right column ── */}
             <div style={{ minHeight: 0, borderRadius: '20px', overflow: 'hidden' }}>
-              <img
+              <Img
                 src="/tQujJzxhwVManasll_NAR_ggQ1SVvm.jpg"
                 alt=""
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

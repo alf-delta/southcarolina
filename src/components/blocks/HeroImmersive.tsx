@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import { TreeEvergreenIcon, WavesIcon, HouseSimpleIcon, BicycleIcon, PathIcon } from '@phosphor-icons/react';
 import Button from '../primitives/Button';
+import Img from '../primitives/Img';
 
 const FONT     = 'Coco Sharp, Encode Sans Expanded, ui-sans-serif';
 const LEFT     = 'max(24px, calc(50vw - 760px))';
@@ -286,7 +287,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
                   {PRESS.map((p) => {
                     const inner = (
                       <>
-                        <img src={p.logo} alt={p.name} style={{ height: '29px', width: 'auto', objectFit: 'contain', objectPosition: 'left', mixBlendMode: 'multiply', marginBottom: '10px', display: 'block' }} />
+                        <Img src={p.logo} alt={p.name} style={{ height: '29px', width: 'auto', objectFit: 'contain', objectPosition: 'left', mixBlendMode: 'multiply', marginBottom: '10px', display: 'block' }} />
                         <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px', lineHeight: 1.6, color: 'rgba(31,36,32,0.72)', margin: 0 }}>
                           {p.description.split(/(".*?")/g).map((part, i) =>
                             part.startsWith('"') && part.endsWith('"')
@@ -309,7 +310,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
 
         {/* ── Postmark — bottom right corner ── */}
         <motion.img
-          src="/images/postmark.jpg"
+          src="/images/postmark.webp"
           alt=""
           aria-hidden="true"
           className="hidden lg:block"
