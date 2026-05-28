@@ -386,10 +386,10 @@ export default function LandStory() {
   return (
     <>
       <section ref={sectionRef} data-zone="light" className="bg-bone py-20 px-6 md:py-28 md:px-12 lg:px-16">
-        <div style={{ display: 'grid', gridTemplateColumns: 'clamp(120px, 15vw, 172px) 1fr', gap: 'clamp(32px, 5vw, 72px)', alignItems: 'start' }}>
+        <div className="grid grid-cols-1 md:grid-cols-[clamp(120px,15vw,172px)_1fr]" style={{ gap: 'clamp(32px, 5vw, 72px)', alignItems: 'start' }}>
 
           {/* Left — label + timer square */}
-          <div style={{ position: 'sticky', top: '88px' }}>
+          <div className="md:sticky" style={{ top: '88px', maxWidth: 'clamp(120px, 42vw, 172px)' }}>
             <p className="font-eyebrow font-light text-ink2 mb-3" style={{ fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
               hours since your<br />last real rest
             </p>
@@ -432,7 +432,7 @@ export default function LandStory() {
           </div>
 
           {/* Right — Text column (inner 2-col: accordion left, text+CTA right) */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 0.9fr)', gap: 'clamp(24px, 3.5vw, 52px)', alignItems: 'start' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]" style={{ gap: 'clamp(24px, 3.5vw, 52px)', alignItems: 'start' }}>
 
             {/* Left inner — drop cap + body1 + timeline */}
             <div>
@@ -529,8 +529,8 @@ export default function LandStory() {
 
             </div>
 
-            {/* Right inner — question + body2 + tagline + CTA (sticky, unaffected by accordion) */}
-            <div style={{ position: 'sticky', top: '108px' }}>
+            {/* Right inner — question + body2 + tagline + CTA (sticky on lg+) */}
+            <div className="lg:sticky" style={{ top: '108px' }}>
               <div style={{
                 background: 'linear-gradient(145deg, #EAE3D3 0%, #E2D9C6 100%)',
                 borderRadius: 20,
@@ -587,7 +587,7 @@ export default function LandStory() {
           <p className="font-eyebrow text-ink2 mb-8" style={{ fontSize: 13, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600 }}>
             Getting here
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.55fr) minmax(0, 1fr)', gap: 'clamp(28px, 5vw, 64px)', alignItems: 'stretch' }}>
+          <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)]" style={{ gap: 'clamp(28px, 5vw, 64px)', alignItems: 'stretch' }}>
 
             {/* Map + button */}
             <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -596,6 +596,7 @@ export default function LandStory() {
                 borderRadius: '16px',
                 overflow: 'hidden',
                 flex: 1,
+                minHeight: 'clamp(260px, 45vw, 480px)',
                 boxShadow: '0 20px 60px rgba(31,36,32,0.18), 0 8px 24px rgba(31,36,32,0.10)',
               }}>
                 <div ref={mapContainerRef} style={{ position: 'absolute', inset: 0 }} />

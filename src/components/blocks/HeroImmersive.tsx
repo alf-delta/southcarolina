@@ -4,11 +4,11 @@ import { TreeEvergreenIcon, WavesIcon, HouseSimpleIcon, BicycleIcon, PathIcon } 
 import Button from '../primitives/Button';
 import Img from '../primitives/Img';
 
-const FONT     = 'Coco Sharp, Encode Sans Expanded, ui-sans-serif';
+export const FONT     = 'Coco Sharp, Encode Sans Expanded, ui-sans-serif';
 const LEFT     = 'max(24px, calc(50vw - 760px))';
 const LEFT_NEG = 'min(-24px, calc(760px - 50vw))';
 
-const PRESS = [
+export const PRESS = [
   {
     name: 'The New York Times',
     logo: '/images/press/nyt.png',
@@ -35,7 +35,7 @@ const PRESS = [
   },
 ];
 
-const GLANCE = [
+export const GLANCE = [
   { icon: TreeEvergreenIcon, value: '126', category: 'Private land · acres',         description: '126 acres fully fenced — no neighbors, no noise, no sharing' },
   { icon: WavesIcon,         value: '18',  category: 'Private lake · acres',         description: 'Swim, kayak, or watch the sunrise from the water — all to yourselves' },
   { icon: HouseSimpleIcon,   value: '6',   category: 'Villas',                       description: 'Each villa private, fully staffed, and finished to the standard of a five-star hotel' },
@@ -98,8 +98,8 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
     <section
       ref={sectionRef}
       data-zone="dark"
-      className="bg-night"
-      style={{ height: '260dvh', position: 'relative' }}
+      className="bg-night h-[100dvh] md:h-[260dvh]"
+      style={{ position: 'relative' }}
     >
       <div style={{ position: 'sticky', top: 0, height: '100dvh', overflow: 'hidden' }}>
 
@@ -111,6 +111,23 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
 
         {/* ── Hero content — exits at natural scroll speed ── */}
         <motion.div style={{ position: 'absolute', inset: 0, zIndex: 2, y: heroY, opacity: heroOpacity }}>
+
+          {/* Mobile logo — top left, immediately visible */}
+          <img
+            src="/logo.svg"
+            alt="Horizons Sandhills"
+            className="md:hidden"
+            style={{
+              position: 'absolute',
+              top: 18,
+              left: 24,
+              zIndex: 12,
+              height: 44,
+              width: 'auto',
+              filter: 'brightness(0) invert(1)',
+              pointerEvents: 'none',
+            }}
+          />
 
           {/* Top photo */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 'calc(75% + 75px)' }}>

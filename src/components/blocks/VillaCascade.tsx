@@ -126,7 +126,7 @@ const EXPERIENCE_CARDS = [
     points:   ['20 active hives on property', '1M+ bees · longleaf pine + wildflower honey', 'Honey in every welcome pantry', 'Guided hive walk available on request'],
   },
   {
-    image:    '/images/XkTlrQ8rNu5Jhl58SsHSB_7By5mrT8.webp',
+    image:    '/images/sandhills/farm_tour.jpg',
     title:    'Farm tours',
     note:     'Local farms · 15–30 min away',
     badge:    'Where your food starts.',
@@ -310,8 +310,23 @@ export default function VillaCascade() {
   return (
     <>
       {/* Intro strip */}
-      <div className="w-full flex items-center justify-center" style={{ height: 'clamp(80px, 11vh, 120px)', background: '#EAE3D3' }}>
-        <p className="flex items-baseline gap-[10px] flex-wrap justify-center px-6">
+      <div className="w-full flex items-center justify-center py-5 md:py-0" style={{ height: 'auto', minHeight: 'clamp(80px, 11vh, 120px)', background: '#EAE3D3' }}>
+
+        {/* Mobile: stacked — "Where the" sits on longleaf pines */}
+        <div className="md:hidden flex flex-col items-center text-center px-6">
+          <span style={{ fontFamily: 'Montserrat, ui-sans-serif', fontSize: '0.72rem', fontWeight: 300, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(20,16,10,0.38)', marginBottom: 2 }}>
+            Where the
+          </span>
+          <span className="font-display italic" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50', fontWeight: 380, fontSize: 'clamp(2rem, 9.5vw, 2.8rem)', letterSpacing: '-0.02em', lineHeight: 1, color: '#B05329' }}>
+            longleaf pines
+          </span>
+          <span style={{ fontFamily: 'Montserrat, ui-sans-serif', fontSize: '0.72rem', fontWeight: 300, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(20,16,10,0.38)', marginTop: 5 }}>
+            run out of road.
+          </span>
+        </div>
+
+        {/* Desktop: single line */}
+        <p className="hidden md:flex items-baseline gap-[10px] flex-wrap justify-center px-6">
           <span style={{ fontFamily: 'Montserrat, ui-sans-serif', fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)', fontWeight: 300, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(20,16,10,0.38)' }}>
             Where the
           </span>
@@ -322,6 +337,7 @@ export default function VillaCascade() {
             run out of road.
           </span>
         </p>
+
       </div>
 
       <section id="stays" data-zone="dark" className="text-linen relative" style={{ backgroundColor: '#090706' }}>
@@ -342,22 +358,23 @@ export default function VillaCascade() {
         {/* ── Act 1 — Villa ───────────────────────────────────────────────── */}
         <div
           ref={act1Ref}
-          className="relative h-screen flex flex-col px-6 pb-6 pt-[72px] md:px-12 md:pb-12 md:pt-[72px] lg:px-16 lg:pb-16 lg:pt-[72px]"
+          className="relative md:h-screen flex flex-col px-6 pb-6 pt-[72px] md:px-12 md:pb-12 md:pt-[72px] lg:px-16 lg:pb-16 lg:pt-[72px]"
           style={{ zIndex: 1 }}
         >
-          <div className="flex flex-col md:flex-row items-stretch flex-1 min-h-0" style={{ maxWidth: '82%', marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
-          {/* Photo frame */}
-          <div className="flex-1 min-w-0 rounded-2xl overflow-hidden" style={{ minHeight: 0 }}>
+          <div className="flex flex-col md:flex-row md:items-stretch md:flex-1 md:min-h-0 w-full md:max-w-[82%] mx-auto gap-3 md:gap-0">
+
+          {/* Photo frame — square on mobile, flex-1 on desktop */}
+          <div className="w-full aspect-square md:aspect-auto md:flex-1 md:min-w-0 rounded-2xl overflow-hidden">
             <div className="relative w-full h-full overflow-hidden rounded-xl cursor-pointer group" onClick={() => setGalleryStartIdx(0)}>
               <Img src="/qGBP68_WYGc6iPdsayAE4_EqosgDho.jpg" alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" fetchPriority="high" decoding="async" />
             </div>
           </div>
 
           {/* Right column: info card + photo tile */}
-          <div className="w-full md:w-[38%] lg:w-[34%] shrink-0 flex flex-col gap-[5px] pl-0 md:pl-[5px] pt-[5px] md:pt-0" style={{ minHeight: 0 }}>
+          <div className="w-full md:w-[38%] lg:w-[34%] md:shrink-0 flex flex-col gap-3 md:gap-[5px] md:pl-[5px]" style={{ minHeight: 0 }}>
 
             {/* Info card */}
-            <div className="flex-1 rounded-2xl flex flex-col justify-between p-6 md:p-8" style={{ background: 'rgba(242,237,227,0.06)', border: '1px solid rgba(242,237,227,0.08)', minHeight: 0 }}>
+            <div className="rounded-2xl flex flex-col justify-between p-6 md:p-8 md:flex-1" style={{ background: 'rgba(242,237,227,0.06)', border: '1px solid rgba(242,237,227,0.08)', minHeight: 0 }}>
               <div className="mb-5 md:mb-6">
                 <h2 className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(1.6rem, 3.5vw, 2.8rem)', lineHeight: 1.0, letterSpacing: '-0.025em' }}>
                   {villa.name}
@@ -401,8 +418,8 @@ export default function VillaCascade() {
               </div>
             </div>
 
-            {/* Photo tile */}
-            <div className="flex-[1] rounded-2xl overflow-hidden relative cursor-pointer group" style={{ minHeight: 0 }}
+            {/* Photo tile — natural aspect on mobile, flex-fill on desktop */}
+            <div className="aspect-[3/2] md:aspect-auto md:flex-[1] rounded-2xl overflow-hidden relative cursor-pointer group" style={{ minHeight: 0 }}
               onClick={() => setGalleryStartIdx(villa.rooms.slice(0, 2).reduce((a, r) => a + r.photos.length, 0))}>
               <img src={villa.rooms[2]?.photos[0] ?? '/images/sandhills/canoes.webp'} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" loading="lazy" />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.5) 0%, transparent 50%)' }} />
@@ -414,7 +431,7 @@ export default function VillaCascade() {
 
         {/* ── Act 2 — Comfort ─────────────────────────────────────────────── */}
         <div ref={act2Ref} className="relative min-h-screen flex flex-col p-6 md:p-12 lg:p-16" style={{ zIndex: 1 }}>
-          <div style={{ maxWidth: '82%', marginLeft: 'auto', marginRight: 'auto' }}>
+          <div className="w-full md:max-w-[82%] mx-auto">
           <div className="pt-4 md:pt-6 max-w-[52rem]">
             <p className="font-eyebrow text-signal uppercase mb-5 md:mb-6" style={{ fontSize: '11px', letterSpacing: '0.26em' }}>The standard you deserve</p>
             <h2 className="font-display text-linen mb-6 md:mb-8" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(2rem, 4.5vw, 3.8rem)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
@@ -426,16 +443,16 @@ export default function VillaCascade() {
             </p>
           </div>
           <div style={{ marginTop: 'clamp(24px, 4vh, 52px)' }}>
-            <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
-              {/* Placeholder cell */}
-              <div className="rounded-xl flex flex-col justify-between p-6 md:p-8" style={{ height: 'clamp(192px, 31vh, 308px)', background: 'rgba(242,237,227,0.06)', border: '1px solid rgba(242,237,227,0.08)' }}>
+            <div className="grid gap-3 grid-cols-2 md:grid-cols-3">
+              {/* Placeholder cell — full width on mobile */}
+              <div className="col-span-2 md:col-span-1 rounded-xl flex flex-col justify-between pt-3 px-6 pb-3 md:p-8 h-[clamp(94px,13vh,133px)] md:h-[clamp(192px,31vh,308px)]" style={{ background: 'rgba(242,237,227,0.06)', border: '1px solid rgba(242,237,227,0.08)' }}>
                 <p className="font-eyebrow text-signal uppercase" style={{ fontSize: '13px', letterSpacing: '0.22em' }}>What's included</p>
                 <p className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 380, fontStyle: 'italic', fontSize: 'clamp(1.5rem, 2.4vw, 2.2rem)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
                   The standard<br />you deserve
                 </p>
               </div>
               {COMFORT_CARDS.map((card, i) => (
-                <button key={card.title} onClick={() => setComfortIdx(i)} className="rounded-xl overflow-hidden relative group text-left" style={{ height: 'clamp(192px, 31vh, 308px)' }}>
+                <button key={card.title} onClick={() => setComfortIdx(i)} className={`rounded-xl overflow-hidden relative group text-left${i === COMFORT_CARDS.length - 1 ? ' col-span-2 md:col-span-1' : ''}`} style={{ height: 'clamp(192px, 31vh, 308px)' }}>
                   <img src={card.image} alt={card.title} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" />
                   <div className="absolute inset-x-0 bottom-0 px-3 pb-3 pt-12" style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.97) 0%, rgba(8,6,4,0.65) 55%, transparent 100%)' }}>
                     <p className="font-eyebrow text-signal uppercase mb-[5px]" style={{ fontSize: '9px', letterSpacing: '0.24em' }}>{card.note}</p>
@@ -469,19 +486,23 @@ export default function VillaCascade() {
 
           <div className="relative" style={{ zIndex: 1 }}>
             <p className="font-eyebrow text-signal uppercase mb-5" style={{ fontSize: '11px', letterSpacing: '0.26em' }}>What's included</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px' }}>
+            <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
               {([
                 { kind: 'placeholder' as const },
-                ...EXPERIENCE_CARDS.slice(0, 4).map((card, i) => ({ kind: 'card' as const, card, idx: i })),
+                { kind: 'card' as const, card: EXPERIENCE_CARDS[0], idx: 0 },
                 { kind: 'card' as const, card: EXPERIENCE_CARDS[4], idx: 4 },
+                { kind: 'card' as const, card: EXPERIENCE_CARDS[2], idx: 2 },
+                { kind: 'card' as const, card: EXPERIENCE_CARDS[3], idx: 3 },
+                { kind: 'card' as const, card: EXPERIENCE_CARDS[1], idx: 1, wide: true },
                 { kind: 'placeholder' as const },
-                ...EXPERIENCE_CARDS.slice(5).map((card, i) => ({ kind: 'card' as const, card, idx: i + 5 })),
-              ]).map((slot, si) => slot.kind === 'placeholder' ? (
-                <div key={`ph-${si}`} className="flex flex-col">
-                  <div className="rounded-xl flex flex-col justify-end p-5" style={{ position: 'relative', overflow: 'hidden', height: 'clamp(259px, calc(35vh + 39px), 399px)', background: si === 0 ? 'linear-gradient(135deg, rgba(176,83,41,0.38) 0%, rgba(201,169,110,0.22) 55%, rgba(212,192,155,0.12) 100%)' : 'linear-gradient(160deg, #3A5218 0%, #4A6820 45%, #2E4A18 100%)', border: si === 0 ? '1px solid rgba(31,36,32,0.12)' : '1px solid rgba(60,40,16,0.5)' }}>
+                ...EXPERIENCE_CARDS.slice(5).map((card, i) => ({ kind: 'card' as const, card, idx: i + 5, wide: i === EXPERIENCE_CARDS.slice(5).length - 1 })),
+              ] as Array<{ kind: 'placeholder' } | { kind: 'card'; card: typeof EXPERIENCE_CARDS[0]; idx: number; wide?: boolean }>)
+              .map((slot, si) => slot.kind === 'placeholder' ? (
+                <div key={`ph-${si}`} className="col-span-full lg:col-span-1 flex flex-col">
+                  <div className="rounded-xl flex flex-col justify-end p-5 h-[clamp(110px,25vw,160px)] lg:h-[clamp(259px,calc(35vh_+_39px),399px)]" style={{ position: 'relative', overflow: 'hidden', background: si === 0 ? 'linear-gradient(135deg, rgba(176,83,41,0.38) 0%, rgba(201,169,110,0.22) 55%, rgba(212,192,155,0.12) 100%)' : 'linear-gradient(160deg, #3A5218 0%, #4A6820 45%, #2E4A18 100%)', border: si === 0 ? '1px solid rgba(31,36,32,0.12)' : '1px solid rgba(60,40,16,0.5)' }}>
                     {si === 0 ? (<>
                       {/* Sun watermark */}
-                      <svg viewBox="0 0 160 160" aria-hidden="true" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -52%)', width: '85%', height: '85%', opacity: 0.1, pointerEvents: 'none' }}>
+                      <svg viewBox="0 0 160 160" aria-hidden="true" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -52%)', width: '145%', height: '145%', opacity: 0.15, pointerEvents: 'none' }}>
                         {/* Rays */}
                         {Array.from({ length: 16 }, (_, i) => {
                           const angle = (i / 16) * Math.PI * 2;
@@ -509,8 +530,8 @@ export default function VillaCascade() {
                         style={{
                           position: 'absolute', top: '50%', left: '50%',
                           transform: 'translate(-44%, -52%) rotate(-18deg)',
-                          width: '88%', height: '88%',
-                          opacity: 0.08, pointerEvents: 'none',
+                          width: '135%', height: '155%',
+                          opacity: 0.13, pointerEvents: 'none',
                         }}
                       >
                         {/* Stem */}
@@ -541,7 +562,7 @@ export default function VillaCascade() {
                   </div>
                 </div>
               ) : (
-                <div key={slot.card.title} className="flex flex-col">
+                <div key={slot.card.title} className={`flex flex-col${'wide' in slot && slot.wide ? ' col-span-full lg:col-span-1' : ''}`}>
                   <div className="mb-[6px] w-full flex items-center justify-center" style={{ height: 'clamp(28px, 4vh, 40px)', borderRadius: '8px', background: 'rgba(31,36,32,0.11)', border: '1px solid rgba(31,36,32,0.14)' }}>
                     <span className="font-display italic" style={{ fontVariationSettings: '"opsz" 20, "SOFT" 30', fontWeight: 520, fontSize: '15px', letterSpacing: '-0.01em', color: '#B05329', lineHeight: 1 }}>{slot.card.badge}</span>
                   </div>
@@ -572,9 +593,9 @@ export default function VillaCascade() {
           </div>
           <div>
             <p className="font-eyebrow text-signal uppercase mb-5" style={{ fontSize: '11px', letterSpacing: '0.26em' }}>Around you</p>
-            <div className="flex gap-3">
+            <div className="flex flex-col md:flex-row gap-3">
               {sandhillsData.nearby.map((poi, i) => (
-                <button key={poi.name} onClick={() => setNearbyIdx(i)} className="flex-1 min-w-0 rounded-xl overflow-hidden relative group text-left" style={{ height: 'clamp(280px, 44vh, 440px)' }}>
+                <button key={poi.name} onClick={() => setNearbyIdx(i)} className="w-full md:flex-1 md:min-w-0 rounded-xl overflow-hidden relative group text-left h-[clamp(140px,38vw,180px)] md:h-[clamp(280px,44vh,440px)]">
                   <img src={poi.image} alt={poi.name} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" />
                   <div className="absolute inset-x-0 bottom-0 px-3 pb-3 pt-12" style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.97) 0%, rgba(8,6,4,0.65) 55%, transparent 100%)' }}>
                     <p className="font-eyebrow text-signal uppercase mb-[5px]" style={{ fontSize: '9px', letterSpacing: '0.24em' }}>{poi.distance}</p>
@@ -601,10 +622,8 @@ export default function VillaCascade() {
           }} />
 
           {/* Stage card */}
-          <div style={{
+          <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.72fr)]" style={{
             position: 'relative', zIndex: 1,
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 0.72fr)',
             gap: 'clamp(24px, 4vw, 64px)',
             minHeight: 'calc(100dvh - clamp(72px, 10vh, 112px))',
             border: '1px solid rgba(255,255,255,0.10)',
