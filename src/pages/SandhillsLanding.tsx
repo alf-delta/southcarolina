@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
 import { FONT, GLANCE, PRESS } from '../components/blocks/HeroImmersive';
 import { sandhillsData as d } from '../components/data/sandhills';
 import StructuredData from '../components/StructuredData';
@@ -7,9 +7,8 @@ import StructuredData from '../components/StructuredData';
 import StickyHeader from '../components/blocks/StickyHeader';
 import HeroImmersive from '../components/blocks/HeroImmersive';
 
-import ChapterOpener from '../components/blocks/ChapterOpener';
 import LandStory from '../components/blocks/LandStory';
-import AtAGlance from '../components/blocks/AtAGlance';
+import PressFeature from '../components/blocks/PressFeature';
 import VillaCascade from '../components/blocks/VillaCascade';
 // import DayScenes from '../components/blocks/DayScenes';
 // import DiningEditorial from '../components/blocks/DiningEditorial';
@@ -19,13 +18,15 @@ import VillaCascade from '../components/blocks/VillaCascade';
 // import NearbyGrid from '../components/blocks/NearbyGrid';
 // import FaqAccordion from '../components/blocks/FaqAccordion';
 import FinalCtaImmersive from '../components/blocks/FinalCtaImmersive';
+import InfluencerProof from '../components/blocks/InfluencerProof';
+import GettingHere from '../components/blocks/GettingHere';
 import Footer from '../components/blocks/Footer';
 import StackCard from '../components/primitives/StackCard';
-import RoundedEntry from '../components/primitives/RoundedEntry';
 
 
 export default function SandhillsLanding() {
   const [bookingBarVisible, setBookingBarVisible] = useState(false);
+  const [landStoryOpen, setLandStoryOpen] = useState(false);
   const mobileGlanceRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: glanceP } = useScroll({ target: mobileGlanceRef, offset: ['start end', 'end start'] });
   const glanceBgY  = useTransform(glanceP, [0, 1], ['0%', '-18%']);
@@ -110,6 +111,23 @@ export default function SandhillsLanding() {
             </div>
           </div>
 
+          {/* Positioning statement — completes "…is" on mobile */}
+          <motion.div
+            style={{ padding: '14px 24px 0' }}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-30px' }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+          >
+            <h2
+              className="font-display"
+              style={{ fontVariationSettings: '"opsz" 96, "SOFT" 50', fontWeight: 380, fontSize: 'clamp(1.85rem, 9vw, 2.6rem)', lineHeight: 1.06, letterSpacing: '-0.02em', color: 'rgba(31,36,32,0.94)' }}
+            >
+              A five-star hotel.<br />Except the hotel is a{' '}
+              <img src="/images/f-orest.webp" alt="forest" className="inline-block" style={{ height: '0.9em', width: 'auto', verticalAlign: '-0.05em', borderRadius: '0.12em' }} />.
+            </h2>
+          </motion.div>
+
           {/* GLANCE pillars — same #F0E3D0 card as desktop */}
           <motion.div
             style={{ margin: '20px 16px 0', background: '#F0E3D0', borderRadius: 12, padding: 'clamp(16px, 3vh, 22px) clamp(16px, 4vw, 20px)', boxShadow: '3px 8px 28px rgba(0,0,0,0.14)' }}
@@ -182,23 +200,8 @@ export default function SandhillsLanding() {
           </div>{/* /content zIndex:1 */}
         </div>
 
-        {/* Anchor — must be in normal flow, not inside sticky StackCard */}
+        {/* Anchor — must be in normal flow */}
         <span id="stays" style={{ display: 'block', height: 0, pointerEvents: 'none' }} aria-hidden="true" />
-
-        {/* ── Карточка 1: STAYS наплывает и остаётся (z-index 10) ── */}
-        {/* bg-night on mobile so rounded StackCard corners don't expose white page bg */}
-        <div className="bg-night md:bg-transparent">
-        <StackCard zIndex={10}>
-          <ChapterOpener
-            numeral={d.chapters[1].numeral}
-            subtitle={d.chapters[1].subtitle}
-            bigType={d.chapters[1].bigType}
-            image={d.chapters[1].image}
-            zone="night"
-            minHeight="45vh"
-          />
-        </StackCard>
-        </div>
 
         {/* VillaCascade: z-index 20, без overflow:hidden — sticky внутри работает */}
         <div style={{ position: 'relative', zIndex: 20 }}>
@@ -212,21 +215,77 @@ export default function SandhillsLanding() {
           <NearbyGrid nearby={d.nearby} />
         </RoundedEntry> */}
 
-        {/* ── Land chapter + story (moved after STAYS) ── */}
+        {/* ── Land story (collapsed) + Press ── */}
         <div style={{ position: 'relative', zIndex: 20 }}>
-          <RoundedEntry radius={32}>
-            <ChapterOpener
-              id="land"
-              numeral={d.chapters[0].numeral}
-              subtitle={d.chapters[0].subtitle}
-              bigType={d.chapters[0].bigType}
-              image={d.chapters[0].image}
-              zone="pine-deep"
-              minHeight="49vh"
-            />
-          </RoundedEntry>
-          <LandStory />
-          <div style={{ marginTop: -20 }}><AtAGlance /></div>
+
+          {/* Fade-in edge above the strip */}
+          <div aria-hidden="true" style={{
+            height: 'clamp(32px, 5vh, 56px)',
+            background: 'linear-gradient(to bottom, transparent, rgba(10,8,6,0.38))',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            pointerEvents: 'none',
+          }} />
+
+          {/* Land history disclosure strip — glass */}
+          <div style={{
+            padding: 'clamp(18px, 2.8vh, 28px) clamp(24px, 4vw, 64px)',
+            display: 'flex', alignItems: 'center', gap: 'clamp(16px, 2vw, 28px)', flexWrap: 'wrap',
+            background: 'rgba(10,8,6,0.38)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+          }}>
+            <button
+              onClick={() => setLandStoryOpen(v => !v)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                background: '#B05329', border: 'none', cursor: 'pointer',
+                padding: 'clamp(10px, 1.4vh, 14px) clamp(18px, 2vw, 26px)',
+                borderRadius: 999, flexShrink: 0,
+              }}
+            >
+              <span style={{ fontFamily: 'Inter Tight, Inter, system-ui, sans-serif', fontSize: 11, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#F2EDE3' }}>
+                Land history
+              </span>
+              <motion.span
+                animate={{ rotate: landStoryOpen ? 45 : 0 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                style={{ color: '#F2EDE3', fontSize: 16, lineHeight: 1, display: 'block' }}
+              >
+                +
+              </motion.span>
+            </button>
+
+            <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(12px, 1vw, 14px)', color: 'rgba(231,222,199,0.45)', margin: 0, lineHeight: 1.5 }}>
+              A short history of the land this property sits on.
+            </p>
+          </div>
+
+          <AnimatePresence initial={false}>
+            {landStoryOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                style={{ overflow: 'hidden' }}
+              >
+                <LandStory />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <PressFeature />
+        </div>
+
+        {/* ── Influencer social proof ── */}
+        <div style={{ position: 'relative', zIndex: 20 }}>
+          <InfluencerProof />
+        </div>
+
+        {/* ── Map + drive times from nearby cities ── */}
+        <div style={{ position: 'relative', zIndex: 20 }}>
+          <GettingHere />
         </div>
 
         {/* ── Карточка 2: WORTH IT — скрыта ── */}

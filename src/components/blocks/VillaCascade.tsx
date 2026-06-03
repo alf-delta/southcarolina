@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { UserCheck, Wifi, Gem } from 'lucide-react';
-import Button from '../primitives/Button';
 import Img from '../primitives/Img';
 import { sandhillsData } from '../data/sandhills';
 import GalleryModal from './GalleryModal';
@@ -138,57 +137,6 @@ const EXPERIENCE_CARDS = [
   },
 ] as const;
 
-const FISH_DATA = [
-  {
-    image:  '/images/fish/Largemouth Bass.webp',
-    name:   'Largemouth Bass',
-    type:   'predator',
-    trait:  'Ambush hunter. Attacks from cover near snags and weeds, active during the day.',
-    layer:  'Surface + shore cover · 0–2 m',
-    bio:    '10–15%',
-  },
-  {
-    image:  '/images/fish/Channel Catfish.webp',
-    name:   'Channel Catfish',
-    type:   'predator',
-    trait:  'Nocturnal scavenger and active hunter. Navigates by smell, not sight.',
-    layer:  'Bottom · 3–6 m',
-    bio:    '8–12%',
-  },
-  {
-    image:  '/images/fish/Bluegill.webp',
-    name:   'Bluegill',
-    type:   'forage',
-    trait:  'Most numerous fish in the lake. Schooling species, primary forage base for bass.',
-    layer:  'Mid-water · 1–3 m',
-    bio:    '25–35%',
-  },
-  {
-    image:  '/images/fish/Common Carp.webp',
-    name:   'Common Carp',
-    type:   'forage',
-    trait:  'Roots in bottom silt, disturbs clarity, uproots aquatic vegetation.',
-    layer:  'Near-bottom · 2–5 m',
-    bio:    '15–20%',
-  },
-  {
-    image:  '/images/fish/Creek Chub.webp',
-    name:   'Creek Chub',
-    type:   'forage',
-    trait:  'Small schooling fish near the surface. Important link in the food chain.',
-    layer:  'Upper · 0–1 m',
-    bio:    '15–20%',
-  },
-  {
-    image:  null,
-    name:   'Other species',
-    type:   'other',
-    trait:  'Sunfish, shiners, and others.',
-    layer:  '—',
-    bio:    '~5%',
-  },
-] as const;
-
 // const BEACH_ROWS = [
 //   'A concierge who knows your reservation number, not your name.',
 //   'Two hundred rooms. Your neighbors audible through the wall.',
@@ -203,11 +151,6 @@ const FISH_DATA = [
 //   'One price. Everything in it. No fine print.',
 // ];
 
-const PRIVATE_STATS = [
-  { num: '6',  label: 'Villas',      desc: 'Never crowded'  },
-  { num: '18', label: 'Lake acres',  desc: 'Not a pool'     },
-  { num: '126', label: 'Acres',       desc: 'Nobody else.'  },
-];
 
 // ── Static bg helpers ─────────────────────────────────────────────────────────
 
@@ -250,14 +193,114 @@ const bgRooms: React.CSSProperties = {
   ].join(', '),
 };
 
-const bgOutdoor: React.CSSProperties = {
-  backgroundColor: '#060408',
-  backgroundImage: [
-    'radial-gradient(ellipse at 18% 68%, rgba(40,30,180,0.22) 0%, transparent 55%)',
-    'radial-gradient(ellipse at 76% 18%, rgba(140,20,160,0.18) 0%, transparent 50%)',
-    'radial-gradient(ellipse at 50% 42%, rgba(180,25,55,0.15) 0%, transparent 45%)',
-  ].join(', '),
-};
+
+// ── B2B / private-hire use cases ──────────────────────────────────────────────
+
+const B2B_CASES = [
+  {
+    title: 'Strategy offsites',
+    short: 'Strategy',
+    tag: 'Focused, two days, zero noise',
+    image: '/images/villa/02_Interior_Casita/1.webp',
+    body: 'Pull the leadership team out of the building and into a room with no glass walls and no calendar. The great-room table seats the core group; the lake and trails are there for the conversations that land better on a walk.',
+    meta: [
+      { label: 'Ideal size', value: '4–12 people' },
+      { label: 'Length',     value: '1–3 nights' },
+      { label: 'Setting',    value: 'Villa great room + lake' },
+    ],
+    highlights: [
+      'Private long table with power and a wall to pin work to',
+      'Fast estate Wi-Fi where you want it, none where you don\'t',
+      'Walking routes for one-on-ones between sessions',
+    ],
+  },
+  {
+    title: 'Corporate retreats',
+    short: 'Retreats',
+    tag: 'The whole team, somewhere they remember',
+    image: '/images/villa/03_Terrace/1.webp',
+    body: 'Take over the entire estate and give the company a few days that feel nothing like the office. Mornings on the water, afternoons around the firepit, evenings on the deck — structured as much or as little as you like.',
+    meta: [
+      { label: 'Ideal size', value: '10–24 people' },
+      { label: 'Length',     value: '2–4 nights' },
+      { label: 'Setting',    value: 'Whole estate, exclusive use' },
+    ],
+    highlights: [
+      'Sauna, canoes, e-bikes and trails included for everyone',
+      'Catering and private chefs arranged on request',
+      'Bonfire, lawn games and a lake that is entirely yours',
+    ],
+  },
+  {
+    title: 'Leadership councils',
+    short: 'Councils',
+    tag: 'Board-level, completely private',
+    image: '/images/villa/02_Interior_Casita/3.webp',
+    body: 'Board meetings, partner summits and sensitive conversations, held where no one is listening. The estate is gated and unshared — what is said on the property stays on the property.',
+    meta: [
+      { label: 'Ideal size', value: '4–10 people' },
+      { label: 'Length',     value: '1–2 nights' },
+      { label: 'Setting',    value: 'Private interior, no other guests' },
+    ],
+    highlights: [
+      'Gated, single-party access for the full stay',
+      'Quiet rooms for breakaway and confidential calls',
+      'Discreet service — present when needed, invisible otherwise',
+    ],
+  },
+  {
+    title: 'Deep-work sprints',
+    short: 'Sprints',
+    tag: 'A week to ship something hard',
+    image: '/images/sandhills/Forest_bathing_walk.webp',
+    body: 'Move a small team out here for a week of real, uninterrupted building. The only distraction is the lake — and that is the point. Long, quiet days; short walks to reset; nothing pulling focus.',
+    meta: [
+      { label: 'Ideal size', value: '3–8 people' },
+      { label: 'Length',     value: '3–7 nights' },
+      { label: 'Setting',    value: 'Villa + casita, full kitchen' },
+    ],
+    highlights: [
+      'Stocked pantry and full kitchen — no leaving to eat',
+      'Separate sleeping and working spaces for the whole team',
+      'Trails and sauna built in for the breaks that matter',
+    ],
+  },
+  {
+    title: 'Investor & partner summits',
+    short: 'Summits',
+    tag: 'Host the people who matter',
+    image: '/images/villa/01_Exterior/4.webp',
+    body: 'When the agenda is relationships, the setting does half the work. A hundred and twenty-six private acres signal seriousness without saying a word — and give your guests something they will talk about long after.',
+    meta: [
+      { label: 'Ideal size', value: '6–20 people' },
+      { label: 'Length',     value: '1–3 nights' },
+      { label: 'Setting',    value: 'Estate grounds + terrace' },
+    ],
+    highlights: [
+      'Arrival, dining and hosting handled end to end',
+      'Guided paddle, fishing or sunrise walk as the icebreaker',
+      'Terrace and firepit for the conversations after dinner',
+    ],
+  },
+  {
+    title: 'Milestone celebrations',
+    short: 'Celebrations',
+    tag: 'Mark the moment, gather the people',
+    image: '/images/sandhills/Guided_sunrise_paddle.webp',
+    body: 'Close the round, mark the launch, celebrate the people who built it. Take the estate for a long weekend and turn a milestone into a memory — under the pines, on the water, around the fire.',
+    meta: [
+      { label: 'Ideal size', value: '10–24 people' },
+      { label: 'Length',     value: '2–3 nights' },
+      { label: 'Setting',    value: 'Whole estate, exclusive use' },
+    ],
+    highlights: [
+      'Lawn, lakeside and firepit for gatherings of any shape',
+      'Catering, bar and private chefs arranged on request',
+      'Space to host loudly — there are no neighbours to mind',
+    ],
+  },
+];
+
 
 // ── Main component ────────────────────────────────────────────────────────────
 
@@ -266,9 +309,10 @@ export default function VillaCascade() {
 
   const [galleryStartIdx, setGalleryStartIdx] = useState<number | null>(null);
   const [comfortIdx,    setComfortIdx]    = useState<number | null>(null);
-  const [experienceIdx, setExperienceIdx] = useState<number | null>(null);
+  const [hoverExp,    setHoverExp]    = useState<number | null>(null);
+  const [expandedExp, setExpandedExp] = useState<number | null>(null);
   const [nearbyIdx,     setNearbyIdx]     = useState<number | null>(null);
-  const [contactOpen,   setContactOpen]   = useState(false);
+  const [b2bIdx,        setB2bIdx]        = useState(0);
 
   useEffect(() => {
     const handler = () => setGalleryStartIdx(0);
@@ -281,13 +325,11 @@ export default function VillaCascade() {
   const act2Ref = useRef<HTMLDivElement>(null);
   const act3Ref = useRef<HTMLDivElement>(null);
   const act4Ref = useRef<HTMLDivElement>(null);
-  const act5Ref = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress: p1 } = useScroll({ target: act1Ref, offset: ['start end', 'end start'] });
   const { scrollYProgress: p2 } = useScroll({ target: act2Ref, offset: ['start end', 'end start'] });
   const { scrollYProgress: p3 } = useScroll({ target: act3Ref, offset: ['start end', 'end start'] });
   const { scrollYProgress: p4 } = useScroll({ target: act4Ref, offset: ['start end', 'end start'] });
-  const { scrollYProgress: p5 } = useScroll({ target: act5Ref, offset: ['start end', 'end start'] });
 
   // Act 1: visible from the start, fades out as act 2 takes over
   const o1 = useTransform(p1, [0, 0.80, 1], [1, 1, 0]);
@@ -303,41 +345,18 @@ export default function VillaCascade() {
   const act3HeadingColor = useTransform(p3, [0.10, 0.28], ['rgba(231,222,199,0.96)', 'rgba(31,36,32,0.96)']);
   const act3SubColor     = useTransform(p3, [0.10, 0.28], ['rgba(231,222,199,0.55)', 'rgba(31,36,32,0.55)']);
 
-  // Act 5: fades in, stays visible till end of section
-  const o5 = useTransform(p5, [0, 0.14, 1], [0, 1, 1]);
 
 
   return (
     <>
       {/* Intro strip */}
       <div className="w-full flex items-center justify-center py-5 md:py-0" style={{ height: 'auto', minHeight: 'clamp(80px, 11vh, 120px)', background: '#EAE3D3' }}>
-
-        {/* Mobile: stacked — "Where the" sits on longleaf pines */}
-        <div className="md:hidden flex flex-col items-center text-center px-6">
-          <span style={{ fontFamily: 'Montserrat, ui-sans-serif', fontSize: '0.72rem', fontWeight: 300, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(20,16,10,0.38)', marginBottom: 2 }}>
-            Where the
-          </span>
-          <span className="font-display italic" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50', fontWeight: 380, fontSize: 'clamp(2rem, 9.5vw, 2.8rem)', letterSpacing: '-0.02em', lineHeight: 1, color: '#B05329' }}>
-            longleaf pines
-          </span>
-          <span style={{ fontFamily: 'Montserrat, ui-sans-serif', fontSize: '0.72rem', fontWeight: 300, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(20,16,10,0.38)', marginTop: 5 }}>
-            run out of road.
-          </span>
-        </div>
-
-        {/* Desktop: single line */}
-        <p className="hidden md:flex items-baseline gap-[10px] flex-wrap justify-center px-6">
-          <span style={{ fontFamily: 'Montserrat, ui-sans-serif', fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)', fontWeight: 300, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(20,16,10,0.38)' }}>
-            Where the
-          </span>
-          <span className="font-display italic" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50', fontWeight: 380, fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)', letterSpacing: '-0.02em', lineHeight: 1, color: '#B05329' }}>
-            longleaf pines
-          </span>
-          <span style={{ fontFamily: 'Montserrat, ui-sans-serif', fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)', fontWeight: 300, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(20,16,10,0.38)' }}>
-            run out of road.
-          </span>
+        <p
+          className="font-display italic text-center px-6"
+          style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 360, fontSize: 'clamp(1.7rem, 4vw, 2.9rem)', letterSpacing: '-0.02em', lineHeight: 1.06, color: '#B05329' }}
+        >
+          Allow us to show you in.
         </p>
-
       </div>
 
       <section id="stays" data-zone="dark" className="text-linen relative" style={{ backgroundColor: '#090706' }}>
@@ -350,7 +369,6 @@ export default function VillaCascade() {
             <motion.div style={{ position: 'absolute', inset: 0, opacity: o2, ...bgComfort }} />
             <motion.div style={{ position: 'absolute', inset: 0, opacity: o3, ...bgTerritory }} />
             <motion.div style={{ position: 'absolute', inset: 0, opacity: o4, ...bgRooms }} />
-            <motion.div style={{ position: 'absolute', inset: 0, opacity: o5, ...bgOutdoor }} />
 
           </div>
         </div>
@@ -358,91 +376,191 @@ export default function VillaCascade() {
         {/* ── Act 1 — Villa ───────────────────────────────────────────────── */}
         <div
           ref={act1Ref}
-          className="relative md:h-screen flex flex-col px-6 pb-6 pt-[72px] md:px-12 md:pb-12 md:pt-[72px] lg:px-16 lg:pb-16 lg:pt-[72px]"
+          className="relative flex flex-col px-6 pb-6 pt-[72px] md:px-12 md:pb-12 md:pt-[72px] lg:px-16 lg:pb-16"
           style={{ zIndex: 1 }}
         >
-          <div className="flex flex-col md:flex-row md:items-stretch md:flex-1 md:min-h-0 w-full md:max-w-[82%] mx-auto gap-3 md:gap-0">
+          <div className="w-full md:max-w-[82%] mx-auto flex flex-col gap-2">
+          {/* Full-bleed exterior photo with reveal animation */}
+          <motion.div
+            className="w-full rounded-2xl overflow-hidden cursor-pointer relative"
+            style={{ height: 'clamp(420px, 80vh, 960px)' }}
+            initial={{ opacity: 0, scale: 1.04 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
+            onClick={() => setGalleryStartIdx(0)}
+          >
+            <Img
+              src="/images/villa/01_Exterior/4.webp"
+              alt="Forest Villa exterior"
+              className="w-full h-full object-cover object-bottom"
+              fetchPriority="high"
+              decoding="async"
+            />
+            {/* Gradients: bottom bleed + top-right text backdrop */}
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.38) 0%, transparent 40%)' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom-left, rgba(8,6,4,0.62) 0%, rgba(8,6,4,0.18) 38%, transparent 60%)' }} />
 
-          {/* Photo frame — square on mobile, flex-1 on desktop */}
-          <div className="w-full aspect-square md:aspect-auto md:flex-1 md:min-w-0 rounded-2xl overflow-hidden">
-            <div className="relative w-full h-full overflow-hidden rounded-xl cursor-pointer group" onClick={() => setGalleryStartIdx(0)}>
-              <Img src="/qGBP68_WYGc6iPdsayAE4_EqosgDho.jpg" alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" fetchPriority="high" decoding="async" />
-            </div>
-          </div>
-
-          {/* Right column: info card + photo tile */}
-          <div className="w-full md:w-[38%] lg:w-[34%] md:shrink-0 flex flex-col gap-3 md:gap-[5px] md:pl-[5px]" style={{ minHeight: 0 }}>
-
-            {/* Info card */}
-            <div className="rounded-2xl flex flex-col justify-between p-6 md:p-8 md:flex-1" style={{ background: 'rgba(242,237,227,0.06)', border: '1px solid rgba(242,237,227,0.08)', minHeight: 0 }}>
-              <div className="mb-5 md:mb-6">
-                <h2 className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(1.6rem, 3.5vw, 2.8rem)', lineHeight: 1.0, letterSpacing: '-0.025em' }}>
-                  {villa.name}
-                </h2>
-                <p className="font-eyebrow text-signal uppercase mt-2" style={{ fontSize: '13px', letterSpacing: '0.24em' }}>Flagship of the wild</p>
-              </div>
+            {/* Title overlay — bottom-left, grid-anchored */}
+            <motion.div
+              style={{
+                position: 'absolute',
+                left: 'clamp(20px, 4%, 48px)',
+                right: 'clamp(20px, 4%, 48px)',
+                bottom: 'clamp(24px, 4%, 52px)',
+                display: 'grid',
+                gridTemplateColumns: 'auto auto',
+                justifyContent: 'start',
+                gridTemplateRows: 'auto',
+                alignItems: 'end',
+                gap: '0 clamp(16px, 3vw, 40px)',
+                pointerEvents: 'none',
+              }}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+            >
+              {/* Left col: title block */}
               <div>
-                <div className="flex flex-wrap items-end gap-x-6 gap-y-4 mb-6">
-                  <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-[5px]">
-                      <svg viewBox="0 0 20 20" fill="currentColor" className="text-linen/60 shrink-0" style={{ width: '1.2rem', height: '1.2rem' }}>
-                        <path d="M10 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 8a7 7 0 1 1 14 0H3z" />
-                      </svg>
-                      <span className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 48', fontWeight: 380, fontSize: 'clamp(1.4rem, 2.2vw, 1.9rem)', lineHeight: 1, letterSpacing: '-0.02em' }}>4</span>
-                    </div>
-                    <span className="font-eyebrow text-linen/40 uppercase" style={{ fontSize: '9px', letterSpacing: '0.22em' }}>up to<br />Guests</span>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <UserCheck aria-hidden className="text-linen/80" style={{ width: 'clamp(1.4rem, 2.2vw, 1.9rem)', height: 'clamp(1.4rem, 2.2vw, 1.9rem)' }} strokeWidth={1.25} />
-                    <span className="font-eyebrow text-linen/40 uppercase" style={{ fontSize: '9px', letterSpacing: '0.22em' }}>Personal<br />host</span>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <Wifi aria-hidden className="text-linen/80" style={{ width: 'clamp(1.4rem, 2.2vw, 1.9rem)', height: 'clamp(1.4rem, 2.2vw, 1.9rem)' }} strokeWidth={1.25} />
-                    <span className="font-eyebrow text-linen/40 uppercase" style={{ fontSize: '9px', letterSpacing: '0.22em' }}>Starlink<br />Wi-Fi</span>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <Gem aria-hidden className="text-linen/80" style={{ width: 'clamp(1.4rem, 2.2vw, 1.9rem)', height: 'clamp(1.4rem, 2.2vw, 1.9rem)' }} strokeWidth={1.25} />
-                    <span className="font-eyebrow text-linen/40 uppercase" style={{ fontSize: '9px', letterSpacing: '0.22em' }}>High-End<br />Appointments</span>
-                  </div>
+                {/* Eyebrow + rule */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 'clamp(8px, 1.2vh, 14px)' }}>
+                  <span style={{ display: 'block', width: 28, height: 1, background: '#D4804E', flexShrink: 0 }} />
+                  <p style={{
+                    fontFamily: 'Inter Tight, Inter, system-ui, sans-serif',
+                    fontSize: 'clamp(11px, 1vw, 14px)',
+                    fontWeight: 700,
+                    letterSpacing: '0.22em',
+                    textTransform: 'uppercase',
+                    color: 'rgba(242,237,227,0.90)',
+                    margin: 0,
+                    textShadow: '0 1px 14px rgba(0,0,0,0.85)',
+                  }}>
+                    Flagship of the wild
+                  </p>
                 </div>
-                <p className="text-linen/55 mb-5" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(0.75rem, 0.9vw, 0.85rem)', lineHeight: 1.68 }}>
-                  {villa.description}
-                </p>
-                <div className="flex flex-wrap gap-3 items-center">
-                  <Button href="#reserve" variant="primary">Check availability</Button>
-                  <button onClick={() => setGalleryStartIdx(0)} className="group font-eyebrow text-[10px] uppercase tracking-[0.22em] text-linen/65 hover:text-linen transition-colors flex items-center gap-1.5 pb-px border-b border-linen/20 hover:border-linen/50">
-                    View gallery
-                    <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ fontSize: 9 }}>↗</span>
-                  </button>
+
+                {/* Main title */}
+                <h2 style={{ margin: 0, lineHeight: 0.86, letterSpacing: '-0.045em' }}>
+                  <span
+                    className="font-display"
+                    style={{
+                      display: 'block',
+                      fontVariationSettings: '"opsz" 144, "SOFT" 20, "WONK" 0',
+                      fontWeight: 320,
+                      fontSize: 'clamp(3.36rem, 8.4vw, 7.8rem)',
+                      color: 'rgba(242,237,227,1)',
+                      textShadow: '0 2px 32px rgba(0,0,0,0.9), 0 1px 8px rgba(0,0,0,0.5)',
+                    }}
+                  >
+                    Forest
+                  </span>
+                  <span
+                    className="font-display"
+                    style={{
+                      display: 'block',
+                      fontVariationSettings: '"opsz" 144, "SOFT" 20, "WONK" 0',
+                      fontWeight: 320,
+                      fontSize: 'clamp(3.36rem, 8.4vw, 7.8rem)',
+                      color: 'rgba(242,237,227,1)',
+                      marginTop: '-0.04em',
+                      textShadow: '0 2px 32px rgba(0,0,0,0.9), 0 1px 8px rgba(0,0,0,0.5)',
+                    }}
+                  >
+                    Villa
+                  </span>
+                </h2>
+              </div>
+
+              {/* Right col: spec infographic on glass card */}
+              <div style={{
+                display: 'inline-flex', flexWrap: 'wrap', gap: 'clamp(14px, 2.5vw, 28px)',
+                padding: 'clamp(12px, 1.8vh, 20px) clamp(16px, 2vw, 24px)',
+                borderRadius: 14,
+                background: 'rgba(8,6,4,0.22)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+              }}>
+                {/* Guests */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <svg viewBox="0 0 20 20" fill="currentColor" style={{ width: 'clamp(1.1rem, 1.8vw, 1.5rem)', height: 'clamp(1.1rem, 1.8vw, 1.5rem)', color: 'rgba(231,222,199,0.75)', flexShrink: 0 }}>
+                      <path d="M10 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 8a7 7 0 1 1 14 0H3z" />
+                    </svg>
+                    <span className="font-display" style={{ fontVariationSettings: '"opsz" 48', fontWeight: 380, fontSize: 'clamp(1.2rem, 1.8vw, 1.6rem)', lineHeight: 1, letterSpacing: '-0.02em', color: 'rgba(242,237,227,1)', textShadow: '0 1px 12px rgba(0,0,0,0.8)' }}>4</span>
+                  </div>
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>up to<br />Guests</span>
+                </div>
+                {/* Host */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                  <UserCheck style={{ width: 'clamp(1.1rem, 1.8vw, 1.5rem)', height: 'clamp(1.1rem, 1.8vw, 1.5rem)', color: 'rgba(231,222,199,0.75)', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Personal<br />host</span>
+                </div>
+                {/* Wi-Fi */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                  <Wifi style={{ width: 'clamp(1.1rem, 1.8vw, 1.5rem)', height: 'clamp(1.1rem, 1.8vw, 1.5rem)', color: 'rgba(231,222,199,0.75)', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Starlink<br />Wi-Fi</span>
+                </div>
+                {/* Premium */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                  <Gem style={{ width: 'clamp(1.1rem, 1.8vw, 1.5rem)', height: 'clamp(1.1rem, 1.8vw, 1.5rem)', color: 'rgba(231,222,199,0.75)', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Premium<br />furnishings</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
+          </motion.div>
 
-            {/* Photo tile — natural aspect on mobile, flex-fill on desktop */}
-            <div className="aspect-[3/2] md:aspect-auto md:flex-[1] rounded-2xl overflow-hidden relative cursor-pointer group" style={{ minHeight: 0 }}
-              onClick={() => setGalleryStartIdx(villa.rooms.slice(0, 2).reduce((a, r) => a + r.photos.length, 0))}>
-              <img src={villa.rooms[2]?.photos[0] ?? '/images/sandhills/canoes.webp'} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" loading="lazy" />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.5) 0%, transparent 50%)' }} />
-            </div>
-
+          {/* Thumbnail strip */}
+          <div className="flex gap-2 mt-2">
+            {[
+              { src: '/images/villa/01_Exterior/1.webp', idx: 0 },
+              { src: '/images/villa/01_Exterior/2.webp', idx: 1 },
+              { src: '/images/villa/02_Interior_Casita/1.webp', idx: 4 },
+              { src: '/images/villa/03_Terrace/1.webp', idx: 10 },
+              { src: '/images/villa/04_Sauna/1.webp', idx: 12 },
+            ].map((thumb, i) => (
+              <motion.button
+                key={thumb.src}
+                className="flex-1 rounded-xl overflow-hidden relative group"
+                style={{ height: 'clamp(140px, 22vh, 240px)' }}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 + i * 0.07 }}
+                onClick={() => setGalleryStartIdx(thumb.idx)}
+              >
+                <img
+                  src={thumb.src}
+                  alt=""
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-night/0 group-hover:bg-night/20 transition-colors duration-300 rounded-xl" />
+              </motion.button>
+            ))}
           </div>
-          </div>
+          </div>{/* /max-w-[82%] wrapper */}
         </div>
 
         {/* ── Act 2 — Comfort ─────────────────────────────────────────────── */}
-        <div ref={act2Ref} className="relative min-h-screen flex flex-col p-6 md:p-12 lg:p-16" style={{ zIndex: 1 }}>
+        <div ref={act2Ref} className="relative min-h-screen flex flex-col px-6 pb-6 pt-3 md:px-12 md:pb-12 md:pt-5 lg:px-16 lg:pb-16 lg:pt-6" style={{ zIndex: 1 }}>
           <div className="w-full md:max-w-[82%] mx-auto">
-          <div className="pt-4 md:pt-6 max-w-[52rem]">
-            <p className="font-eyebrow text-signal uppercase mb-5 md:mb-6" style={{ fontSize: '11px', letterSpacing: '0.26em' }}>The standard you deserve</p>
-            <h2 className="font-display text-linen mb-6 md:mb-8" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(2rem, 4.5vw, 3.8rem)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
-              A five-star hotel.<br />Except the hotel is a{' '}
-              <img src="/images/f-orest.webp" alt="forest" className="inline-block" style={{ height: '1.2em', width: 'auto', verticalAlign: '0em', borderRadius: '0.12em' }} />.
-            </h2>
-            <p className="text-linen/60 max-w-[46rem]" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(0.88rem, 1.1vw, 1rem)', lineHeight: 1.72 }}>
-              We took everything a great hotel does well — the linens, the espresso, the speakers, the grill on the deck — and placed it somewhere no hotel could afford to be. A hundred and twenty-six acres of longleaf pine. A private lake with nobody else on it. The kind of quiet that makes you realize how much noise you were carrying.
-            </p>
-          </div>
-          <div style={{ marginTop: 'clamp(24px, 4vh, 52px)' }}>
+          <div>
+            {/* Typographic interlude — mixed scale */}
+            <div className="text-center mx-auto" style={{ maxWidth: '68rem', paddingTop: 'clamp(0px, 0.6vh, 8px)', paddingBottom: 'clamp(32px, 6vh, 76px)' }}>
+              <h2 className="font-display text-linen" style={{ lineHeight: 1.04, letterSpacing: '-0.02em', margin: 0 }}>
+                <span style={{ display: 'block', fontVariationSettings: '"wght" 350, "opsz" 144, "SOFT" 50, "WONK" 0', fontSize: 'clamp(2.7rem, 6.4vw, 5.6rem)', color: 'rgba(242,237,227,0.97)' }}>
+                  The very best
+                </span>
+                <span style={{ display: 'block', fontVariationSettings: '"wght" 360, "opsz" 96, "SOFT" 30, "WONK" 0', fontSize: 'clamp(1.35rem, 2.9vw, 2.4rem)', color: 'rgba(231,222,199,0.82)', marginTop: 'clamp(6px, 1.2vh, 14px)' }}>
+                  of everything we could find
+                </span>
+                <span style={{ display: 'block', fontStyle: 'italic', fontVariationSettings: '"wght" 340, "opsz" 96, "SOFT" 40, "WONK" 0', fontSize: 'clamp(1.5rem, 3.3vw, 2.8rem)', color: 'rgba(231,222,199,0.55)', marginTop: 'clamp(4px, 0.9vh, 12px)' }}>
+                  is <span style={{ color: '#B05329' }}>included</span>.
+                </span>
+              </h2>
+            </div>
+
             <div className="grid gap-3 grid-cols-2 md:grid-cols-3">
               {/* Placeholder cell — full width on mobile */}
               <div className="col-span-2 md:col-span-1 rounded-xl flex flex-col justify-between pt-3 px-6 pb-3 md:p-8 h-[clamp(94px,13vh,133px)] md:h-[clamp(192px,31vh,308px)]" style={{ background: 'rgba(242,237,227,0.06)', border: '1px solid rgba(242,237,227,0.08)' }}>
@@ -466,11 +584,178 @@ export default function VillaCascade() {
           </div>
         </div>
 
+        {/* ── B2B — Private hire (frosted matte glass) ────────────────────── */}
+        <div className="relative flex flex-col px-6 pb-10 pt-2 md:px-12 md:pb-16 lg:px-16" style={{ zIndex: 1 }}>
+          <div className="w-full md:max-w-[82%] mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                position: 'relative',
+                borderRadius: 28,
+                overflow: 'hidden',
+                background: 'rgba(242,237,227,0.055)',
+                backdropFilter: 'blur(30px) saturate(118%)',
+                WebkitBackdropFilter: 'blur(30px) saturate(118%)',
+                border: '1px solid rgba(242,237,227,0.12)',
+                boxShadow: 'inset 0 1px 0 rgba(242,237,227,0.12), 0 30px 90px rgba(0,0,0,0.45)',
+                padding: 'clamp(30px, 5.5vh, 72px) clamp(24px, 4vw, 68px)',
+              }}
+            >
+              {/* warm sheen, top-left */}
+              <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none',
+                background: 'radial-gradient(130% 90% at 0% 0%, rgba(176,83,41,0.12), transparent 55%)' }} />
+
+              <div style={{ position: 'relative' }}>
+                {/* Header */}
+                <p className="font-eyebrow text-signal uppercase mb-5" style={{ fontSize: '11px', letterSpacing: '0.26em' }}>
+                  Beyond leisure
+                </p>
+                <h2 className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(2.18rem, 4.83vw, 3.91rem)', lineHeight: 1.08, letterSpacing: '-0.02em', maxWidth: '22ch', marginBottom: 'clamp(14px, 2vh, 20px)' }}>
+                  If your company needs a place{' '}
+                  <span style={{ fontStyle: 'italic', color: 'rgba(231,222,199,0.55)' }}>set apart.</span>
+                </h2>
+                <p className="text-linen/55" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(0.88rem, 1.1vw, 1rem)', lineHeight: 1.72, maxWidth: '46rem', marginBottom: 'clamp(26px, 4vh, 48px)' }}>
+                  The whole estate, privately yours — no other guests, no schedule but your own. Bring the team somewhere the work actually lands.
+                </p>
+
+                {/* Mode switcher — illustrated tabs */}
+                <div className="grid grid-cols-3 lg:grid-cols-6" style={{ gap: 'clamp(8px, 1vw, 14px)', marginBottom: 'clamp(18px, 2.6vh, 28px)' }}>
+                  {B2B_CASES.map((c, i) => {
+                    const active = b2bIdx === i;
+                    return (
+                      <button
+                        key={c.title}
+                        onClick={() => setB2bIdx(i)}
+                        aria-pressed={active}
+                        style={{
+                          position: 'relative', borderRadius: 13, overflow: 'hidden',
+                          cursor: 'pointer', padding: 0, background: 'transparent',
+                          border: active ? '1px solid rgba(176,83,41,0.95)' : '1px solid rgba(242,237,227,0.10)',
+                          boxShadow: active ? '0 8px 24px rgba(0,0,0,0.35)' : 'none',
+                          transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                        }}
+                      >
+                        <div style={{ position: 'relative', height: 'clamp(58px, 9vh, 86px)' }}>
+                          <img
+                            src={c.image} alt={c.title} loading="lazy"
+                            style={{
+                              width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+                              opacity: active ? 1 : 0.42,
+                              filter: active ? 'none' : 'grayscale(45%)',
+                              transition: 'opacity 0.35s ease, filter 0.35s ease, transform 0.5s ease',
+                              transform: active ? 'scale(1.0)' : 'scale(1.0)',
+                            }}
+                          />
+                          <div style={{ position: 'absolute', inset: 0,
+                            background: active
+                              ? 'linear-gradient(to top, rgba(8,6,4,0.88) 0%, rgba(8,6,4,0.1) 70%)'
+                              : 'linear-gradient(to top, rgba(8,6,4,0.78) 0%, rgba(8,6,4,0.3) 70%)' }} />
+                          <span style={{
+                            position: 'absolute', left: 10, right: 8, bottom: 8,
+                            fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 'clamp(9.5px, 0.95vw, 12px)',
+                            fontWeight: 600, letterSpacing: '0.10em', textTransform: 'uppercase',
+                            color: active ? '#F2EDE3' : 'rgba(231,222,199,0.62)',
+                            transition: 'color 0.3s ease', lineHeight: 1.1,
+                          }}>
+                            {c.short}
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Detail window */}
+                <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(242,237,227,0.10)', background: 'rgba(8,6,4,0.22)' }}>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={b2bIdx}
+                      initial={{ opacity: 0, y: 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)]"
+                    >
+                      {/* Image */}
+                      <div style={{ position: 'relative', minHeight: 'clamp(200px, 32vh, 360px)' }}>
+                        <img
+                          src={B2B_CASES[b2bIdx].image}
+                          alt={B2B_CASES[b2bIdx].title}
+                          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                        />
+                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.55) 0%, transparent 45%)' }} />
+                        <div className="md:hidden" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.9) 0%, transparent 55%)' }} />
+                      </div>
+
+                      {/* Content */}
+                      <div style={{ padding: 'clamp(24px, 3.4vh, 44px) clamp(22px, 3vw, 48px)' }}>
+                        <p className="font-eyebrow text-signal uppercase" style={{ fontSize: '10px', letterSpacing: '0.24em', marginBottom: 10 }}>
+                          {B2B_CASES[b2bIdx].tag}
+                        </p>
+                        <h3 className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 72, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.5rem, 2.8vw, 2.2rem)', lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: 'clamp(12px, 1.6vh, 18px)' }}>
+                          {B2B_CASES[b2bIdx].title}
+                        </h3>
+                        <p style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(0.86rem, 1.05vw, 0.98rem)', lineHeight: 1.7, color: 'rgba(231,222,199,0.62)', marginBottom: 'clamp(18px, 2.6vh, 26px)' }}>
+                          {B2B_CASES[b2bIdx].body}
+                        </p>
+
+                        {/* Meta row */}
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(16px, 2.4vw, 36px)', paddingBottom: 'clamp(16px, 2.4vh, 22px)', marginBottom: 'clamp(16px, 2.4vh, 22px)', borderBottom: '1px solid rgba(242,237,227,0.12)' }}>
+                          {B2B_CASES[b2bIdx].meta.map((m) => (
+                            <div key={m.label}>
+                              <p className="font-eyebrow uppercase" style={{ fontSize: '9px', letterSpacing: '0.20em', color: 'rgba(231,222,199,0.35)', marginBottom: 4 }}>{m.label}</p>
+                              <p className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 24', fontWeight: 380, fontSize: 'clamp(0.95rem, 1.3vw, 1.15rem)', lineHeight: 1.2 }}>{m.value}</p>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Highlights */}
+                        <ul style={{ display: 'flex', flexDirection: 'column', gap: 10, listStyle: 'none', padding: 0, margin: 0 }}>
+                          {B2B_CASES[b2bIdx].highlights.map((h) => (
+                            <li key={h} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                              <span style={{ color: '#B05329', flexShrink: 0, marginTop: 1, lineHeight: 1.5 }}>—</span>
+                              <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(0.82rem, 1vw, 0.92rem)', lineHeight: 1.5, color: 'rgba(231,222,199,0.7)' }}>{h}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                {/* CTA */}
+                <div style={{ marginTop: 'clamp(28px, 4vh, 52px)', display: 'flex', alignItems: 'center', gap: 'clamp(16px, 2vw, 28px)', flexWrap: 'wrap' }}>
+                  <a
+                    href="#reserve"
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 10,
+                      background: '#B05329', color: '#F2EDE3', textDecoration: 'none',
+                      padding: 'clamp(12px, 1.6vh, 16px) clamp(22px, 2.4vw, 32px)',
+                      borderRadius: 999, flexShrink: 0,
+                      fontFamily: 'Inter Tight, Inter, system-ui, sans-serif',
+                      fontSize: 11, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase',
+                    }}
+                  >
+                    Get a quote that suits you
+                    <span style={{ fontSize: 14, lineHeight: 1 }}>→</span>
+                  </a>
+                  <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(12px, 1vw, 14px)', color: 'rgba(231,222,199,0.42)', margin: 0, lineHeight: 1.5 }}>
+                    Send your dates and headcount — we'll come back fast, no obligation.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
         {/* ── Act 3 — Experience ──────────────────────────────────────────── */}
         <div
           ref={act3Ref}
           data-zone="light"
-          className="relative min-h-screen flex flex-col justify-between p-6 md:p-12 lg:p-16"
+          className="relative min-h-screen flex flex-col p-6 md:p-12 lg:p-16"
           style={{ zIndex: 1 }}
         >
 
@@ -484,100 +769,158 @@ export default function VillaCascade() {
             </motion.p>
           </div>
 
-          <div className="relative" style={{ zIndex: 1 }}>
-            <p className="font-eyebrow text-signal uppercase mb-5" style={{ fontSize: '11px', letterSpacing: '0.26em' }}>What's included</p>
-            <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-              {([
-                { kind: 'placeholder' as const },
-                { kind: 'card' as const, card: EXPERIENCE_CARDS[0], idx: 0 },
-                { kind: 'card' as const, card: EXPERIENCE_CARDS[4], idx: 4 },
-                { kind: 'card' as const, card: EXPERIENCE_CARDS[2], idx: 2 },
-                { kind: 'card' as const, card: EXPERIENCE_CARDS[3], idx: 3 },
-                { kind: 'card' as const, card: EXPERIENCE_CARDS[1], idx: 1, wide: true },
-                { kind: 'placeholder' as const },
-                ...EXPERIENCE_CARDS.slice(5).map((card, i) => ({ kind: 'card' as const, card, idx: i + 5, wide: i === EXPERIENCE_CARDS.slice(5).length - 1 })),
-              ] as Array<{ kind: 'placeholder' } | { kind: 'card'; card: typeof EXPERIENCE_CARDS[0]; idx: number; wide?: boolean }>)
-              .map((slot, si) => slot.kind === 'placeholder' ? (
-                <div key={`ph-${si}`} className="col-span-full lg:col-span-1 flex flex-col">
-                  <div className="rounded-xl flex flex-col justify-end p-5 h-[clamp(110px,25vw,160px)] lg:h-[clamp(259px,calc(35vh_+_39px),399px)]" style={{ position: 'relative', overflow: 'hidden', background: si === 0 ? 'linear-gradient(135deg, rgba(176,83,41,0.38) 0%, rgba(201,169,110,0.22) 55%, rgba(212,192,155,0.12) 100%)' : 'linear-gradient(160deg, #3A5218 0%, #4A6820 45%, #2E4A18 100%)', border: si === 0 ? '1px solid rgba(31,36,32,0.12)' : '1px solid rgba(60,40,16,0.5)' }}>
-                    {si === 0 ? (<>
-                      {/* Sun watermark */}
-                      <svg viewBox="0 0 160 160" aria-hidden="true" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -52%)', width: '145%', height: '145%', opacity: 0.15, pointerEvents: 'none' }}>
-                        {/* Rays */}
-                        {Array.from({ length: 16 }, (_, i) => {
-                          const angle = (i / 16) * Math.PI * 2;
-                          const r1 = 52, r2 = 76;
-                          return (
-                            <line key={i}
-                              x1={80 + Math.cos(angle) * r1} y1={80 + Math.sin(angle) * r1}
-                              x2={80 + Math.cos(angle) * r2} y2={80 + Math.sin(angle) * r2}
-                              stroke="#1F2420" strokeWidth={i % 2 === 0 ? 2 : 1.2} strokeLinecap="round"
-                            />
-                          );
-                        })}
-                        {/* Core circle */}
-                        <circle cx="80" cy="80" r="42" fill="#1F2420" />
-                        {/* Inner highlight ring */}
-                        <circle cx="80" cy="80" r="42" fill="none" stroke="#1F2420" strokeWidth="3" />
-                      </svg>
-                      <p className="font-eyebrow uppercase" style={{ position: 'relative', fontSize: '10px', letterSpacing: '0.24em', color: '#B05329', marginBottom: '10px' }}>No tab. No clock.</p>
-                      <p className="font-display italic" style={{ position: 'relative', fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 500, fontSize: 'clamp(1.25rem, 1.8vw, 1.7rem)', lineHeight: 1.12, letterSpacing: '-0.02em', color: '#1F2420' }}>Everything here<br />is already yours.</p>
-                    </>) : (<>
-                      {/* Leaf watermark */}
-                      <svg
-                        viewBox="0 0 160 260"
-                        aria-hidden="true"
-                        style={{
-                          position: 'absolute', top: '50%', left: '50%',
-                          transform: 'translate(-44%, -52%) rotate(-18deg)',
-                          width: '135%', height: '155%',
-                          opacity: 0.13, pointerEvents: 'none',
-                        }}
-                      >
-                        {/* Stem */}
-                        <line x1="80" y1="248" x2="80" y2="262" stroke="rgba(231,222,199,1)" strokeWidth="2.5" strokeLinecap="round" />
-                        {/* Leaf body */}
-                        <path
-                          d="M80,8 C110,20 145,65 148,118 C151,172 128,222 80,244 C32,222 9,172 12,118 C15,65 50,20 80,8 Z"
-                          fill="rgba(231,222,199,1)"
-                        />
-                        {/* Central midrib */}
-                        <line x1="80" y1="8" x2="80" y2="244" stroke="rgba(20,28,16,0.45)" strokeWidth="2.2" />
-                        {/* Lateral veins — left */}
-                        <path d="M80,60  Q58,72  36,78"  fill="none" stroke="rgba(20,28,16,0.35)" strokeWidth="1.6" />
-                        <path d="M80,90  Q55,105 30,112" fill="none" stroke="rgba(20,28,16,0.35)" strokeWidth="1.6" />
-                        <path d="M80,122 Q55,138 28,146" fill="none" stroke="rgba(20,28,16,0.35)" strokeWidth="1.6" />
-                        <path d="M80,154 Q56,170 32,178" fill="none" stroke="rgba(20,28,16,0.35)" strokeWidth="1.6" />
-                        <path d="M80,186 Q60,200 40,206" fill="none" stroke="rgba(20,28,16,0.35)" strokeWidth="1.6" />
-                        {/* Lateral veins — right */}
-                        <path d="M80,60  Q102,72 124,78"  fill="none" stroke="rgba(20,28,16,0.35)" strokeWidth="1.6" />
-                        <path d="M80,90  Q105,105 130,112" fill="none" stroke="rgba(20,28,16,0.35)" strokeWidth="1.6" />
-                        <path d="M80,122 Q105,138 132,146" fill="none" stroke="rgba(20,28,16,0.35)" strokeWidth="1.6" />
-                        <path d="M80,154 Q104,170 128,178" fill="none" stroke="rgba(20,28,16,0.35)" strokeWidth="1.6" />
-                        <path d="M80,186 Q100,200 120,206" fill="none" stroke="rgba(20,28,16,0.35)" strokeWidth="1.6" />
-                      </svg>
-                      <p className="font-eyebrow uppercase" style={{ position: 'relative', fontSize: '10px', letterSpacing: '0.24em', color: 'rgba(212,128,78,0.85)', marginBottom: '10px' }}>Grown here</p>
-                      <p className="font-display italic" style={{ position: 'relative', fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 500, fontSize: 'clamp(1.25rem, 1.8vw, 1.7rem)', lineHeight: 1.12, letterSpacing: '-0.02em', color: 'rgba(231,222,199,0.95)' }}>The land feeds<br />the table.</p>
-                    </>)}
-                  </div>
-                </div>
-              ) : (
-                <div key={slot.card.title} className={`flex flex-col${'wide' in slot && slot.wide ? ' col-span-full lg:col-span-1' : ''}`}>
-                  <div className="mb-[6px] w-full flex items-center justify-center" style={{ height: 'clamp(28px, 4vh, 40px)', borderRadius: '8px', background: 'rgba(31,36,32,0.11)', border: '1px solid rgba(31,36,32,0.14)' }}>
-                    <span className="font-display italic" style={{ fontVariationSettings: '"opsz" 20, "SOFT" 30', fontWeight: 520, fontSize: '15px', letterSpacing: '-0.01em', color: '#B05329', lineHeight: 1 }}>{slot.card.badge}</span>
-                  </div>
-                  <button onClick={() => setExperienceIdx(slot.idx)} className="w-full rounded-xl overflow-hidden relative group text-left" style={{ height: 'clamp(220px, 35vh, 360px)' }}>
-                    <img src={slot.card.image} alt={slot.card.title} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" />
-                    <div className="absolute inset-x-0 bottom-0 px-3 pb-3 pt-12" style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.97) 0%, rgba(8,6,4,0.65) 55%, transparent 100%)' }}>
-                      <p className="font-eyebrow text-signal uppercase mb-[5px]" style={{ fontSize: '9px', letterSpacing: '0.24em' }}>{slot.card.note}</p>
-                      <p className="font-display text-linen leading-tight" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontStyle: 'italic', fontSize: 'clamp(1.05rem, 1.9vw, 1.4rem)', letterSpacing: '-0.01em' }}>{slot.card.title}</p>
+          {/* ── Experience dock — magnify on hover, expand-to-bento on click ── */}
+          {(() => { const expanded = expandedExp !== null; return (
+          <div
+            className="relative grid grid-cols-2 md:grid-cols-4"
+            style={{
+              // @ts-expect-error custom CSS vars
+              '--tileH': 'clamp(150px, 22vh, 232px)',
+              '--tileHalf': 'clamp(86px, 12.5vh, 128px)',
+              zIndex: 1,
+              gap: 'clamp(10px, 1.4vw, 18px)',
+              marginTop: 'clamp(32px, 6vh, 72px)',
+              paddingBottom: 'clamp(64px, 9vh, 116px)',
+              gridAutoRows: expanded ? 'var(--tileHalf)' : 'var(--tileH)',
+              gridAutoFlow: expanded ? 'dense' : 'row',
+            }}
+            onMouseLeave={() => setHoverExp(null)}
+          >
+            {EXPERIENCE_CARDS.map((card, i) => {
+              const isExpanded = expandedExp === i;
+              const isHover    = !expanded && hoverExp === i;
+              const dimmed     = !expanded && hoverExp !== null && hoverExp !== i;
+              return (
+                <motion.div
+                  layout
+                  key={card.title}
+                  onMouseEnter={() => { if (!expanded) setHoverExp(i); }}
+                  onClick={() => setExpandedExp(isExpanded ? null : i)}
+                  transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
+                  style={{
+                    position: 'relative', cursor: 'pointer',
+                    zIndex: isExpanded ? 40 : (isHover ? 30 : 1),
+                    gridColumn: isExpanded ? '1 / span 2' : undefined,
+                    gridRow:    isExpanded ? '1 / span 4' : undefined,
+                  }}
+                >
+                  {/* Inner — handles hover magnify without disturbing grid layout */}
+                  <motion.div
+                    animate={{ scale: isHover ? 1.08 : 1, y: isHover ? -6 : 0, opacity: dimmed ? 0.5 : 1 }}
+                    transition={{ type: 'spring', stiffness: 320, damping: 26, mass: 0.6 }}
+                    style={{ position: 'relative', width: '100%', height: '100%' }}
+                  >
+                    {/* Image surface — fills whole tile */}
+                    <div
+                      style={{
+                        position: 'relative', borderRadius: isExpanded ? 18 : 16, overflow: 'hidden',
+                        width: '100%', height: '100%',
+                        boxShadow: (isExpanded || isHover) ? '0 28px 64px rgba(0,0,0,0.42)' : '0 6px 18px rgba(0,0,0,0.16)',
+                        transition: 'box-shadow 0.3s ease',
+                      }}
+                    >
+                      <img src={card.image} alt={card.title} loading="lazy" className="w-full h-full object-cover" style={{ display: 'block' }} />
+                      <div style={{ position: 'absolute', inset: 0, background: isExpanded
+                        ? 'linear-gradient(to top, rgba(8,6,4,0.96) 0%, rgba(8,6,4,0.55) 38%, rgba(8,6,4,0.05) 72%)'
+                        : 'linear-gradient(to top, rgba(8,6,4,0.86) 0%, rgba(8,6,4,0.12) 55%, transparent 80%)' }} />
+
+                      {/* Number */}
+                      <span style={{ position: 'absolute', top: 10, left: 12, fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 10, fontWeight: 600, letterSpacing: '0.18em', color: 'rgba(242,237,227,0.7)' }}>
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+
+                      {/* Close button — only when expanded */}
+                      {isExpanded && (
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setExpandedExp(null); }}
+                          aria-label="Close"
+                          style={{ position: 'absolute', top: 10, right: 10, width: 32, height: 32, borderRadius: 999, border: '1px solid rgba(242,237,227,0.25)', background: 'rgba(8,6,4,0.5)', backdropFilter: 'blur(8px)', color: '#F2EDE3', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', lineHeight: 1, fontSize: 16 }}
+                        >
+                          ×
+                        </button>
+                      )}
+
+                      {/* Compact title — collapsed/other tiles */}
+                      {!isExpanded && (
+                        <div style={{ position: 'absolute', left: 12, right: 12, bottom: 10 }}>
+                          <p className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontSize: expanded ? 'clamp(0.78rem, 1vw, 0.95rem)' : 'clamp(0.95rem, 1.5vw, 1.25rem)', lineHeight: 1.1, letterSpacing: '-0.01em' }}>
+                            {card.title}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Expanded detail content */}
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.4, delay: 0.22 }}
+                          style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 'clamp(16px, 2vw, 28px)', overflow: 'hidden' }}
+                        >
+                          <p className="font-eyebrow uppercase" style={{ fontSize: '10px', letterSpacing: '0.24em', color: 'rgba(176,83,41,0.95)', marginBottom: 8 }}>
+                            {card.badge}
+                          </p>
+                          <h3 className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 72, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.3rem, 2.4vw, 2rem)', lineHeight: 1.08, letterSpacing: '-0.02em', marginBottom: 'clamp(8px, 1.2vh, 14px)' }}>
+                            {card.headline}
+                          </h3>
+                          <p style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(12px, 1vw, 14px)', lineHeight: 1.6, color: 'rgba(231,222,199,0.72)', marginBottom: 'clamp(10px, 1.6vh, 16px)', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                            {card.body}
+                          </p>
+                          {/* Meta tags */}
+                          <div className="flex flex-wrap gap-2" style={{ marginBottom: 'clamp(10px, 1.4vh, 14px)' }}>
+                            {[card.schedule, card.location].filter(Boolean).map((t) => (
+                              <span key={t} style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(242,237,227,0.7)', background: 'rgba(242,237,227,0.1)', borderRadius: 6, padding: '4px 9px' }}>
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                          {/* Points — hidden on very short tiles */}
+                          <ul className="hidden sm:flex" style={{ listStyle: 'none', padding: 0, margin: 0, flexDirection: 'column', gap: 5 }}>
+                            {card.points.slice(0, 3).map((pt: string) => (
+                              <li key={pt} style={{ display: 'flex', alignItems: 'baseline', gap: 8, fontFamily: 'Inter, system-ui', fontSize: 'clamp(11px, 0.95vw, 12.5px)', color: 'rgba(231,222,199,0.6)', lineHeight: 1.45 }}>
+                                <span style={{ color: '#B05329', flexShrink: 0, fontSize: 7 }}>●</span>
+                                {pt}
+                              </li>
+                            ))}
+                          </ul>
+                        </motion.div>
+                      )}
                     </div>
-                    <div className="absolute inset-0 ring-1 ring-inset ring-linen/0 group-hover:ring-linen/20 rounded-xl transition-all duration-300" />
-                  </button>
-                </div>
-              ))}
-            </div>
+
+                    {/* Thesis card grows below — hover only (collapsed state) */}
+                    <AnimatePresence>
+                      {isHover && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                          style={{ position: 'absolute', top: '100%', left: 0, right: 0, overflow: 'hidden', zIndex: 30 }}
+                        >
+                          <div style={{
+                            marginTop: 8, borderRadius: 14,
+                            padding: 'clamp(12px, 1.6vh, 16px) clamp(13px, 1.4vw, 18px)',
+                            background: 'rgba(8,6,4,0.92)',
+                            backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)',
+                            border: '1px solid rgba(242,237,227,0.12)',
+                            boxShadow: '0 20px 50px rgba(0,0,0,0.45)',
+                          }}>
+                            <p className="font-display italic" style={{ fontVariationSettings: '"opsz" 32, "SOFT" 40', fontWeight: 420, fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)', lineHeight: 1.25, letterSpacing: '-0.01em', color: '#F2EDE3' }}>
+                              {card.badge}
+                            </p>
+                            <p className="font-eyebrow uppercase" style={{ fontSize: '9px', letterSpacing: '0.2em', color: 'rgba(176,83,41,0.92)', marginTop: 7 }}>
+                              {card.note}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                </motion.div>
+              );
+            })}
           </div>
+          ); })()}
         </div>
 
         {/* ── Act 4 — Discovery ───────────────────────────────────────────── */}
@@ -608,113 +951,6 @@ export default function VillaCascade() {
           </div>
         </div>
 
-        {/* ── Act 5 — The Sandhills Logic ─────────────────────────────────── */}
-        <div ref={act5Ref} className="relative min-h-screen p-6 md:p-10 lg:p-12 flex flex-col justify-center" style={{ zIndex: 1 }}>
-
-          {/* Grid texture */}
-          <div aria-hidden="true" style={{
-            position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0,
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)',
-            backgroundSize: 'clamp(56px, 5vw, 88px) clamp(56px, 5vw, 88px)',
-            maskImage: 'radial-gradient(circle at 50% 45%, black, transparent 72%)',
-            WebkitMaskImage: 'radial-gradient(circle at 50% 45%, black, transparent 72%)',
-            opacity: 0.35,
-          }} />
-
-          {/* Stage card */}
-          <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.72fr)]" style={{
-            position: 'relative', zIndex: 1,
-            gap: 'clamp(24px, 4vw, 64px)',
-            minHeight: 'calc(100dvh - clamp(72px, 10vh, 112px))',
-            border: '1px solid rgba(255,255,255,0.10)',
-            borderRadius: '24px',
-            padding: 'clamp(24px, 3.5vw, 52px)',
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 50%, rgba(0,0,0,0.08) 100%)',
-            backdropFilter: 'blur(28px) saturate(1.4)',
-            WebkitBackdropFilter: 'blur(28px) saturate(1.4)',
-            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.18)',
-            overflow: 'hidden',
-          }}>
-            {/* Glass shine */}
-            <div aria-hidden="true" style={{
-              position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0,
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 28%, transparent 52%)',
-              borderRadius: '24px',
-            }} />
-
-            {/* ── Left column ── */}
-            <div style={{ display: 'grid', gridTemplateRows: 'auto 1fr auto', gap: 'clamp(16px, 2.5vh, 32px)', minHeight: 0, paddingBottom: 'clamp(52px, 7vh, 84px)' }}>
-
-              {/* Kicker */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', color: '#D4804E', textTransform: 'uppercase', letterSpacing: '0.38em', fontSize: '11px' }}>
-                <span style={{ width: '38px', height: '1px', background: '#D4804E', flexShrink: 0 }} />
-                The Sandhills Logic
-              </div>
-
-              {/* Hero type */}
-              <div style={{ alignSelf: 'center', padding: 'clamp(16px,2.5vh,32px) 0 clamp(14px,2vh,24px)' }}>
-                <h2 className="font-display" style={{
-                  margin: 0,
-                  fontVariationSettings: '"opsz" 144, "SOFT" 30, "WONK" 0',
-                  fontWeight: 380,
-                  fontSize: 'clamp(31px, 6.4vw, 104px)',
-                  lineHeight: 0.84,
-                  letterSpacing: '-0.055em',
-                  color: 'rgba(231,222,199,0.96)',
-                }}>
-                  The beach got busy.
-                  <span style={{ display: 'block', marginTop: '0.06em', color: 'rgba(231,222,199,0.32)', fontStyle: 'italic' }}>
-                    The pines stayed quiet.
-                  </span>
-                </h2>
-
-                <button
-                  onClick={() => setContactOpen(true)}
-                  className="group flex items-end justify-between gap-6 transition-all duration-300 hover:bg-signal w-full text-left"
-                  style={{
-                    marginTop: 'clamp(14px, 2.5vh, 28px)',
-                    border: '1px solid rgba(255,255,255,0.09)',
-                    borderRadius: '14px',
-                    padding: 'clamp(14px, 2vh, 22px) clamp(16px, 2vw, 28px)',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <p className="font-display italic text-linen/60 group-hover:text-linen/90 transition-colors duration-300" style={{ fontVariationSettings: '"opsz" 24, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(18px, 1.8vw, 28px)', lineHeight: 1.15, letterSpacing: '-0.03em', margin: 0 }}>
-                    Six private villas on 126&nbsp;acres of pine, lake, and distance from the crowd.
-                  </p>
-                  <span className="font-eyebrow text-signal group-hover:text-linen transition-colors duration-300 shrink-0" style={{ fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', paddingBottom: '0.2em', whiteSpace: 'nowrap' }}>
-                    Ready? Let's talk →
-                  </span>
-                </button>
-              </div>
-
-              {/* Proof strip */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', borderTop: '1px solid rgba(231,222,199,0.10)', borderBottom: '1px solid rgba(231,222,199,0.10)', background: 'rgba(255,255,255,0.025)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)' }}>
-                {PRIVATE_STATS.map((s, i) => (
-                  <div key={s.label} style={{ padding: 'clamp(22px, 3.2vh, 38px) clamp(20px, 2.4vw, 36px)', borderRight: i < 2 ? '1px solid rgba(231,222,199,0.10)' : undefined }}>
-                    <span className="font-display" style={{ display: 'block', marginBottom: '10px', fontVariationSettings: '"opsz" 48', fontWeight: 380, fontSize: 'clamp(36px, 4.8vw, 76px)', lineHeight: 0.82, letterSpacing: '-0.055em', color: '#D4804E' }}>{s.num}</span>
-                    <span style={{ display: 'block', color: 'rgba(231,222,199,0.45)', fontSize: '12px', letterSpacing: '0.26em', textTransform: 'uppercase', lineHeight: 1.5, fontFamily: 'Inter, system-ui, sans-serif' }}>{s.label}</span>
-                    <span className="font-display italic" style={{ display: 'block', marginTop: '8px', color: i % 2 === 0 ? '#D4804E' : 'rgba(231,222,199,0.82)', fontVariationSettings: '"opsz" 20', fontWeight: 380, fontSize: 'clamp(17px, 1.5vw, 24px)', lineHeight: 1.1, letterSpacing: '-0.03em', fontStyle: 'italic' }}>{s.desc}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Right column ── */}
-            <div style={{ minHeight: 0, borderRadius: '20px', overflow: 'hidden' }}>
-              <Img
-                src="/tQujJzxhwVManasll_NAR_ggQ1SVvm.jpg"
-                alt=""
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              />
-            </div>
-
-            {/* Footer note */}
-            <p className="font-display italic hidden lg:block" style={{ position: 'absolute', left: 'clamp(24px, 3.5vw, 52px)', bottom: 'clamp(20px, 2.5vw, 36px)', maxWidth: '540px', fontVariationSettings: '"opsz" 18, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(12px, 0.95vw, 15px)', lineHeight: 1.5, letterSpacing: '-0.01em', color: 'rgba(231,222,199,0.28)', margin: 0, pointerEvents: 'none' }}>
-              People are not tired of water. They are tired of what the coast became: traffic, crowds, concrete, and commerce. The Sandhills keeps the water and removes the noise.
-            </p>
-          </div>
-        </div>
 
       </section>
 
@@ -732,19 +968,7 @@ export default function VillaCascade() {
       )}
       {createPortal(
         <AnimatePresence>
-          {experienceIdx !== null && <ExperienceModal cards={EXPERIENCE_CARDS} startIdx={experienceIdx} onClose={() => setExperienceIdx(null)} />}
-        </AnimatePresence>,
-        document.body
-      )}
-      {createPortal(
-        <AnimatePresence>
           {nearbyIdx !== null && <NearbyModal pois={sandhillsData.nearby} startIdx={nearbyIdx} onClose={() => setNearbyIdx(null)} />}
-        </AnimatePresence>,
-        document.body
-      )}
-      {createPortal(
-        <AnimatePresence>
-          {contactOpen && <ContactModal onClose={() => setContactOpen(false)} />}
         </AnimatePresence>,
         document.body
       )}
@@ -771,105 +995,6 @@ function ModalNavBar({ current, total, onPrev, onNext }: { current: number; tota
       <span className="font-eyebrow text-linen/35" style={{ fontSize: '10px', letterSpacing: '0.24em' }}>{String(current + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}</span>
       <button onClick={onNext} disabled={current === total - 1} aria-label="Next" className="flex items-center justify-center w-8 h-8 rounded-full bg-linen/[0.07] hover:bg-linen/15 text-linen/50 hover:text-linen disabled:opacity-20 disabled:pointer-events-none transition-all"><ChevronR /></button>
     </div>
-  );
-}
-
-// ── Experience Modal ──────────────────────────────────────────────────────────
-
-function ExperienceModal({ cards, startIdx, onClose }: { cards: typeof EXPERIENCE_CARDS; startIdx: number; onClose: () => void }) {
-  const [currentIdx, setCurrentIdx] = useState(startIdx);
-  const [fishOpen, setFishOpen] = useState(false);
-  const card = cards[currentIdx];
-  const isFishing = card.title === 'Fishing';
-
-  function go(newIdx: number) { setFishOpen(false); setCurrentIdx(newIdx); }
-
-  return (
-    <motion.div className="fixed inset-0 z-[300] flex items-center justify-center gap-4 p-5 md:p-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.22 }} onClick={onClose}>
-      <div className="absolute inset-0 bg-night/80 backdrop-blur-md" />
-      <motion.div layout="position" className="relative z-10 w-full max-w-3xl bg-nightWarm rounded-2xl overflow-hidden shadow-2xl shrink-0 flex flex-col" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.97, y: 10 }} transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }} onClick={(e) => e.stopPropagation()}>
-        <AnimatePresence mode="wait">
-          <motion.div key={currentIdx} className="flex flex-col md:flex-row" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.2 } }} exit={{ opacity: 0, transition: { duration: 0.12 } }}>
-            <div className="w-full md:w-[42%] shrink-0 overflow-hidden" style={{ aspectRatio: '4/3' }}>
-              <img src={card.image} alt={card.title} className="w-full h-full object-cover" />
-            </div>
-            <div className="flex-1 flex flex-col p-8 md:p-10 overflow-y-auto" style={{ maxHeight: '70vh' }}>
-              <p className="font-eyebrow text-signal uppercase mb-4" style={{ fontSize: '10px', letterSpacing: '0.26em' }}>{card.note}</p>
-              <h2 className="font-display text-linen mb-5" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.4rem, 2.4vw, 2rem)', lineHeight: 1.1, letterSpacing: '-0.015em' }}>{card.headline}</h2>
-              <p className="text-linen/65 mb-6" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(0.82rem, 1vw, 0.92rem)', lineHeight: 1.72 }}>{card.body}</p>
-              <div className="grid grid-cols-2 gap-px mb-5" style={{ background: 'rgba(255,255,255,0.06)' }}>
-                <div className="bg-nightWarm px-3 py-2.5"><p className="font-eyebrow text-linen/30 mb-1" style={{ fontSize: '8px', letterSpacing: '0.25em' }}>SCHEDULE</p><p className="text-linen" style={{ fontFamily: 'Montserrat', fontSize: '12px', fontWeight: 300, lineHeight: 1.4 }}>{card.schedule}</p></div>
-                <div className="bg-nightWarm px-3 py-2.5"><p className="font-eyebrow text-linen/30 mb-1" style={{ fontSize: '8px', letterSpacing: '0.25em' }}>LOCATION</p><p className="text-linen" style={{ fontFamily: 'Montserrat', fontSize: '12px', fontWeight: 300, lineHeight: 1.4 }}>{card.location}</p></div>
-              </div>
-              <ul>
-                {card.points.map((pt, i) => (
-                  <li key={i} className={`flex items-center gap-3 py-2 ${i < card.points.length - 1 ? 'border-b border-white/[0.06]' : ''}`}>
-                    <span className="w-1 h-1 rounded-full bg-signal shrink-0" />
-                    <span className="flex-1" style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: 300, lineHeight: 1.5, color: 'rgba(210,200,185,0.85)' }}>{pt}</span>
-                    {isFishing && i === 0 && (
-                      <button onClick={() => setFishOpen((v) => !v)} className="shrink-0 hover:opacity-75 transition-opacity duration-300">
-                        <img src="/images/fish/Largemouth Bass.webp" alt="What lives in the water" className="block" style={{ height: '2rem', width: 'auto' }} />
-                      </button>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-        <ModalNavBar current={currentIdx} total={cards.length} onPrev={() => go(currentIdx - 1)} onNext={() => go(currentIdx + 1)} />
-        <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 flex items-center justify-center w-8 h-8 rounded-full bg-linen/10 hover:bg-linen/20 text-linen/60 hover:text-linen transition-all z-10">
-          <svg viewBox="0 0 16 16" fill="currentColor" className="w-3.5 h-3.5"><path d="M2.22 2.22a.75.75 0 011.06 0L8 6.94l4.72-4.72a.75.75 0 111.06 1.06L9.06 8l4.72 4.72a.75.75 0 11-1.06 1.06L8 9.06l-4.72 4.72a.75.75 0 01-1.06-1.06L6.94 8 2.22 3.28a.75.75 0 010-1.06z" /></svg>
-        </button>
-      </motion.div>
-      <AnimatePresence>
-        {fishOpen && <FishCatalogPanel onClose={() => setFishOpen(false)} />}
-      </AnimatePresence>
-    </motion.div>
-  );
-}
-
-// ── Fish Catalog Panel ────────────────────────────────────────────────────────
-
-function FishCatalogPanel({ onClose }: { onClose: () => void }) {
-  return (
-    <motion.div className="relative z-10 w-full max-w-md bg-nightWarm rounded-2xl overflow-hidden shadow-2xl shrink-0 flex flex-col" initial={{ opacity: 0, x: 48 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 48 }} transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }} onClick={(e) => e.stopPropagation()}>
-      <div className="flex items-center gap-3 px-5 py-4 border-b border-linen/[0.08] shrink-0">
-        <button onClick={onClose} className="flex items-center justify-center w-7 h-7 rounded-full bg-linen/10 hover:bg-linen/20 text-linen/60 hover:text-linen transition-all">
-          <svg viewBox="0 0 16 16" fill="currentColor" className="w-3 h-3"><path d="M10.78 3.22a.75.75 0 010 1.06L7.06 8l3.72 3.72a.75.75 0 11-1.06 1.06l-4.25-4.25a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 0z" /></svg>
-        </button>
-        <p className="font-eyebrow text-linen/50 uppercase" style={{ fontSize: '10px', letterSpacing: '0.24em' }}>What lives in the water</p>
-      </div>
-      <div className="grid px-5 pt-3 pb-2 shrink-0" style={{ gridTemplateColumns: '6.8rem 1fr auto' }}>
-        {['', 'Species', 'Biomass'].map((label) => (
-          <p key={label} className="font-eyebrow text-linen/25 uppercase" style={{ fontSize: '10px', letterSpacing: '0.22em' }}>{label}</p>
-        ))}
-      </div>
-      <div className="overflow-y-auto">
-        {FISH_DATA.map((fish, i) => (
-          <div key={fish.name} className={`grid items-center gap-x-3 px-5 py-2 ${i < FISH_DATA.length - 1 ? 'border-b border-linen/[0.06]' : ''}`} style={{ gridTemplateColumns: '6.8rem 1fr auto' }}>
-            <div className="flex items-center justify-center h-[4.5rem]">
-              {fish.image ? <img src={fish.image} alt={fish.name} style={{ height: '4rem', width: 'auto', maxWidth: '5rem', objectFit: 'contain' }} /> : <span className="font-eyebrow text-linen/20 text-xl">·</span>}
-            </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-linen font-medium" style={{ fontFamily: 'Montserrat', fontSize: '14px' }}>{fish.name}</span>
-                {fish.type !== 'other' && (
-                  <span className="font-eyebrow uppercase px-[7px] py-[3px] rounded-full" style={{ fontSize: '9px', letterSpacing: '0.18em', background: fish.type === 'predator' ? 'rgba(176,83,41,0.25)' : 'rgba(255,255,255,0.07)', color: fish.type === 'predator' ? 'rgba(200,120,80,0.9)' : 'rgba(210,200,185,0.4)' }}>
-                    {fish.type === 'predator' ? 'Predator' : 'Forage'}
-                  </span>
-                )}
-              </div>
-              <p className="text-linen/45 leading-snug mb-1" style={{ fontFamily: 'Montserrat', fontSize: '13px', fontWeight: 300 }}>{fish.trait}</p>
-              <p className="font-eyebrow text-linen/25 uppercase" style={{ fontSize: '10px', letterSpacing: '0.16em' }}>{fish.layer}</p>
-            </div>
-            <div className="text-right">
-              <span className="font-display text-linen/70" style={{ fontVariationSettings: '"opsz" 20', fontWeight: 380, fontSize: '16px' }}>{fish.bio}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </motion.div>
   );
 }
 
@@ -941,137 +1066,3 @@ function ComfortModal({ cards, startIdx, onClose }: { cards: typeof COMFORT_CARD
   );
 }
 
-// ── Contact Modal ──────────────────────────────────────────────────────────────
-
-function ContactModal({ onClose }: { onClose: () => void }) {
-  const [mode, setMode] = useState<'pick' | 'callback' | 'email'>('pick');
-  const [done, setDone] = useState(false);
-
-  const [name, setName]         = useState('');
-  const [phone, setPhone]       = useState('');
-  const [email, setEmail]       = useState('');
-  const [question, setQuestion] = useState('');
-  const [err, setErr]           = useState(false);
-
-  const submitCallback = () => {
-    if (!name || !phone) { setErr(true); setTimeout(() => setErr(false), 1200); return; }
-    setDone(true);
-  };
-  const submitEmail = () => {
-    if (!name || !email || !question) { setErr(true); setTimeout(() => setErr(false), 1200); return; }
-    setDone(true);
-  };
-
-  return (
-    <motion.div
-      className="fixed inset-0 z-[400] flex items-center justify-center p-4"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.22 }}
-      style={{ background: 'rgba(20,18,14,0.72)' }}
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-    >
-      <motion.div
-        className="relative w-full bg-bone"
-        style={{ maxWidth: mode === 'pick' ? 640 : 440, borderRadius: 4 }}
-        initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 16 }}
-        transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close */}
-        <button onClick={onClose} className="absolute top-4 right-4 text-ink2 hover:text-ink transition-colors" style={{ fontSize: 22, lineHeight: 1, background: 'none', border: 'none', cursor: 'pointer' }}>×</button>
-
-        <AnimatePresence mode="wait">
-          {done ? (
-            <motion.div key="done" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center px-10 py-14">
-              <p className="font-display italic text-signal mb-2" style={{ fontSize: '1.5rem' }}>
-                {mode === 'callback' ? "We'll call you shortly." : 'Answer on its way.'}
-              </p>
-              <p className="font-eyebrow font-light text-ink2" style={{ fontSize: 12, letterSpacing: '0.1em' }}>
-                {mode === 'callback' ? 'The pines can wait a minute.' : 'We respond within 24 hours.'}
-              </p>
-            </motion.div>
-
-          ) : mode === 'pick' ? (
-            <motion.div key="pick" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
-              <div className="px-8 pt-10 pb-4">
-                <p className="font-display italic text-ink" style={{ fontSize: '1.4rem', lineHeight: 1.25 }}>How would you like to connect?</p>
-                <p className="font-eyebrow font-light text-ink2 mt-1" style={{ fontSize: 12, letterSpacing: '0.1em' }}>Pick what works for you.</p>
-              </div>
-              <div className="grid grid-cols-2 gap-px m-8 mt-5" style={{ background: 'rgba(31,36,32,0.10)', border: '1px solid rgba(31,36,32,0.10)', borderRadius: 3 }}>
-                <button onClick={() => setMode('callback')} className="group flex flex-col items-start p-7 bg-bone hover:bg-signal transition-colors duration-300 text-left" style={{ borderRadius: '2px 0 0 2px', border: 'none', cursor: 'pointer' }}>
-                  <span style={{ fontSize: 28, marginBottom: 16, display: 'block' }}>📞</span>
-                  <span className="font-display group-hover:text-linen transition-colors duration-300" style={{ fontSize: '1.05rem', lineHeight: 1.3, display: 'block', marginBottom: 8, color: '#1F2420' }}>
-                    Call me back<br />in 60 seconds
-                  </span>
-                  <span className="font-eyebrow font-light group-hover:text-linen/60 transition-colors duration-300" style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(90,86,80,0.55)' }}>
-                    Leave your number →
-                  </span>
-                </button>
-                <button onClick={() => setMode('email')} className="group flex flex-col items-start p-7 bg-bone hover:bg-signal transition-colors duration-300 text-left" style={{ borderRadius: '0 2px 2px 0', border: 'none', cursor: 'pointer' }}>
-                  <span style={{ fontSize: 28, marginBottom: 16, display: 'block' }}>✉️</span>
-                  <span className="font-display group-hover:text-linen transition-colors duration-300" style={{ fontSize: '1.05rem', lineHeight: 1.3, display: 'block', marginBottom: 8, color: '#1F2420' }}>
-                    Ask a question,<br />get an answer by email
-                  </span>
-                  <span className="font-eyebrow font-light group-hover:text-linen/60 transition-colors duration-300" style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(90,86,80,0.55)' }}>
-                    We reply within 24 h →
-                  </span>
-                </button>
-              </div>
-            </motion.div>
-
-          ) : mode === 'callback' ? (
-            <motion.div key="callback" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }} className="px-8 py-10">
-              <button onClick={() => setMode('pick')} className="font-eyebrow font-light text-ink2/50 hover:text-signal transition-colors mb-6" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-                ← Back
-              </button>
-              <p className="font-display italic text-ink mb-1" style={{ fontSize: '1.4rem', lineHeight: 1.25 }}>We'll call you back.</p>
-              <p className="font-eyebrow font-light text-ink2 mb-7" style={{ fontSize: 12, letterSpacing: '0.1em' }}>Available Mon–Sun · 8 am–8 pm EST</p>
-              {([
-                { label: 'Your name',    type: 'text', ph: 'First name',          val: name,  set: setName },
-                { label: 'Phone number', type: 'tel',  ph: '+1 (___) ___-____',   val: phone, set: setPhone },
-              ] as const).map(f => (
-                <div key={f.label} className="mb-4">
-                  <label className="block font-eyebrow font-light text-ink2 mb-1" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>{f.label}</label>
-                  <input type={f.type} placeholder={f.ph} value={f.val} onChange={e => f.set(e.target.value)}
-                    className={`w-full bg-boneWarm text-ink font-eyebrow font-light text-sm px-3 py-2.5 outline-none border transition-colors ${err && !f.val ? 'border-signal' : 'border-divider focus:border-signal'}`}
-                    style={{ borderRadius: 0 }} />
-                </div>
-              ))}
-              <button onClick={submitCallback} className="w-full font-eyebrow font-light text-linen bg-signal hover:bg-signal2 transition-colors py-3 mt-2" style={{ fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', borderRadius: 0, border: 'none', cursor: 'pointer' }}>
-                Call me in 60 seconds →
-              </button>
-            </motion.div>
-
-          ) : (
-            <motion.div key="email" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }} className="px-8 py-10">
-              <button onClick={() => setMode('pick')} className="font-eyebrow font-light text-ink2/50 hover:text-signal transition-colors mb-6" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-                ← Back
-              </button>
-              <p className="font-display italic text-ink mb-1" style={{ fontSize: '1.4rem', lineHeight: 1.25 }}>Ask us anything.</p>
-              <p className="font-eyebrow font-light text-ink2 mb-7" style={{ fontSize: 12, letterSpacing: '0.1em' }}>We respond within 24 hours.</p>
-              {([
-                { label: 'Your name',     type: 'text',  ph: 'First name',       val: name,  set: setName },
-                { label: 'Email address', type: 'email', ph: 'you@example.com',  val: email, set: setEmail },
-              ] as const).map(f => (
-                <div key={f.label} className="mb-4">
-                  <label className="block font-eyebrow font-light text-ink2 mb-1" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>{f.label}</label>
-                  <input type={f.type} placeholder={f.ph} value={f.val} onChange={e => f.set(e.target.value)}
-                    className={`w-full bg-boneWarm text-ink font-eyebrow font-light text-sm px-3 py-2.5 outline-none border transition-colors ${err && !f.val ? 'border-signal' : 'border-divider focus:border-signal'}`}
-                    style={{ borderRadius: 0 }} />
-                </div>
-              ))}
-              <div className="mb-4">
-                <label className="block font-eyebrow font-light text-ink2 mb-1" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Your question</label>
-                <textarea value={question} onChange={e => setQuestion(e.target.value)} placeholder="What would you like to know?" rows={4}
-                  className={`w-full bg-boneWarm text-ink font-eyebrow font-light text-sm px-3 py-2.5 outline-none border transition-colors resize-none ${err && !question ? 'border-signal' : 'border-divider focus:border-signal'}`}
-                  style={{ borderRadius: 0 }} />
-              </div>
-              <button onClick={submitEmail} className="w-full font-eyebrow font-light text-linen bg-signal hover:bg-signal2 transition-colors py-3 mt-1" style={{ fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', borderRadius: 0, border: 'none', cursor: 'pointer' }}>
-                Send my question →
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    </motion.div>
-  );
-}

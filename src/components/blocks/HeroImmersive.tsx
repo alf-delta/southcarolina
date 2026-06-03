@@ -1,12 +1,10 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
-import { TreeEvergreenIcon, WavesIcon, HouseSimpleIcon, BicycleIcon, PathIcon } from '@phosphor-icons/react';
+import { motion, useScroll, useTransform, useMotionValueEvent, type MotionValue } from 'framer-motion';
+import { TreeEvergreenIcon, WavesIcon, HouseSimpleIcon, BicycleIcon, PathIcon, FishIcon, HexagonIcon, FireIcon } from '@phosphor-icons/react';
 import Button from '../primitives/Button';
-import Img from '../primitives/Img';
 
 export const FONT     = 'Coco Sharp, Encode Sans Expanded, ui-sans-serif';
 const LEFT     = 'max(24px, calc(50vw - 760px))';
-const LEFT_NEG = 'min(-24px, calc(760px - 50vw))';
 
 export const PRESS = [
   {
@@ -44,6 +42,62 @@ export const GLANCE = [
 ];
 
 
+// ── Second-screen territory highlights — broad → specific ──
+const TERRITORY = [
+  { icon: WavesIcon,   value: ['A lake', 'of your own'],     label: '18 private acres of still water — swim, paddle, or just watch the herons. No motors, no strangers, ever.' },
+  { icon: PathIcon,    value: ['Roam', 'without limits'],    label: 'Twelve miles of marked trail through longleaf pine, with four trailheads and a creek loop worth finding.' },
+  { icon: FishIcon,    value: ['Stocked,', 'not hopeful'],   label: 'Bass, bream and catfish actually stocked in the lake. Rods at the dock — and no license on private water.' },
+  { icon: HexagonIcon, value: ['Clean enough', 'for bees'],  label: 'Twenty hives and a million bees on land clean enough to keep them — honey in your pantry from fifty feet away.' },
+  { icon: BicycleIcon, value: ['Bikes,', 'always ready'],    label: 'A fleet of e-bikes kept charged and waiting — helmets, locks and a route map, enough for the whole group.' },
+  { icon: FireIcon,    value: ['Two', 'wood-fired saunas'],  label: 'Two wood-fired saunas with natural-stone heat, steps from the lake. Heat, cold plunge, then do it again.' },
+];
+const NUMH = 'clamp(50px, 6.5vh, 78px)';
+const EDGE = 50 / TERRITORY.length;   // % inset to first/last dot center
+const SPAN = 100 - 2 * EDGE;          // % the fill line travels
+
+// Numeral fades + lifts in as the progress line reaches its index
+function HeroNumeral({ progress, index }: { progress: MotionValue<number>; index: number }) {
+  const opacity = useTransform(progress, [index - 0.1, index + 0.5], [0, 1]);
+  const y       = useTransform(progress, [index - 0.1, index + 0.5], [16, 0]);
+  const Icon    = TERRITORY[index].icon;
+  return (
+    <motion.div style={{ opacity, y, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', minHeight: NUMH, textAlign: 'center', padding: '0 6px' }}>
+      <Icon size={52} weight="duotone" className="text-signal" style={{ opacity: 0.9, marginBottom: 14 }} />
+      <span
+        className="font-display"
+        style={{ fontVariationSettings: '"opsz" 72, "SOFT" 20, "WONK" 0', fontWeight: 360, fontSize: 'clamp(1.05rem, 1.55vw, 1.6rem)', letterSpacing: '-0.01em', lineHeight: 1.14, color: 'rgba(242,237,227,0.97)' }}
+      >
+        {TERRITORY[index].value[0]}<br />{TERRITORY[index].value[1]}
+      </span>
+    </motion.div>
+  );
+}
+
+// Dot lights up on the track as the line passes it
+function HeroDot({ progress, index }: { progress: MotionValue<number>; index: number }) {
+  const t      = useTransform(progress, [index - 0.15, index + 0.25], [0, 1]);
+  const scale  = useTransform(t, [0, 1], [0.5, 1]);
+  const bg     = useTransform(t, [0, 1], ['rgba(242,237,227,0.22)', '#B05329']);
+  const shadow = useTransform(t, [0, 1], ['0 0 0 rgba(176,83,41,0)', '0 0 14px rgba(176,83,41,0.7)']);
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <motion.div style={{ width: 11, height: 11, borderRadius: 999, scale, background: bg, boxShadow: shadow }} />
+    </div>
+  );
+}
+
+// Label fades in just after its numeral
+function HeroLabel({ progress, index }: { progress: MotionValue<number>; index: number }) {
+  const opacity = useTransform(progress, [index + 0.05, index + 0.6], [0, 1]);
+  return (
+    <motion.p
+      style={{ opacity, textAlign: 'center', padding: '12px 8px 0', margin: '0 auto', maxWidth: 280, fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(12px, 1vw, 14px)', lineHeight: 1.55, letterSpacing: '0.005em', color: 'rgba(231,222,199,0.66)' }}
+    >
+      {TERRITORY[index].label}
+    </motion.p>
+  );
+}
+
 interface Props {
   primaryCta: { label: string; href: string };
   secondaryCta: { label: string; href: string };
@@ -54,28 +108,23 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
   const { scrollY } = useScroll();
   const h = typeof window !== 'undefined' ? window.innerHeight : 800;
 
-  // ── Keep data-zone in sync so StickyHeader logo flips dark when bg lightens ──
-  useMotionValueEvent(scrollY, 'change', (y) => {
+  // ── Second screen stays dark, so StickyHeader logo stays light throughout ──
+  useMotionValueEvent(scrollY, 'change', () => {
     const el = sectionRef.current;
     if (!el) return;
-    if (y > h * 0.68) {
-      el.setAttribute('data-zone', 'light');
-      el.setAttribute('data-bg', '#EAE3D3');
-    } else {
-      el.setAttribute('data-zone', 'dark');
-      el.removeAttribute('data-bg');
-    }
+    el.setAttribute('data-zone', 'dark');
+    el.removeAttribute('data-bg');
   });
 
   // ── Hero content exits at natural scroll speed ──
   const heroY       = useTransform(scrollY, [0, h * 0.72], [0, -h * 0.72]);
   const heroOpacity = useTransform(scrollY, [h * 0.38, h * 0.65], [1, 0]);
 
-  // ── Overlay lightens + becomes semi-transparent to reveal land.webp ──
+  // ── Overlay stays dark — land.webp reveals under a heavy dark wash ──
   const stickyBg = useTransform(
     scrollY,
     [h * 0.52, h * 0.82],
-    ['rgba(10,8,5,1)', 'rgba(234,227,211,0.42)']
+    ['rgba(10,8,5,1)', 'rgba(10,8,5,0.5)']
   );
 
   // ── Traveling wordmark: starts at blur-panel center, travels to top ──
@@ -87,18 +136,28 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
   const contentOpacity = useTransform(scrollY, [h * 0.84, h * 1.0], [0, 1]);
   const contentY       = useTransform(scrollY, [h * 0.84, h * 1.0], [24, 0]);
 
+  // Wordmark stays linen on the dark second screen
   const wordmarkColor = useTransform(
     scrollY,
     [h * 0.58, h * 0.80],
-    ['rgba(242,237,227,0.96)', 'rgba(31,36,32,0.97)']
+    ['rgba(242,237,227,0.96)', 'rgba(242,237,227,0.96)']
   );
+
+  // Scroll-end vibe cue — fades in near the end of the sticky hold
+  // Territory highlights load one-by-one, left → right, across the sticky budget
+  // Progress runs a half-step past the last index so the final item fully reveals
+  const territoryProgress = useTransform(scrollY, [h * 1.02, h * 1.9], [0, TERRITORY.length]);
+  const territoryFill     = useTransform(territoryProgress, [0, TERRITORY.length - 1], ['0%', `${SPAN}%`]);
+
+  const cueOpacity = useTransform(scrollY, [h * 1.92, h * 2.12], [0, 1]);
+  const cueY       = useTransform(scrollY, [h * 1.92, h * 2.12], [18, 0]);
 
 
   return (
     <section
       ref={sectionRef}
       data-zone="dark"
-      className="bg-night h-[100dvh] md:h-[260dvh]"
+      className="bg-night h-[100dvh] md:h-[320dvh]"
       style={{ position: 'relative' }}
     >
       <div style={{ position: 'sticky', top: 0, height: '100dvh', overflow: 'hidden' }}>
@@ -222,128 +281,127 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
             <motion.span style={{ fontFamily: FONT, fontSize: 'clamp(22px, 3.4vw, 48px)', fontWeight: sandhillsWeight, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#8C3F1E', lineHeight: 1.05, flexShrink: 0 }}>
               Sandhills
             </motion.span>
-            <motion.span style={{ fontFamily: 'Fraunces, Canela, Georgia, serif', fontSize: 'clamp(26px, 3.2vw, 56px)', fontWeight: 300, fontStyle: 'italic', color: 'rgba(31,36,32,0.90)', lineHeight: 1, whiteSpace: 'nowrap', opacity: isOpacity }}>
+            <motion.span style={{ fontFamily: 'Fraunces, Canela, Georgia, serif', fontSize: 'clamp(26px, 3.2vw, 56px)', fontWeight: 300, fontStyle: 'italic', color: 'rgba(242,237,227,0.88)', lineHeight: 1, whiteSpace: 'nowrap', opacity: isOpacity }}>
               is…
             </motion.span>
           </div>
 
-          {/* ── Pillars + press — full-width, centered ── */}
+          {/* ── Positioning statement — completes "Horizons Sandhills is…" ── */}
           <motion.div
             style={{
               opacity: contentOpacity,
               y: contentY,
-              marginTop: 'clamp(16px, 2.5vh, 40px)',
-              marginLeft: LEFT_NEG,
-              width: '100vw',
+              marginTop: 'clamp(16px, 2.6vh, 40px)',
             }}
           >
-            {/* inner centered container */}
-            <div style={{ maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto', paddingLeft: LEFT, paddingRight: LEFT }}>
-
-              {/* Three pillars — shared green velour substrate */}
-              <div
+            {/* Heading */}
+            <div style={{ maxWidth: 'min(54rem, calc(100vw - 48px))' }}>
+              <h2
+                className="font-display"
                 style={{
-                  background: '#F0E3D0',
-                  borderRadius: '12px',
-                  padding: 'clamp(14px, 2.2vh, 26px) clamp(20px, 2.5vw, 32px)',
-                  marginBottom: 'clamp(10px, 1.6vh, 20px)',
-                  boxShadow: '3px 8px 28px rgba(0,0,0,0.18)',
+                  fontVariationSettings: '"wght" 200, "opsz" 144, "SOFT" 50, "WONK" 0',
+                  fontWeight: 200,
+                  fontSize: 'clamp(2.1rem, 4.6vw, 4.2rem)',
+                  lineHeight: 1.03,
+                  letterSpacing: '-0.02em',
+                  color: 'rgba(242,237,227,0.96)',
+                  textShadow: '0 2px 30px rgba(0,0,0,0.5)',
                 }}
               >
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
-                    columnGap: 'clamp(12px, 2vw, 28px)',
-                  }}
-                >
-                  {GLANCE.map((item) => (
-                    <div key={item.category} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <item.icon size={36} weight="duotone" className="text-signal" style={{ opacity: 0.85, flexShrink: 0, alignSelf: 'center' }} />
-                        <span
-                          className="font-display text-signal leading-none"
-                          style={{ fontSize: 'clamp(1.95rem, 3.12vw, 3.38rem)', fontWeight: 400, letterSpacing: '-0.02em' }}
-                        >
-                          {item.value}
-                        </span>
-                      </div>
-                      <span className="eyebrow text-ink2" style={{ fontSize: '13px' }}>{item.category}</span>
-                      <span
-                        className="font-display italic text-signal"
-                        style={{ fontSize: 15, lineHeight: 1.45, fontWeight: 300, fontVariationSettings: '"SOFT" 30, "opsz" 18' }}
-                      >
-                        {item.description}
-                      </span>
-                    </div>
+                A five-star hotel.<br />Except the hotel is a{' '}
+                <img
+                  src="/images/f-orest.webp"
+                  alt="forest"
+                  style={{ display: 'inline-block', height: '0.9em', width: 'auto', position: 'relative', top: '-3px', verticalAlign: '-0.05em', borderRadius: '0.12em' }}
+                />.
+              </h2>
+            </div>
+
+            {/* Numerals — scroll-scrubbed "loading bar", full viewport width, no panel */}
+            <div
+              style={{
+                marginTop: 'clamp(24px, 3.6vh, 52px)',
+                marginLeft: 'min(-24px, calc(760px - 50vw))',
+                width: '100vw',
+                paddingLeft: 'clamp(24px, 4vw, 72px)',
+                paddingRight: 'clamp(24px, 4vw, 72px)',
+              }}
+            >
+              {/* Numerals row */}
+              <div style={{ display: 'grid', gridTemplateColumns: `repeat(${TERRITORY.length}, minmax(0, 1fr))`, alignItems: 'flex-end' }}>
+                {TERRITORY.map((_, i) => (
+                  <HeroNumeral key={i} progress={territoryProgress} index={i} />
+                ))}
+              </div>
+
+              {/* Progress track + dots */}
+              <div style={{ position: 'relative', margin: 'clamp(11px, 1.5vh, 17px) 0' }}>
+                {/* base line */}
+                <div style={{ position: 'absolute', left: `${EDGE}%`, right: `${EDGE}%`, top: '50%', transform: 'translateY(-50%)', height: 2, borderRadius: 2, background: 'rgba(242,237,227,0.13)' }} />
+                {/* fill line */}
+                <motion.div style={{ position: 'absolute', left: `${EDGE}%`, top: '50%', transform: 'translateY(-50%)', height: 2, borderRadius: 2, width: territoryFill, background: '#B05329', boxShadow: '0 0 12px rgba(176,83,41,0.55)' }} />
+                {/* dots */}
+                <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: `repeat(${TERRITORY.length}, minmax(0, 1fr))`, alignItems: 'center' }}>
+                  {TERRITORY.map((_, i) => (
+                    <HeroDot key={i} progress={territoryProgress} index={i} />
                   ))}
                 </div>
               </div>
 
-              {/* Press — shared glass substrate */}
-              <div
-                style={{
-                  width: 'min(860px, calc(100% - clamp(220px, 20vw, 360px)))',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  backgroundColor: 'rgba(234,227,211,0.14)',
-                  borderRadius: '12px',
-                  padding: 'clamp(14px, 2.2vh, 22px) clamp(18px, 2.2vw, 28px)',
-                }}
-              >
-                <span style={{ fontFamily: FONT, fontSize: '14px', fontWeight: 700, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#B05329', display: 'block', marginBottom: '14px' }}>
-                  Located in a region celebrated by
-                </span>
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                    gap: 'clamp(18px, 2.6vh, 29px) 47px',
-                    alignItems: 'start',
-                  }}
-                >
-                  {PRESS.map((p) => {
-                    const inner = (
-                      <>
-                        <Img src={p.logo} alt={p.name} style={{ height: '29px', width: 'auto', objectFit: 'contain', objectPosition: 'left', mixBlendMode: 'multiply', marginBottom: '10px', display: 'block' }} />
-                        <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px', lineHeight: 1.6, color: 'rgba(31,36,32,0.72)', margin: 0 }}>
-                          {p.description.split(/(".*?")/g).map((part, i) =>
-                            part.startsWith('"') && part.endsWith('"')
-                              ? <em key={i} style={{ fontStyle: 'normal', fontWeight: 500, color: '#B05329' }}>{part}</em>
-                              : part
-                          )}
-                        </p>
-                      </>
-                    );
-                    return p.href
-                      ? <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', pointerEvents: 'auto' }}>{inner}</a>
-                      : <div key={p.name} style={{ display: 'flex', flexDirection: 'column' }}>{inner}</div>;
-                  })}
-                </div>
+              {/* Labels row */}
+              <div style={{ display: 'grid', gridTemplateColumns: `repeat(${TERRITORY.length}, minmax(0, 1fr))`, alignItems: 'flex-start' }}>
+                {TERRITORY.map((_, i) => (
+                  <HeroLabel key={i} progress={territoryProgress} index={i} />
+                ))}
               </div>
-
             </div>
           </motion.div>
         </motion.div>
 
-        {/* ── Postmark — bottom right corner ── */}
-        <motion.img
-          src="/images/postmark.webp"
-          alt=""
-          aria-hidden="true"
-          className="hidden lg:block"
+        {/* ── Scroll-end vibe cue ── */}
+        <motion.div
+          className="hidden md:flex"
           style={{
             position: 'absolute',
-            bottom: 36,
-            right: 44,
-            width: 'clamp(293px, 26vw, 455px)',
-            height: 'auto',
-            zIndex: 8,
-            opacity: contentOpacity,
-            transform: 'rotate(13deg)',
+            left: 0,
+            right: 0,
+            bottom: 'clamp(26px, 5vh, 56px)',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 'clamp(12px, 1.8vh, 20px)',
+            paddingLeft: 24,
+            paddingRight: 24,
+            opacity: cueOpacity,
+            y: cueY,
             pointerEvents: 'none',
+            zIndex: 10,
           }}
-        />
+        >
+          <p
+            className="font-display"
+            style={{
+              textAlign: 'center',
+              maxWidth: '42rem',
+              fontVariationSettings: '"opsz" 64, "SOFT" 30',
+              fontWeight: 340,
+              fontSize: 'clamp(1.05rem, 1.9vw, 1.65rem)',
+              lineHeight: 1.32,
+              letterSpacing: '-0.01em',
+              color: 'rgba(242,237,227,0.92)',
+            }}
+          >
+            A place with a genuinely one-of-a-kind vibe.{' '}
+            <span style={{ fontStyle: 'italic', color: 'rgba(242,237,227,0.58)' }}>Don't believe us? See for yourself.</span>
+          </p>
+          <div className="animate-bounceCue" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+            <span className="eyebrow" style={{ fontSize: '10px', letterSpacing: '0.26em', color: 'rgba(242,237,227,0.5)' }}>
+              Scroll
+            </span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(242,237,227,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </div>
+        </motion.div>
 
       </div>
     </section>
