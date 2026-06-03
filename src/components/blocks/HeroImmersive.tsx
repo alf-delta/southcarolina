@@ -43,7 +43,7 @@ export const GLANCE = [
 
 
 // ── Second-screen territory highlights — broad → specific ──
-const TERRITORY = [
+export const TERRITORY = [
   { icon: WavesIcon,   value: ['A lake', 'of your own'],     label: '18 private acres of still water — swim, paddle, or just watch the herons. No motors, no strangers, ever.' },
   { icon: PathIcon,    value: ['Roam', 'without limits'],    label: 'Twelve miles of marked trail through longleaf pine, with four trailheads and a creek loop worth finding.' },
   { icon: FishIcon,    value: ['Stocked,', 'not hopeful'],   label: 'Bass, bream and catfish actually stocked in the lake. Rods at the dock — and no license on private water.' },

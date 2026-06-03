@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
-import { FONT, GLANCE, PRESS } from '../components/blocks/HeroImmersive';
+import { FONT } from '../components/blocks/HeroImmersive';
+import MobileRoadmap from '../components/blocks/MobileRoadmap';
 import { sandhillsData as d } from '../components/data/sandhills';
 import StructuredData from '../components/StructuredData';
 
@@ -75,7 +76,7 @@ export default function SandhillsLanding() {
         />
 
         {/* Mobile: GLANCE + PRESS — same cards as desktop, light bg */}
-        <div ref={mobileGlanceRef} className="md:hidden" style={{ background: '#EAE3D3', paddingBottom: 'clamp(16px, 3vh, 26px)', position: 'relative', overflow: 'hidden' }}>
+        <div ref={mobileGlanceRef} data-zone="dark" className="md:hidden" style={{ background: '#100D09', paddingBottom: 'clamp(20px, 4vh, 34px)', position: 'relative', overflow: 'hidden' }}>
 
           {/* Scroll-linked blur background */}
           <motion.div aria-hidden="true" style={{ position: 'absolute', inset: '-20%', y: glanceBgY, pointerEvents: 'none', zIndex: 0,
@@ -92,7 +93,7 @@ export default function SandhillsLanding() {
 
           {/* Wordmark carried from hero */}
           <div style={{ padding: '28px 24px 0' }}>
-            <div style={{ fontFamily: FONT, fontSize: 'clamp(26px, 7.5vw, 36px)', fontWeight: 200, letterSpacing: '0.18em', textTransform: 'uppercase', lineHeight: 1, color: 'rgba(31,36,32,0.72)' }}>
+            <div style={{ fontFamily: FONT, fontSize: 'clamp(26px, 7.5vw, 36px)', fontWeight: 200, letterSpacing: '0.18em', textTransform: 'uppercase', lineHeight: 1, color: 'rgba(242,237,227,0.85)' }}>
               HORIZONS
             </div>
             <div style={{ marginLeft: 10, marginTop: 3, display: 'flex', alignItems: 'baseline', gap: '0.35em', flexWrap: 'nowrap' }}>
@@ -100,7 +101,7 @@ export default function SandhillsLanding() {
                 Sandhills
               </span>
               <motion.span
-                style={{ fontFamily: 'Fraunces, Canela, Georgia, serif', fontSize: 'clamp(18px, 5vw, 26px)', fontWeight: 300, fontStyle: 'italic', color: 'rgba(31,36,32,0.82)', lineHeight: 1 }}
+                style={{ fontFamily: 'Fraunces, Canela, Georgia, serif', fontSize: 'clamp(18px, 5vw, 26px)', fontWeight: 300, fontStyle: 'italic', color: 'rgba(242,237,227,0.85)', lineHeight: 1 }}
                 initial={{ opacity: 0, y: 6 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-20px' }}
@@ -121,79 +122,39 @@ export default function SandhillsLanding() {
           >
             <h2
               className="font-display"
-              style={{ fontVariationSettings: '"opsz" 96, "SOFT" 50', fontWeight: 380, fontSize: 'clamp(1.85rem, 9vw, 2.6rem)', lineHeight: 1.06, letterSpacing: '-0.02em', color: 'rgba(31,36,32,0.94)' }}
+              style={{ fontVariationSettings: '"wght" 300, "opsz" 96, "SOFT" 50', fontSize: 'clamp(1.85rem, 9vw, 2.6rem)', lineHeight: 1.06, letterSpacing: '-0.02em', color: 'rgba(242,237,227,0.95)' }}
             >
               A five-star hotel.<br />Except the hotel is a{' '}
               <img src="/images/f-orest.webp" alt="forest" className="inline-block" style={{ height: '0.9em', width: 'auto', verticalAlign: '-0.05em', borderRadius: '0.12em' }} />.
             </h2>
           </motion.div>
 
-          {/* GLANCE pillars — same #F0E3D0 card as desktop */}
-          <motion.div
-            style={{ margin: '20px 16px 0', background: '#F0E3D0', borderRadius: 12, padding: 'clamp(16px, 3vh, 22px) clamp(16px, 4vw, 20px)', boxShadow: '3px 8px 28px rgba(0,0,0,0.14)' }}
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-          >
-            {/* Hero stat — 126 acres full width */}
-            {(() => { const hero = GLANCE[0]; return (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 5, paddingBottom: 'clamp(14px, 2.5vh, 20px)', marginBottom: 'clamp(14px, 2.5vh, 20px)', borderBottom: '1px solid rgba(31,36,32,0.10)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <hero.icon size={36} weight="duotone" className="text-signal" style={{ opacity: 0.85, flexShrink: 0 }} />
-                  <span className="font-display text-signal" style={{ fontSize: 'clamp(2.6rem, 14vw, 3.8rem)', fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 1 }}>
-                    {hero.value}
-                  </span>
-                </div>
-                <span className="font-eyebrow text-ink2" style={{ fontSize: 12 }}>{hero.category}</span>
-                <span className="font-display italic text-signal" style={{ fontSize: 13, lineHeight: 1.4, fontWeight: 300, fontVariationSettings: '"SOFT" 30, "opsz" 18' }}>
-                  {hero.description}
-                </span>
-              </div>
-            ); })()}
-            {/* 2×2 grid — remaining 4 stats */}
-            <div className="grid grid-cols-2 gap-x-4 gap-y-5">
-              {GLANCE.slice(1).map((item) => (
-                <div key={item.category} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                    <item.icon size={26} weight="duotone" className="text-signal" style={{ opacity: 0.85, flexShrink: 0 }} />
-                    <span className="font-display text-signal" style={{ fontSize: 'clamp(1.55rem, 8vw, 2.1rem)', fontWeight: 400, letterSpacing: '-0.02em', lineHeight: 1 }}>
-                      {item.value}
-                    </span>
-                  </div>
-                  <span className="font-eyebrow text-ink2" style={{ fontSize: 11 }}>{item.category}</span>
-                  <span className="font-display italic text-signal" style={{ fontSize: 12, lineHeight: 1.4, fontWeight: 300, fontVariationSettings: '"SOFT" 30, "opsz" 18' }}>
-                    {item.description}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
+          {/* Territory roadmap — vertical zigzag, scroll-loaded */}
+          <div style={{ marginTop: 'clamp(20px, 4vh, 36px)' }}>
+            <MobileRoadmap />
+          </div>
 
-          {/* PRESS — glass card */}
+          {/* Vibe cue — call to keep going */}
           <motion.div
-            style={{ margin: '10px 16px 0', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', backgroundColor: 'rgba(234,227,211,0.55)', borderRadius: 12, padding: 'clamp(14px, 2.5vh, 20px) clamp(16px, 4vw, 20px)', border: '1px solid rgba(31,36,32,0.08)' }}
+            className="text-center"
+            style={{ margin: 'clamp(28px, 6vh, 48px) 24px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.18 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p style={{ fontFamily: FONT, fontSize: 11, fontWeight: 700, letterSpacing: '0.26em', textTransform: 'uppercase', color: '#B05329', marginBottom: 14 }}>
-              Located in a region celebrated by
+            <p
+              className="font-display"
+              style={{ fontVariationSettings: '"wght" 360, "opsz" 64, "SOFT" 30', fontSize: 'clamp(1.2rem, 5.6vw, 1.6rem)', lineHeight: 1.3, letterSpacing: '-0.01em', color: 'rgba(242,237,227,0.9)', maxWidth: '24ch' }}
+            >
+              A place with a genuinely one-of-a-kind vibe.{' '}
+              <span style={{ fontStyle: 'italic', color: '#D4804E' }}>Don't believe us? See for yourself.</span>
             </p>
-            <div className="grid grid-cols-2 gap-x-6 gap-y-5">
-              {PRESS.map((p) => (
-                <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', gap: 7, textDecoration: 'none' }}>
-                  <img src={p.logo} alt={p.name} style={{ height: 24, width: 'auto', objectFit: 'contain', objectPosition: 'left', mixBlendMode: 'multiply' }} />
-                  <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 12, lineHeight: 1.55, color: 'rgba(31,36,32,0.65)', margin: 0 }}>
-                    {p.description.split(/(".*?")/g).map((part: string, i: number) =>
-                      part.startsWith('"') && part.endsWith('"')
-                        ? <em key={i} style={{ fontStyle: 'normal', fontWeight: 500, color: '#B05329' }}>{part}</em>
-                        : part
-                    )}
-                  </p>
-                </a>
-              ))}
+            <div className="animate-bounceCue" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+              <span className="font-eyebrow" style={{ fontSize: 10, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(242,237,227,0.5)' }}>Scroll</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(242,237,227,0.55)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
             </div>
           </motion.div>
 
