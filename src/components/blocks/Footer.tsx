@@ -5,7 +5,6 @@ const cols = [
     title: 'Stay',
     links: [
       { label: 'The Forest Villa', href: '#stays' },
-      { label: 'The House', href: '#stays' },
       { label: 'Rates & Availability', href: '#reserve' },
       { label: 'Gift Cards', href: '#' },
     ],
@@ -92,9 +91,12 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8">
-          <a href="#" className="font-display font-light text-linen text-xl"
-            style={{ fontVariationSettings: '"SOFT" 50, "opsz" 36', letterSpacing: '-0.02em' }}>
-            Horizons Sandhills
+          <a href="#" className="inline-flex items-center" aria-label="Horizons Sandhills">
+            <img
+              src="/logo.svg"
+              alt="Horizons Sandhills"
+              style={{ height: 32, width: 'auto', display: 'block', filter: 'brightness(0) invert(1)' }}
+            />
           </a>
           <p className="text-linen/40 text-sm">© 2026 Horizons Hospitality. McBee, South Carolina.</p>
         </div>

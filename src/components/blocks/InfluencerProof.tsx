@@ -45,9 +45,9 @@ export default function InfluencerProof() {
   return (
     <section
       data-zone="dark"
-      style={{ background: '#161B17', paddingTop: 'clamp(52px, 8vh, 96px)', paddingBottom: 'clamp(52px, 8vh, 96px)' }}
+      style={{ background: '#161B17', paddingTop: 'clamp(52px, 8vh, 96px)', paddingBottom: 'clamp(52px, 8vh, 96px)', paddingLeft: 'clamp(20px, 4vw, 64px)', paddingRight: 'clamp(20px, 4vw, 64px)' }}
     >
-      <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 clamp(20px, 4vw, 64px)' }}>
+      <div style={{ maxWidth: 1400, margin: '0 auto' }}>
 
         {/* Header */}
         <div style={{ marginBottom: 'clamp(28px, 4vh, 48px)' }}>

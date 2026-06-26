@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent, type MotionValue } from 'framer-motion';
 import { TreeEvergreenIcon, WavesIcon, HouseSimpleIcon, BicycleIcon, PathIcon, FireIcon, MoonStarsIcon } from '@phosphor-icons/react';
 import Button from '../primitives/Button';
+import { openBooking } from '../data/booking';
 
 export const FONT     = 'Coco Sharp, Encode Sans Expanded, ui-sans-serif';
 const LEFT     = 'max(24px, calc(50vw - 760px))';
@@ -225,7 +226,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
                   Sandhills
                 </span>
               </div>
-              <Button href={primaryCta.href} variant="primary" className="self-start">{primaryCta.label}</Button>
+              <Button onClick={openBooking} variant="primary" className="self-start">{primaryCta.label}</Button>
             </div>
 
             {/* Desktop — wordmark placeholder (invisible, holds layout) + tagline + buttons */}
@@ -242,7 +243,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
               {/* Right: CTAs */}
               <div className="flex flex-col items-end gap-4 shrink-0" style={{ transform: 'translateY(-25px)' }}>
                 <div className="flex flex-col gap-3 items-end">
-                  <Button href={primaryCta.href} variant="primary" className="!py-[11px] !min-h-0">{primaryCta.label}</Button>
+                  <Button onClick={openBooking} variant="primary" className="!py-[11px] !min-h-0">{primaryCta.label}</Button>
                   <Button href={secondaryCta.href} variant="ghost-light" className="!py-[11px] !min-h-0">{secondaryCta.label}</Button>
                 </div>
               </div>

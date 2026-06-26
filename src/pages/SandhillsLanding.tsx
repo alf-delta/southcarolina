@@ -19,9 +19,11 @@ import VillaCascade from '../components/blocks/VillaCascade';
 // import NearbyGrid from '../components/blocks/NearbyGrid';
 // import FaqAccordion from '../components/blocks/FaqAccordion';
 import FinalCtaImmersive from '../components/blocks/FinalCtaImmersive';
-import InfluencerProof from '../components/blocks/InfluencerProof';
 import GettingHere from '../components/blocks/GettingHere';
 import Footer from '../components/blocks/Footer';
+import BookingModal from '../components/blocks/BookingModal';
+import PrivateEventModal from '../components/blocks/PrivateEventModal';
+import { openBooking } from '../components/data/booking';
 import StackCard from '../components/primitives/StackCard';
 
 
@@ -220,7 +222,7 @@ export default function SandhillsLanding() {
               </motion.span>
             </button>
 
-            <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(12px, 1vw, 14px)', color: 'rgba(231,222,199,0.45)', margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(12px, 1vw, 14px)', color: '#1F2420', margin: 0, lineHeight: 1.5 }}>
               A short history of the land this property sits on.
             </p>
           </div>
@@ -240,11 +242,6 @@ export default function SandhillsLanding() {
           </AnimatePresence>
 
           <PressFeature />
-        </div>
-
-        {/* ── Influencer social proof ── */}
-        <div style={{ position: 'relative', zIndex: 20 }}>
-          <InfluencerProof />
         </div>
 
         {/* ── Map + drive times from nearby cities ── */}
@@ -276,7 +273,6 @@ export default function SandhillsLanding() {
         {/* ── Карточка 3: WAITING наплывает (z-index 50) ── */}
         <StackCard zIndex={50}>
           <FinalCtaImmersive
-            headline={d.finalCta.headline}
             sub={d.finalCta.sub}
             image={d.finalCta.image}
           />
@@ -300,13 +296,16 @@ export default function SandhillsLanding() {
           <p className="text-linen font-medium text-sm">From $450 / night</p>
           <p className="text-linen/50 text-xs">Forest Villa · 2-night minimum</p>
         </div>
-        <a
-          href="#reserve"
+        <button
+          onClick={openBooking}
           className="eyebrow bg-signal text-linen px-5 py-3 text-[10px] rounded-full hover:bg-signal2 transition-colors focus-visible:ring-2 focus-visible:ring-signal outline-none"
         >
           Check Availability
-        </a>
+        </button>
       </div>
+
+      <BookingModal />
+      <PrivateEventModal />
     </>
   );
 }

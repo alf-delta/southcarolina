@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent }
 import { Wifi, Bath, Utensils, Armchair } from 'lucide-react';
 import Img from '../primitives/Img';
 import { sandhillsData } from '../data/sandhills';
+import { openPrivateEvent } from './PrivateEventModal';
 import GalleryModal from './GalleryModal';
 
 // ── Card data ─────────────────────────────────────────────────────────────────
@@ -298,7 +299,7 @@ export default function VillaCascade() {
           className="relative flex flex-col px-6 pb-6 pt-[72px] md:px-12 md:pb-12 md:pt-[72px] lg:px-16 lg:pb-16"
           style={{ zIndex: 1 }}
         >
-          <div className="w-full md:max-w-[82%] mx-auto flex flex-col gap-2">
+          <div className="w-full max-w-content mx-auto flex flex-col gap-2">
           {/* Full-bleed exterior photo with reveal animation */}
           <motion.div
             className="w-full rounded-2xl overflow-hidden cursor-pointer relative"
@@ -393,7 +394,7 @@ export default function VillaCascade() {
 
               {/* Right col: spec infographic on glass card */}
               <div style={{
-                display: 'inline-flex', flexWrap: 'wrap', gap: 'clamp(18px, 3vw, 34px)',
+                display: 'inline-flex', flexWrap: 'wrap', gap: 'clamp(8px, 1.37vw, 16px)',
                 padding: 'clamp(12px, 1.8vh, 20px) clamp(16px, 2vw, 24px)',
                 borderRadius: 14,
                 background: 'rgba(120,116,110,0.30)',
@@ -465,12 +466,12 @@ export default function VillaCascade() {
               </motion.button>
             ))}
           </div>
-          </div>{/* /max-w-[82%] wrapper */}
+          </div>{/* /max-w-content wrapper */}
         </div>
 
         {/* ── Act 2 — Comfort ─────────────────────────────────────────────── */}
-        <div ref={act2Ref} className="relative min-h-screen flex flex-col px-6 pb-6 pt-3 md:px-12 md:pb-12 md:pt-5 lg:px-16 lg:pb-16 lg:pt-6" style={{ zIndex: 1 }}>
-          <div className="w-full md:max-w-[82%] mx-auto">
+        <div ref={act2Ref} className="relative flex flex-col px-6 pb-6 pt-3 md:px-12 md:pb-12 md:pt-5 lg:px-16 lg:pb-16 lg:pt-6" style={{ zIndex: 1 }}>
+          <div className="w-full max-w-content mx-auto">
           <div>
             {/* Typographic interlude — mixed scale */}
             <div className="text-center mx-auto" style={{ maxWidth: '68rem', paddingTop: 'clamp(0px, 0.6vh, 8px)', paddingBottom: 'clamp(32px, 6vh, 76px)' }}>
@@ -507,6 +508,7 @@ export default function VillaCascade() {
           className="relative flex flex-col p-6 md:p-12 lg:p-16"
           style={{ zIndex: 1 }}
         >
+          <div className="w-full max-w-content mx-auto">
 
           <div className="relative pt-4 md:pt-6 max-w-[52rem]" style={{ zIndex: 1 }}>
             <motion.h2 className="font-display mb-3 md:mb-4" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(2rem, 4.5vw, 3.8rem)', lineHeight: 1.05, letterSpacing: '-0.02em', color: act3HeadingColor }}>
@@ -648,10 +650,12 @@ export default function VillaCascade() {
             })}
           </div>
           ); })()}
+          </div>{/* /max-w-content */}
         </div>
 
         {/* ── Act 4 — Discovery ───────────────────────────────────────────── */}
-        <div ref={act4Ref} className="relative min-h-screen flex flex-col justify-start px-6 pb-6 pt-2 md:px-12 md:pb-12 md:pt-3 lg:px-16 lg:pb-16 lg:pt-4" style={{ zIndex: 1 }}>
+        <div ref={act4Ref} className="relative flex flex-col px-6 pb-6 pt-2 md:px-12 md:pb-12 md:pt-3 lg:px-16 lg:pb-16 lg:pt-4" style={{ zIndex: 1 }}>
+          <div className="w-full max-w-content mx-auto">
           <div className="max-w-[52rem]">
             <motion.h2 className="font-display mb-3 md:mb-4" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(2rem, 4.5vw, 3.8rem)', lineHeight: 1.05, letterSpacing: '-0.02em', color: act4HeadingColor }}>
               Just Beyond the Trees
@@ -675,11 +679,12 @@ export default function VillaCascade() {
               ))}
             </div>
           </div>
+          </div>{/* /max-w-content */}
         </div>
 
         {/* ── B2B — Private hire (frosted matte glass, colors invert with bg) ── */}
         <div ref={b2bRef} className="relative flex flex-col px-6 pb-14 pt-6 md:px-12 md:pb-24 md:pt-10 lg:px-16" style={{ zIndex: 1 }}>
-          <div className="w-full md:max-w-[82%] mx-auto">
+          <div className="w-full max-w-content mx-auto">
             {/* Headline — sits on the page, outside the panel */}
             <motion.h2 className="font-display" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(2.1rem, 4.5vw, 3.7rem)', lineHeight: 1.06, letterSpacing: '-0.02em', maxWidth: '20ch', marginBottom: 'clamp(20px, 3vh, 34px)', color: b2bText }}>
               Your private event deserves more than a restaurant table.
@@ -797,12 +802,12 @@ export default function VillaCascade() {
                   <motion.h3 className="font-display" style={{ fontVariationSettings: '"opsz" 96, "SOFT" 40, "WONK" 0', fontWeight: 380, fontSize: 'clamp(1.5rem, 2.8vw, 2.2rem)', lineHeight: 1.12, letterSpacing: '-0.015em', maxWidth: '16ch', margin: 0, color: b2bText }}>
                     The whole property becomes <span style={{ fontStyle: 'italic', color: '#C2632F' }}>the event.</span>
                   </motion.h3>
-                  <a
-                    href="#reserve"
+                  <button
+                    onClick={openPrivateEvent}
                     className="self-start md:self-auto"
                     style={{
                       display: 'inline-flex', alignItems: 'center', gap: 10,
-                      background: '#B05329', color: '#F2EDE3', textDecoration: 'none',
+                      background: '#B05329', color: '#F2EDE3', border: 'none', cursor: 'pointer',
                       padding: 'clamp(13px, 1.7vh, 17px) clamp(24px, 2.6vw, 34px)',
                       borderRadius: 999, flexShrink: 0, whiteSpace: 'nowrap',
                       fontFamily: 'Inter Tight, Inter, system-ui, sans-serif',
@@ -811,7 +816,7 @@ export default function VillaCascade() {
                   >
                     Plan Your Private Getaway
                     <span style={{ fontSize: 14, lineHeight: 1 }}>→</span>
-                  </a>
+                  </button>
                 </motion.div>
               </div>
             </motion.div>

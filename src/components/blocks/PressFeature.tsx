@@ -13,6 +13,9 @@ export default function PressFeature() {
         transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1] }}
         style={{
           position: 'relative',
+          maxWidth: 1400,
+          marginLeft: 'auto',
+          marginRight: 'auto',
           borderRadius: 'clamp(24px, 3vw, 44px)',
           overflow: 'hidden',
           boxShadow: '0 50px 130px rgba(0,0,0,0.45)',

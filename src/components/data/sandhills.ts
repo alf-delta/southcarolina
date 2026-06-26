@@ -311,7 +311,6 @@ export const sandhillsData = {
     { q: 'Can we host an event here?', a: 'Yes — weddings up to 40, retreats and buyouts up to 20. We have a dedicated planner.' },
   ],
   finalCta: {
-    headline: 'Take the Stay. Make the Story.',
     sub: 'A private lake, Forest Villas, sauna heat, firelit evenings and acres of room to breathe — Sandhills is yours when you’re ready to step away.',
     image: '/images/sandhills/final_image.png',
   },

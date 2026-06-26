@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Button from '../primitives/Button';
+import { openBooking } from '../data/booking';
 
 const openGallery = () => window.dispatchEvent(new CustomEvent('open-gallery'));
 
@@ -166,7 +167,7 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
 
         {/* Book button */}
         <motion.div className="hidden md:flex justify-end" style={{ opacity: bookOpacity }}>
-          <Button href="#reserve" variant={overDark ? 'ghost-light' : 'primary'} className="!py-2 !px-5 !min-h-0">
+          <Button onClick={openBooking} variant={overDark ? 'ghost-light' : 'primary'} className="!py-2 !px-5 !min-h-0">
             Book
           </Button>
         </motion.div>
@@ -215,7 +216,7 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
               {l.label}
             </a>
           ))}
-          <Button href="#reserve" variant="primary" className="self-start mt-2">Book a Stay</Button>
+          <Button onClick={() => { setMenuOpen(false); openBooking(); }} variant="primary" className="self-start mt-2">Book a Stay</Button>
         </div>
       )}
     </motion.header>

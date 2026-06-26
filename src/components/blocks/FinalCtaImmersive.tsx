@@ -2,14 +2,14 @@ import { motion, useInView, useReducedMotion, AnimatePresence } from 'framer-mot
 import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Button from '../primitives/Button';
+import { openBooking } from '../data/booking';
 
 interface Props {
-  headline: string;
   sub: string;
   image: string;
 }
 
-export default function FinalCtaImmersive({ headline, sub, image }: Props) {
+export default function FinalCtaImmersive({ sub, image }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-20%' });
   const reduceMotion = useReducedMotion();
@@ -66,12 +66,13 @@ export default function FinalCtaImmersive({ headline, sub, image }: Props) {
             className="font-display font-light text-linen text-[clamp(40px,8vw,104px)] mb-5 md:mb-7 max-w-[16ch] mx-auto"
             style={{ fontVariationSettings: '"SOFT" 50, "opsz" 144', letterSpacing: '-0.03em', lineHeight: 1.02 }}
           >
-            {headline}
+            <span style={{ display: 'block' }}>Take the Stay.</span>
+            <span style={{ display: 'block', color: '#DE7E44' }}>Make the Story.</span>
           </h2>
           {sub && (
             <p
-              className="text-linen/75 mb-9 md:mb-11 mx-auto"
-              style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(1rem, 1.55vw, 1.3rem)', lineHeight: 1.6, letterSpacing: '0.005em', maxWidth: '52ch' }}
+              className="text-linen/85 mb-9 md:mb-11 mx-auto"
+              style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(1rem, 1.55vw, 1.3rem)', fontWeight: 500, lineHeight: 1.6, letterSpacing: '0.005em', maxWidth: '52ch' }}
             >
               {sub}
             </p>
@@ -79,7 +80,7 @@ export default function FinalCtaImmersive({ headline, sub, image }: Props) {
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-            <Button href="#" variant="primary">Reserve Your Stay</Button>
+            <Button onClick={openBooking} variant="primary">Reserve Your Stay</Button>
             <Button onClick={() => setCorpOpen(true)} variant="ghost-light" className="backdrop-blur-md">Plan a Private Event</Button>
             <Button onClick={() => setQuestionOpen(true)} variant="ghost-light" className="backdrop-blur-md">Ask a Question</Button>
           </div>
