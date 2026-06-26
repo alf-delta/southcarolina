@@ -15,8 +15,8 @@ function RoadNode({ progress, index }: { progress: MotionValue<number>; index: n
   // Dot lights up as the spine fill reaches it
   const dotT = useTransform(progress, [start - 0.04, start + 0.05], [0, 1]);
   const dotScale = useTransform(dotT, [0, 1], [0.55, 1]);
-  const dotBg = useTransform(dotT, [0, 1], ['rgba(242,237,227,0.2)', '#B05329']);
-  const dotShadow = useTransform(dotT, [0, 1], ['0 0 0 rgba(176,83,41,0)', '0 0 0 5px rgba(176,83,41,0.2)']);
+  const dotBg = useTransform(dotT, [0, 1], ['rgba(242,237,227,0.2)', '#BC4F1F']);
+  const dotShadow = useTransform(dotT, [0, 1], ['0 0 0 rgba(188,79,31,0)', '0 0 0 5px rgba(188,79,31,0.2)']);
 
   const Icon = TERRITORY[index].icon;
 
@@ -75,7 +75,7 @@ export default function MobileRoadmap() {
       {/* Spine — base */}
       <div style={{ position: 'absolute', left: '50%', top: 8, bottom: 8, width: 2, transform: 'translateX(-50%)', background: 'rgba(242,237,227,0.13)', borderRadius: 2 }} />
       {/* Spine — scroll fill */}
-      <motion.div style={{ position: 'absolute', left: '50%', top: 8, width: 2, transform: 'translateX(-50%)', height: fillHeight, background: '#B05329', borderRadius: 2, boxShadow: '0 0 10px rgba(176,83,41,0.45)' }} />
+      <motion.div style={{ position: 'absolute', left: '50%', top: 8, width: 2, transform: 'translateX(-50%)', height: fillHeight, background: '#BC4F1F', borderRadius: 2, boxShadow: '0 0 10px rgba(188,79,31,0.45)' }} />
 
       {TERRITORY.map((_, i) => (
         <RoadNode key={i} progress={scrollYProgress} index={i} />

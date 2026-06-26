@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { UserCheck, Wifi, Gem } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { Wifi, Bath, Utensils, Armchair } from 'lucide-react';
 import Img from '../primitives/Img';
 import { sandhillsData } from '../data/sandhills';
 import GalleryModal from './GalleryModal';
@@ -11,46 +11,41 @@ import GalleryModal from './GalleryModal';
 const COMFORT_CARDS = [
   {
     image:    '/images/comfort/brooklinen.webp',
-    title:    'Cloud Linens',
-    note:     'Brooklinen · 480 thread count',
-    headline: 'The kind of sheets you try to take home.',
-    body:     "Brooklinen's Luxe Sateen — 480 thread count, long-staple cotton, finished to a weight that actually holds you. The kind of linen most hotels promise and few deliver. On every bed, every stay. You will notice when you get back to yours.",
-  },
-  {
-    image:    '/images/comfort/marshall.webp',
-    title:    'Private Orchestra',
-    note:     'Marshall Acton III · Bluetooth 5.0',
-    headline: 'Eighty watts. Nowhere to be.',
-    body:     'The Marshall Acton III does not go anywhere. It sits on the shelf and fills the room. Eighty watts through three drivers — two tweeters and a Class D woofer — tuned for the kind of listening you do when you are not in a hurry. Bluetooth 5.0 from the bed, the bath, or the deck through the open door. Analogue inputs for whatever you brought. The knobs are brass. It has been here since opening day.',
+    title:    'King Bed + Sofa Bed',
+    subtitle: 'Brooklinen linens, soft pillows and space to sleep up to 4 guests in comfort.',
   },
   {
     image:    '/images/comfort/appliences.webp',
-    title:    'Curated Kitchen',
-    note:     'Nespresso · SMEG · design icons',
-    headline: 'Everything already here.',
-    body:     'Your morning begins with impeccable rituals, surrounded by design icons. A Nespresso machine pulls the perfect shot before you have finished waking up. A SMEG kettle stands beside it — five-star hotel aesthetics on a kitchen counter in the middle of a forest. Every detail here was chosen deliberately. Every detail underscores the quality of the stay.',
+    title:    'A Kitchen That’s Actually Ready',
+    subtitle: 'SMEG appliances, Nespresso coffee and everything you need for slow breakfasts or dinner after the lake.',
+  },
+  {
+    image:    '/images/villa/02_Interior_Casita/2.webp',
+    title:    'Everything-You-Need Bathroom',
+    subtitle: 'A clean, comfortable bathroom stocked with the essentials, so you can pack lighter.',
+  },
+  {
+    image:    '/images/comfort/marshall.webp',
+    title:    'Marshall Soundtrack',
+    subtitle: 'A Marshall speaker for your cabin playlist — in case the sounds of nature need a little backup.',
   },
   {
     image:    '/images/comfort/weber.webp',
-    title:    'Deck & Grill',
-    note:     'Weber kettle · lake view',
-    headline: 'Your own outdoor kitchen above the water.',
-    body:     'The Weber kettle has been on the deck since opening day and still runs clean. Charcoal for the evenings worth slowing down. The table seats four. The view is the lake. Nobody is anywhere near you.',
+    title:    'Deck, Grill & Firepit',
+    subtitle: 'Your private outdoor setup with a Weber grill, Adirondack chairs and everything you need for long dinners and slow nights by the fire.',
   },
   {
-    image:    '/images/comfort/firepit.webp',
-    title:    'The Ember Hour',
-    note:     'Fire pit · open sky',
-    headline: 'The night starts here.',
-    body:     'Wood is split and stacked beside the pit before you arrive. The chairs recline to the angle required for serious stargazing. No light pollution within eight miles — on clear nights you can count satellites. The fire burns for three hours on a standard load. There is no schedule. Stay as long as the wood holds.',
+    image:    '/images/bikes.webp',
+    title:    'E-Bikes at Your Door',
+    subtitle: 'Private e-bikes ready when you are — built for exploring the trails, the lake and everything beyond.',
   },
 ] as const;
 
 const EXPERIENCE_CARDS = [
   {
     image:    '/images/sandhills/sauna_session.webp',
-    title:    'Sauna',
-    note:     'Wood-fired · lakeside',
+    title:    'The Sauna Ritual',
+    note:     'Wood-fired heat, panoramic lake views and the kind of reset you feel immediately.',
     badge:    'Best wild spa ever',
     headline: 'The ritual the Romans knew. You rediscover it here.',
     body:     "Wood-fired to 194 °F. The sauna sits on the water — heat, then cold, then silence. Step off the dock into the lake. Two thousand years of the same ritual, still unmatched.",
@@ -60,8 +55,8 @@ const EXPERIENCE_CARDS = [
   },
   {
     image:    '/qaYcANUQR-PNzw3QPCqKA_uEzp7Ijh.webp',
-    title:    'The lake',
-    note:     '18 acres · private · no motor boats',
+    title:    'The Lake',
+    note:     'An 18-acre lake for swimming, fishing, floating and slow days by the water.',
     badge:    'Your ocean. No salt, no strangers.',
     headline: 'Sixty Olympic pools. Every single one of them yours.',
     body:     'Eighteen acres of still, clean water — private to our guests, always. No jet skis, no strangers, no one doing cannonballs near your kayak. Just you, the herons, and a surface so calm in the morning it reflects the pines like a mirror. Go for a swim. Take a canoe. Sit on the dock and do absolutely nothing. All three are correct answers.',
@@ -71,8 +66,8 @@ const EXPERIENCE_CARDS = [
   },
   {
     image:    '/images/sandhills/twelve_miles.webp',
-    title:    'Trail',
-    note:     'Twelve miles · marked',
+    title:    'Trails & Rides',
+    note:     'Open land, forest paths and e-bikes for exploring the property at your own pace.',
     badge:    '12 miles. Zero treadmills.',
     headline: 'Into the pines.',
     body:     'Twelve miles of marked trail through longleaf pine savanna. Four trailheads across the property. The creek loop is the one worth finding. Illustrated map in your cabin.',
@@ -82,8 +77,8 @@ const EXPERIENCE_CARDS = [
   },
   {
     image:    '/images/sandhills/fishing.webp',
-    title:    'Fishing',
-    note:     'Catch & release · no license',
+    title:    'Ready for the Water',
+    note:     'Kayaks, paddleboards and boats ready for quiet mornings or full-group lake adventures.',
     badge:    'Still in there. Go get it.',
     headline: 'Cast a line.',
     body:     'Bass, bream, catfish. Rods and tackle at the dock box. No fishing license required on private water. Dawn and dusk are the best windows. Catch-and-release only.',
@@ -93,8 +88,8 @@ const EXPERIENCE_CARDS = [
   },
   {
     image:    '/images/bikes.webp',
-    title:    'E-bikes',
-    note:     'Gravel & trail · all day',
+    title:    'The Open Field',
+    note:     'Volleyball, soccer and open-air games for families, friends and teams.',
     badge:    'Tour de Sandhills.',
     headline: 'Twelve miles on two wheels.',
     body:     'Four gravel bikes and two trail bikes on property. Helmets, locks, and a printed route map included. Twelve miles of marked paths. The morning lake loop takes forty minutes.',
@@ -104,8 +99,8 @@ const EXPERIENCE_CARDS = [
   },
   {
     image:    '/images/aKbo_jkSiGvo_scLOlbIM_BngwcJ7U.webp',
-    title:    'Peach orchard',
-    note:     'On property · seasonal',
+    title:    'Pool Days',
+    note:     'A large outdoor pool made for long afternoons, sun, water and good company.',
     badge:    'Picked this morning.',
     headline: 'The orchard is yours.',
     body:     'Rows of peach trees inside the property fence. In season, you pick your own — straight from the branch, still warm from the sun. The kind of fruit a grocery store has never stocked. Your host will tell you which rows are ready.',
@@ -115,8 +110,8 @@ const EXPERIENCE_CARDS = [
   },
   {
     image:    '/images/hiveboxx-65icrs88YYs-unsplash.webp',
-    title:    'Apiary',
-    note:     '20 hives · 1M+ bees',
+    title:    'Honey From the Land',
+    note:     'Our own beehives on property — a small taste of Sandhills, straight from nature.',
     badge:    'A million bees. All ours.',
     headline: 'Twenty hives. One million workers.',
     body:     'Our apiary runs twenty hives — over a million bees foraging the longleaf pine savanna, wildflowers, and clover within the property. The honey in your welcome pantry came from fifty feet away. Ask your host for a hive walk. Nets provided.',
@@ -126,8 +121,8 @@ const EXPERIENCE_CARDS = [
   },
   {
     image:    '/images/sandhills/farm_tour.jpg',
-    title:    'Farm tours',
-    note:     'Local farms · 15–30 min away',
+    title:    'By the Outdoor Fireplace',
+    note:     'A large deck, warm fire, open sky and the conversations that make the trip.',
     badge:    'Where your food starts.',
     headline: 'The farms that feed this county.',
     body:     'The Sandhills region has been farming land for three hundred years. We work with a handful of local operations — heritage breed livestock, row crops, a working dairy — and can arrange a morning visit. Nothing curated, nothing performative. Just real people doing the work.',
@@ -196,110 +191,14 @@ const bgRooms: React.CSSProperties = {
 
 // ── B2B / private-hire use cases ──────────────────────────────────────────────
 
-const B2B_CASES = [
-  {
-    title: 'Strategy offsites',
-    short: 'Strategy',
-    tag: 'Focused, two days, zero noise',
-    image: '/images/villa/02_Interior_Casita/1.webp',
-    body: 'Pull the leadership team out of the building and into a room with no glass walls and no calendar. The great-room table seats the core group; the lake and trails are there for the conversations that land better on a walk.',
-    meta: [
-      { label: 'Ideal size', value: '4–12 people' },
-      { label: 'Length',     value: '1–3 nights' },
-      { label: 'Setting',    value: 'Villa great room + lake' },
-    ],
-    highlights: [
-      'Private long table with power and a wall to pin work to',
-      'Fast estate Wi-Fi where you want it, none where you don\'t',
-      'Walking routes for one-on-ones between sessions',
-    ],
-  },
-  {
-    title: 'Corporate retreats',
-    short: 'Retreats',
-    tag: 'The whole team, somewhere they remember',
-    image: '/images/villa/03_Terrace/1.webp',
-    body: 'Take over the entire estate and give the company a few days that feel nothing like the office. Mornings on the water, afternoons around the firepit, evenings on the deck — structured as much or as little as you like.',
-    meta: [
-      { label: 'Ideal size', value: '10–24 people' },
-      { label: 'Length',     value: '2–4 nights' },
-      { label: 'Setting',    value: 'Whole estate, exclusive use' },
-    ],
-    highlights: [
-      'Sauna, canoes, e-bikes and trails included for everyone',
-      'Catering and private chefs arranged on request',
-      'Bonfire, lawn games and a lake that is entirely yours',
-    ],
-  },
-  {
-    title: 'Leadership councils',
-    short: 'Councils',
-    tag: 'Board-level, completely private',
-    image: '/images/villa/02_Interior_Casita/3.webp',
-    body: 'Board meetings, partner summits and sensitive conversations, held where no one is listening. The estate is gated and unshared — what is said on the property stays on the property.',
-    meta: [
-      { label: 'Ideal size', value: '4–10 people' },
-      { label: 'Length',     value: '1–2 nights' },
-      { label: 'Setting',    value: 'Private interior, no other guests' },
-    ],
-    highlights: [
-      'Gated, single-party access for the full stay',
-      'Quiet rooms for breakaway and confidential calls',
-      'Discreet service — present when needed, invisible otherwise',
-    ],
-  },
-  {
-    title: 'Deep-work sprints',
-    short: 'Sprints',
-    tag: 'A week to ship something hard',
-    image: '/images/sandhills/Forest_bathing_walk.webp',
-    body: 'Move a small team out here for a week of real, uninterrupted building. The only distraction is the lake — and that is the point. Long, quiet days; short walks to reset; nothing pulling focus.',
-    meta: [
-      { label: 'Ideal size', value: '3–8 people' },
-      { label: 'Length',     value: '3–7 nights' },
-      { label: 'Setting',    value: 'Villa + casita, full kitchen' },
-    ],
-    highlights: [
-      'Stocked pantry and full kitchen — no leaving to eat',
-      'Separate sleeping and working spaces for the whole team',
-      'Trails and sauna built in for the breaks that matter',
-    ],
-  },
-  {
-    title: 'Investor & partner summits',
-    short: 'Summits',
-    tag: 'Host the people who matter',
-    image: '/images/villa/01_Exterior/4.webp',
-    body: 'When the agenda is relationships, the setting does half the work. A hundred and twenty-six private acres signal seriousness without saying a word — and give your guests something they will talk about long after.',
-    meta: [
-      { label: 'Ideal size', value: '6–20 people' },
-      { label: 'Length',     value: '1–3 nights' },
-      { label: 'Setting',    value: 'Estate grounds + terrace' },
-    ],
-    highlights: [
-      'Arrival, dining and hosting handled end to end',
-      'Guided paddle, fishing or sunrise walk as the icebreaker',
-      'Terrace and firepit for the conversations after dinner',
-    ],
-  },
-  {
-    title: 'Milestone celebrations',
-    short: 'Celebrations',
-    tag: 'Mark the moment, gather the people',
-    image: '/images/sandhills/Guided_sunrise_paddle.webp',
-    body: 'Close the round, mark the launch, celebrate the people who built it. Take the estate for a long weekend and turn a milestone into a memory — under the pines, on the water, around the fire.',
-    meta: [
-      { label: 'Ideal size', value: '10–24 people' },
-      { label: 'Length',     value: '2–3 nights' },
-      { label: 'Setting',    value: 'Whole estate, exclusive use' },
-    ],
-    highlights: [
-      'Lawn, lakeside and firepit for gatherings of any shape',
-      'Catering, bar and private chefs arranged on request',
-      'Space to host loudly — there are no neighbours to mind',
-    ],
-  },
-];
+const B2B_SCENARIOS = [
+  { title: 'Birthday Weekends', benefit: 'Celebrate on your own clock — no last call, no rush home.' },
+  { title: 'Corporate Retreats', benefit: 'The team actually connects when no one is watching the door.' },
+  { title: 'Family Reunions', benefit: 'Every generation under one roof, finally in the same place.' },
+  { title: 'Wellness Retreats', benefit: 'Space to slow down, with nothing pulling you back.' },
+  { title: 'Bachelor & Bachelorette', benefit: 'Your crew, your rules, complete privacy.' },
+  { title: 'Private Celebrations', benefit: 'Mark the moment without sharing the room.' },
+] as const;
 
 
 // ── Main component ────────────────────────────────────────────────────────────
@@ -309,10 +208,11 @@ export default function VillaCascade() {
 
   const [galleryStartIdx, setGalleryStartIdx] = useState<number | null>(null);
   const [comfortIdx,    setComfortIdx]    = useState<number | null>(null);
-  const [hoverExp,    setHoverExp]    = useState<number | null>(null);
   const [expandedExp, setExpandedExp] = useState<number | null>(null);
   const [nearbyIdx,     setNearbyIdx]     = useState<number | null>(null);
-  const [b2bIdx,        setB2bIdx]        = useState(0);
+  // When the B2B bone bg is showing, the whole section reads as a light zone so the
+  // sticky header flips its logo/nav to dark — kept in sync with the actual bg (o5).
+  const [b2bBgLight, setB2bBgLight] = useState(false);
 
   useEffect(() => {
     const handler = () => setGalleryStartIdx(0);
@@ -325,25 +225,41 @@ export default function VillaCascade() {
   const act2Ref = useRef<HTMLDivElement>(null);
   const act3Ref = useRef<HTMLDivElement>(null);
   const act4Ref = useRef<HTMLDivElement>(null);
+  const b2bRef  = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress: p1 } = useScroll({ target: act1Ref, offset: ['start end', 'end start'] });
   const { scrollYProgress: p2 } = useScroll({ target: act2Ref, offset: ['start end', 'end start'] });
   const { scrollYProgress: p3 } = useScroll({ target: act3Ref, offset: ['start end', 'end start'] });
   const { scrollYProgress: p4 } = useScroll({ target: act4Ref, offset: ['start end', 'end start'] });
+  // B2B has its own progress so its dark→bone transition tracks the block itself, not act4
+  const { scrollYProgress: pB2B } = useScroll({ target: b2bRef, offset: ['start end', 'end start'] });
 
   // Act 1: visible from the start, fades out as act 2 takes over
   const o1 = useTransform(p1, [0, 0.80, 1], [1, 1, 0]);
   // Acts 2–4: crossfade in and out
   const o2 = useTransform(p2, [0, 0.14, 0.86, 1], [0, 1, 1, 0]);
   const o3 = useTransform(p3, [0.10, 0.26, 1], [0, 1, 1]);
-  const o4 = useTransform(p4, [0, 0.56, 0.86, 1], [0, 1, 1, 0]);
+  // Act 4 dark bg fades in and STAYS dark through act 4 (no early fade-out)
+  const o4 = useTransform(p4, [0, 0.32, 1], [0, 1, 1]);
   // Act 4 heading: dark on light bg → linen as bg darkens
-  const act4HeadingColor = useTransform(p4, [0, 0.34, 0.49], ['rgba(31,36,32,0.96)', 'rgba(31,36,32,0.96)', 'rgba(231,222,199,0.96)']);
-  const act4SubColor     = useTransform(p4, [0, 0.34, 0.49], ['rgba(31,36,32,0.55)', 'rgba(31,36,32,0.55)', 'rgba(231,222,199,0.45)']);
+  const act4HeadingColor = useTransform(p4, [0, 0.18, 0.30], ['rgba(31,36,32,0.96)', 'rgba(31,36,32,0.96)', 'rgba(231,222,199,0.96)']);
 
   // Act 3 heading: linen on dark bg → ink as bone bg fades in
   const act3HeadingColor = useTransform(p3, [0.10, 0.28], ['rgba(231,222,199,0.96)', 'rgba(31,36,32,0.96)']);
-  const act3SubColor     = useTransform(p3, [0.10, 0.28], ['rgba(231,222,199,0.55)', 'rgba(31,36,32,0.55)']);
+
+  // B2B reveal: a bone layer fades IN over the dark act-4 bg as the B2B block scrolls
+  // into view — anchored to the block's own progress, so the change lands while the
+  // block is actually on screen. o5 = 0 → dark bg shows; o5 = 1 → bone shows.
+  const o5 = useTransform(pB2B, [0.02, 0.16], [0, 1]);
+  // Content lightness is the exact inverse of o5 — synced and smooth at every step.
+  const b2bText  = useTransform(o5, [0, 1], ['rgba(231,222,199,0.96)', 'rgba(31,36,32,0.96)']);
+  const b2bMuted = useTransform(o5, [0, 1], ['rgba(231,222,199,0.55)', 'rgba(31,36,32,0.52)']);
+  const b2bLine  = useTransform(o5, [0, 1], ['rgba(231,222,199,0.16)', 'rgba(31,36,32,0.13)']);
+  const b2bPanel = useTransform(o5, [0, 1], ['rgba(231,222,199,0.05)', 'rgba(31,36,32,0.028)']);
+
+  // Flip the section's header-zone once the bone bg dominates, so the sticky header
+  // logo/nav switch to dark exactly when the visible background turns light.
+  useMotionValueEvent(o5, 'change', (v) => setB2bBgLight(v > 0.5));
 
 
 
@@ -353,13 +269,14 @@ export default function VillaCascade() {
       <div className="w-full flex items-center justify-center py-5 md:py-0" style={{ height: 'auto', minHeight: 'clamp(80px, 11vh, 120px)', background: '#EAE3D3' }}>
         <p
           className="font-display italic text-center px-6"
-          style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 360, fontSize: 'clamp(1.7rem, 4vw, 2.9rem)', letterSpacing: '-0.02em', lineHeight: 1.06, color: '#B05329' }}
+          style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 360, fontSize: 'clamp(1.7rem, 4vw, 2.9rem)', letterSpacing: '-0.02em', lineHeight: 1.06, color: 'rgba(31,36,32,0.9)' }}
         >
-          Allow us to show you in.
+          Step inside.{' '}
+          <span style={{ color: '#B05329' }}>Stay outside.</span>
         </p>
       </div>
 
-      <section id="stays" data-zone="dark" className="text-linen relative" style={{ backgroundColor: '#090706' }}>
+      <section id="stays" data-zone={b2bBgLight ? 'light' : 'dark'} className="text-linen relative" style={{ backgroundColor: '#090706' }}>
 
         {/* ── Scroll-linked gradient background ───────────────────────────── */}
         {/* sticky height-0 holder stays at top of viewport; abs child fills 100vh */}
@@ -369,6 +286,8 @@ export default function VillaCascade() {
             <motion.div style={{ position: 'absolute', inset: 0, opacity: o2, ...bgComfort }} />
             <motion.div style={{ position: 'absolute', inset: 0, opacity: o3, ...bgTerritory }} />
             <motion.div style={{ position: 'absolute', inset: 0, opacity: o4, ...bgRooms }} />
+            {/* Bone layer that reappears over the dark act-4 bg as the B2B block scrolls in */}
+            <motion.div style={{ position: 'absolute', inset: 0, opacity: o5, ...bgTerritory }} />
 
           </div>
         </div>
@@ -410,7 +329,7 @@ export default function VillaCascade() {
                 bottom: 'clamp(24px, 4%, 52px)',
                 display: 'grid',
                 gridTemplateColumns: 'auto auto',
-                justifyContent: 'start',
+                justifyContent: 'space-between',
                 gridTemplateRows: 'auto',
                 alignItems: 'end',
                 gap: '0 clamp(16px, 3vw, 40px)',
@@ -436,7 +355,7 @@ export default function VillaCascade() {
                     margin: 0,
                     textShadow: '0 1px 14px rgba(0,0,0,0.85)',
                   }}>
-                    Flagship of the wild
+                    Five-Star Comfort, Forest Edition
                   </p>
                 </div>
 
@@ -474,37 +393,44 @@ export default function VillaCascade() {
 
               {/* Right col: spec infographic on glass card */}
               <div style={{
-                display: 'inline-flex', flexWrap: 'wrap', gap: 'clamp(14px, 2.5vw, 28px)',
+                display: 'inline-flex', flexWrap: 'wrap', gap: 'clamp(18px, 3vw, 34px)',
                 padding: 'clamp(12px, 1.8vh, 20px) clamp(16px, 2vw, 24px)',
                 borderRadius: 14,
-                background: 'rgba(8,6,4,0.22)',
+                background: 'rgba(120,116,110,0.30)',
                 backdropFilter: 'blur(16px)',
                 WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(242,237,227,0.22)',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.30), inset 0 0 0 1px rgba(255,255,255,0.05), inset 0 -8px 18px rgba(0,0,0,0.16), 0 12px 32px rgba(0,0,0,0.30)',
               }}>
                 {/* Guests */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, width: 'clamp(54px, 6.5vw, 78px)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <svg viewBox="0 0 20 20" fill="currentColor" style={{ width: 'clamp(1.1rem, 1.8vw, 1.5rem)', height: 'clamp(1.1rem, 1.8vw, 1.5rem)', color: 'rgba(231,222,199,0.75)', flexShrink: 0 }}>
+                    <svg viewBox="0 0 20 20" fill="currentColor" style={{ width: 'clamp(1.32rem, 2.16vw, 1.8rem)', height: 'clamp(1.32rem, 2.16vw, 1.8rem)', color: '#B05329', flexShrink: 0 }}>
                       <path d="M10 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 8a7 7 0 1 1 14 0H3z" />
                     </svg>
                     <span className="font-display" style={{ fontVariationSettings: '"opsz" 48', fontWeight: 380, fontSize: 'clamp(1.2rem, 1.8vw, 1.6rem)', lineHeight: 1, letterSpacing: '-0.02em', color: 'rgba(242,237,227,1)', textShadow: '0 1px 12px rgba(0,0,0,0.8)' }}>4</span>
                   </div>
-                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>up to<br />Guests</span>
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>up to<br />Guests</span>
                 </div>
-                {/* Host */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                  <UserCheck style={{ width: 'clamp(1.1rem, 1.8vw, 1.5rem)', height: 'clamp(1.1rem, 1.8vw, 1.5rem)', color: 'rgba(231,222,199,0.75)', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
-                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Personal<br />host</span>
+                {/* Bathroom */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, width: 'clamp(54px, 6.5vw, 78px)' }}>
+                  <Bath style={{ width: 'clamp(1.32rem, 2.16vw, 1.8rem)', height: 'clamp(1.32rem, 2.16vw, 1.8rem)', color: '#B05329', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Bathroom</span>
+                </div>
+                {/* Equipped Kitchen */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, width: 'clamp(54px, 6.5vw, 78px)' }}>
+                  <Utensils style={{ width: 'clamp(1.32rem, 2.16vw, 1.8rem)', height: 'clamp(1.32rem, 2.16vw, 1.8rem)', color: '#B05329', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Equipped<br />Kitchen</span>
                 </div>
                 {/* Wi-Fi */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                  <Wifi style={{ width: 'clamp(1.1rem, 1.8vw, 1.5rem)', height: 'clamp(1.1rem, 1.8vw, 1.5rem)', color: 'rgba(231,222,199,0.75)', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
-                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Starlink<br />Wi-Fi</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, width: 'clamp(54px, 6.5vw, 78px)' }}>
+                  <Wifi style={{ width: 'clamp(1.32rem, 2.16vw, 1.8rem)', height: 'clamp(1.32rem, 2.16vw, 1.8rem)', color: '#B05329', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Wi-Fi</span>
                 </div>
-                {/* Premium */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                  <Gem style={{ width: 'clamp(1.1rem, 1.8vw, 1.5rem)', height: 'clamp(1.1rem, 1.8vw, 1.5rem)', color: 'rgba(231,222,199,0.75)', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
-                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Premium<br />furnishings</span>
+                {/* Private Deck */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, width: 'clamp(54px, 6.5vw, 78px)' }}>
+                  <Armchair style={{ width: 'clamp(1.32rem, 2.16vw, 1.8rem)', height: 'clamp(1.32rem, 2.16vw, 1.8rem)', color: '#B05329', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Private<br />Deck</span>
                 </div>
               </div>
             </motion.div>
@@ -549,32 +475,22 @@ export default function VillaCascade() {
             {/* Typographic interlude — mixed scale */}
             <div className="text-center mx-auto" style={{ maxWidth: '68rem', paddingTop: 'clamp(0px, 0.6vh, 8px)', paddingBottom: 'clamp(32px, 6vh, 76px)' }}>
               <h2 className="font-display text-linen" style={{ lineHeight: 1.04, letterSpacing: '-0.02em', margin: 0 }}>
-                <span style={{ display: 'block', fontVariationSettings: '"wght" 350, "opsz" 144, "SOFT" 50, "WONK" 0', fontSize: 'clamp(2.7rem, 6.4vw, 5.6rem)', color: 'rgba(242,237,227,0.97)' }}>
-                  The very best
+                <span style={{ display: 'block', fontVariationSettings: '"wght" 350, "opsz" 144, "SOFT" 50, "WONK" 0', fontSize: 'clamp(2.5rem, 5.8vw, 5rem)', color: 'rgba(242,237,227,0.97)' }}>
+                  Thoughtfully Stocked.
                 </span>
-                <span style={{ display: 'block', fontVariationSettings: '"wght" 360, "opsz" 96, "SOFT" 30, "WONK" 0', fontSize: 'clamp(1.35rem, 2.9vw, 2.4rem)', color: 'rgba(231,222,199,0.82)', marginTop: 'clamp(6px, 1.2vh, 14px)' }}>
-                  of everything we could find
-                </span>
-                <span style={{ display: 'block', fontStyle: 'italic', fontVariationSettings: '"wght" 340, "opsz" 96, "SOFT" 40, "WONK" 0', fontSize: 'clamp(1.5rem, 3.3vw, 2.8rem)', color: 'rgba(231,222,199,0.55)', marginTop: 'clamp(4px, 0.9vh, 12px)' }}>
-                  is <span style={{ color: '#B05329' }}>included</span>.
+                <span style={{ display: 'block', fontStyle: 'italic', fontVariationSettings: '"wght" 340, "opsz" 96, "SOFT" 40, "WONK" 0', fontSize: 'clamp(1.9rem, 4.4vw, 3.6rem)', color: 'rgba(231,222,199,0.55)', marginTop: 'clamp(6px, 1.2vh, 16px)' }}>
+                  Effortlessly <span style={{ color: '#B05329' }}>Comfortable.</span>
                 </span>
               </h2>
             </div>
 
             <div className="grid gap-3 grid-cols-2 md:grid-cols-3">
-              {/* Placeholder cell — full width on mobile */}
-              <div className="col-span-2 md:col-span-1 rounded-xl flex flex-col justify-between pt-3 px-6 pb-3 md:p-8 h-[clamp(94px,13vh,133px)] md:h-[clamp(192px,31vh,308px)]" style={{ background: 'rgba(242,237,227,0.06)', border: '1px solid rgba(242,237,227,0.08)' }}>
-                <p className="font-eyebrow text-signal uppercase" style={{ fontSize: '13px', letterSpacing: '0.22em' }}>What's included</p>
-                <p className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 380, fontStyle: 'italic', fontSize: 'clamp(1.5rem, 2.4vw, 2.2rem)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
-                  The standard<br />you deserve
-                </p>
-              </div>
               {COMFORT_CARDS.map((card, i) => (
-                <button key={card.title} onClick={() => setComfortIdx(i)} className={`rounded-xl overflow-hidden relative group text-left${i === COMFORT_CARDS.length - 1 ? ' col-span-2 md:col-span-1' : ''}`} style={{ height: 'clamp(192px, 31vh, 308px)' }}>
+                <button key={card.title} onClick={() => setComfortIdx(i)} className="rounded-xl overflow-hidden relative group text-left" style={{ height: 'clamp(192px, 31vh, 308px)' }}>
                   <img src={card.image} alt={card.title} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" />
-                  <div className="absolute inset-x-0 bottom-0 px-3 pb-3 pt-12" style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.97) 0%, rgba(8,6,4,0.65) 55%, transparent 100%)' }}>
-                    <p className="font-eyebrow text-signal uppercase mb-[5px]" style={{ fontSize: '9px', letterSpacing: '0.24em' }}>{card.note}</p>
-                    <p className="font-display text-linen leading-tight" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontStyle: 'italic', fontSize: 'clamp(1.05rem, 1.9vw, 1.4rem)', letterSpacing: '-0.01em' }}>{card.title}</p>
+                  <div className="absolute inset-x-0 bottom-0 px-3.5 pb-3.5 pt-16" style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.97) 0%, rgba(8,6,4,0.72) 52%, transparent 100%)' }}>
+                    <p className="font-display leading-tight" style={{ fontVariationSettings: '"wght" 600, "opsz" 48, "SOFT" 20', fontWeight: 600, fontSize: 'clamp(1.155rem, 2.09vw, 1.485rem)', letterSpacing: '-0.01em', marginBottom: 5, color: '#CC6E37' }}>{card.title}</p>
+                    <p style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(11px, 1vw, 12.5px)', lineHeight: 1.45, color: 'rgba(231,222,199,0.7)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{card.subtitle}</p>
                   </div>
                   <div className="absolute inset-0 ring-1 ring-inset ring-linen/0 group-hover:ring-linen/20 rounded-xl transition-all duration-300" />
                 </button>
@@ -584,192 +500,24 @@ export default function VillaCascade() {
           </div>
         </div>
 
-        {/* ── B2B — Private hire (frosted matte glass) ────────────────────── */}
-        <div className="relative flex flex-col px-6 pb-10 pt-2 md:px-12 md:pb-16 lg:px-16" style={{ zIndex: 1 }}>
-          <div className="w-full md:max-w-[82%] mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1] }}
-              style={{
-                position: 'relative',
-                borderRadius: 28,
-                overflow: 'hidden',
-                background: 'rgba(242,237,227,0.055)',
-                backdropFilter: 'blur(30px) saturate(118%)',
-                WebkitBackdropFilter: 'blur(30px) saturate(118%)',
-                border: '1px solid rgba(242,237,227,0.12)',
-                boxShadow: 'inset 0 1px 0 rgba(242,237,227,0.12), 0 30px 90px rgba(0,0,0,0.45)',
-                padding: 'clamp(30px, 5.5vh, 72px) clamp(24px, 4vw, 68px)',
-              }}
-            >
-              {/* warm sheen, top-left */}
-              <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none',
-                background: 'radial-gradient(130% 90% at 0% 0%, rgba(176,83,41,0.12), transparent 55%)' }} />
-
-              <div style={{ position: 'relative' }}>
-                {/* Header */}
-                <p className="font-eyebrow text-signal uppercase mb-5" style={{ fontSize: '11px', letterSpacing: '0.26em' }}>
-                  Beyond leisure
-                </p>
-                <h2 className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(2.18rem, 4.83vw, 3.91rem)', lineHeight: 1.08, letterSpacing: '-0.02em', maxWidth: '22ch', marginBottom: 'clamp(14px, 2vh, 20px)' }}>
-                  If your company needs a place{' '}
-                  <span style={{ fontStyle: 'italic', color: 'rgba(231,222,199,0.55)' }}>set apart.</span>
-                </h2>
-                <p className="text-linen/55" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(0.88rem, 1.1vw, 1rem)', lineHeight: 1.72, maxWidth: '46rem', marginBottom: 'clamp(26px, 4vh, 48px)' }}>
-                  The whole estate, privately yours — no other guests, no schedule but your own. Bring the team somewhere the work actually lands.
-                </p>
-
-                {/* Mode switcher — illustrated tabs */}
-                <div className="grid grid-cols-3 lg:grid-cols-6" style={{ gap: 'clamp(8px, 1vw, 14px)', marginBottom: 'clamp(18px, 2.6vh, 28px)' }}>
-                  {B2B_CASES.map((c, i) => {
-                    const active = b2bIdx === i;
-                    return (
-                      <button
-                        key={c.title}
-                        onClick={() => setB2bIdx(i)}
-                        aria-pressed={active}
-                        style={{
-                          position: 'relative', borderRadius: 13, overflow: 'hidden',
-                          cursor: 'pointer', padding: 0, background: 'transparent',
-                          border: active ? '1px solid rgba(176,83,41,0.95)' : '1px solid rgba(242,237,227,0.10)',
-                          boxShadow: active ? '0 8px 24px rgba(0,0,0,0.35)' : 'none',
-                          transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-                        }}
-                      >
-                        <div style={{ position: 'relative', height: 'clamp(58px, 9vh, 86px)' }}>
-                          <img
-                            src={c.image} alt={c.title} loading="lazy"
-                            style={{
-                              width: '100%', height: '100%', objectFit: 'cover', display: 'block',
-                              opacity: active ? 1 : 0.42,
-                              filter: active ? 'none' : 'grayscale(45%)',
-                              transition: 'opacity 0.35s ease, filter 0.35s ease, transform 0.5s ease',
-                              transform: active ? 'scale(1.0)' : 'scale(1.0)',
-                            }}
-                          />
-                          <div style={{ position: 'absolute', inset: 0,
-                            background: active
-                              ? 'linear-gradient(to top, rgba(8,6,4,0.88) 0%, rgba(8,6,4,0.1) 70%)'
-                              : 'linear-gradient(to top, rgba(8,6,4,0.78) 0%, rgba(8,6,4,0.3) 70%)' }} />
-                          <span style={{
-                            position: 'absolute', left: 10, right: 8, bottom: 8,
-                            fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 'clamp(9.5px, 0.95vw, 12px)',
-                            fontWeight: 600, letterSpacing: '0.10em', textTransform: 'uppercase',
-                            color: active ? '#F2EDE3' : 'rgba(231,222,199,0.62)',
-                            transition: 'color 0.3s ease', lineHeight: 1.1,
-                          }}>
-                            {c.short}
-                          </span>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* Detail window */}
-                <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(242,237,227,0.10)', background: 'rgba(8,6,4,0.22)' }}>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={b2bIdx}
-                      initial={{ opacity: 0, y: 14 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                      className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)]"
-                    >
-                      {/* Image */}
-                      <div style={{ position: 'relative', minHeight: 'clamp(200px, 32vh, 360px)' }}>
-                        <img
-                          src={B2B_CASES[b2bIdx].image}
-                          alt={B2B_CASES[b2bIdx].title}
-                          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                        />
-                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.55) 0%, transparent 45%)' }} />
-                        <div className="md:hidden" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.9) 0%, transparent 55%)' }} />
-                      </div>
-
-                      {/* Content */}
-                      <div style={{ padding: 'clamp(24px, 3.4vh, 44px) clamp(22px, 3vw, 48px)' }}>
-                        <p className="font-eyebrow text-signal uppercase" style={{ fontSize: '10px', letterSpacing: '0.24em', marginBottom: 10 }}>
-                          {B2B_CASES[b2bIdx].tag}
-                        </p>
-                        <h3 className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 72, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.5rem, 2.8vw, 2.2rem)', lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: 'clamp(12px, 1.6vh, 18px)' }}>
-                          {B2B_CASES[b2bIdx].title}
-                        </h3>
-                        <p style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(0.86rem, 1.05vw, 0.98rem)', lineHeight: 1.7, color: 'rgba(231,222,199,0.62)', marginBottom: 'clamp(18px, 2.6vh, 26px)' }}>
-                          {B2B_CASES[b2bIdx].body}
-                        </p>
-
-                        {/* Meta row */}
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(16px, 2.4vw, 36px)', paddingBottom: 'clamp(16px, 2.4vh, 22px)', marginBottom: 'clamp(16px, 2.4vh, 22px)', borderBottom: '1px solid rgba(242,237,227,0.12)' }}>
-                          {B2B_CASES[b2bIdx].meta.map((m) => (
-                            <div key={m.label}>
-                              <p className="font-eyebrow uppercase" style={{ fontSize: '9px', letterSpacing: '0.20em', color: 'rgba(231,222,199,0.35)', marginBottom: 4 }}>{m.label}</p>
-                              <p className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 24', fontWeight: 380, fontSize: 'clamp(0.95rem, 1.3vw, 1.15rem)', lineHeight: 1.2 }}>{m.value}</p>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Highlights */}
-                        <ul style={{ display: 'flex', flexDirection: 'column', gap: 10, listStyle: 'none', padding: 0, margin: 0 }}>
-                          {B2B_CASES[b2bIdx].highlights.map((h) => (
-                            <li key={h} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                              <span style={{ color: '#B05329', flexShrink: 0, marginTop: 1, lineHeight: 1.5 }}>—</span>
-                              <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(0.82rem, 1vw, 0.92rem)', lineHeight: 1.5, color: 'rgba(231,222,199,0.7)' }}>{h}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-
-                {/* CTA */}
-                <div style={{ marginTop: 'clamp(28px, 4vh, 52px)', display: 'flex', alignItems: 'center', gap: 'clamp(16px, 2vw, 28px)', flexWrap: 'wrap' }}>
-                  <a
-                    href="#reserve"
-                    style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 10,
-                      background: '#B05329', color: '#F2EDE3', textDecoration: 'none',
-                      padding: 'clamp(12px, 1.6vh, 16px) clamp(22px, 2.4vw, 32px)',
-                      borderRadius: 999, flexShrink: 0,
-                      fontFamily: 'Inter Tight, Inter, system-ui, sans-serif',
-                      fontSize: 11, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase',
-                    }}
-                  >
-                    Get a quote that suits you
-                    <span style={{ fontSize: 14, lineHeight: 1 }}>→</span>
-                  </a>
-                  <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(12px, 1vw, 14px)', color: 'rgba(231,222,199,0.42)', margin: 0, lineHeight: 1.5 }}>
-                    Send your dates and headcount — we'll come back fast, no obligation.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-
         {/* ── Act 3 — Experience ──────────────────────────────────────────── */}
         <div
           ref={act3Ref}
           data-zone="light"
-          className="relative min-h-screen flex flex-col p-6 md:p-12 lg:p-16"
+          className="relative flex flex-col p-6 md:p-12 lg:p-16"
           style={{ zIndex: 1 }}
         >
 
           <div className="relative pt-4 md:pt-6 max-w-[52rem]" style={{ zIndex: 1 }}>
-            <p className="font-eyebrow text-signal uppercase mb-5 md:mb-6" style={{ fontSize: '11px', letterSpacing: '0.26em' }}>What's outside</p>
-            <motion.h2 className="font-display mb-6 md:mb-8" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(2rem, 4.5vw, 3.8rem)', lineHeight: 1.05, letterSpacing: '-0.02em', color: act3HeadingColor }}>
-              126 acres.<br />All of it yours.
+            <motion.h2 className="font-display mb-3 md:mb-4" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(2rem, 4.5vw, 3.8rem)', lineHeight: 1.05, letterSpacing: '-0.02em', color: act3HeadingColor }}>
+              Life Outside the Villa
             </motion.h2>
-            <motion.p className="max-w-[46rem]" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(0.88rem, 1.1vw, 1rem)', lineHeight: 1.72, color: act3SubColor }}>
-              We built on eleven of the hundred and twenty-six acres. The rest is longleaf pine savanna, a private lake, twelve miles of trail, and the kind of silence that takes a day to stop feeling strange. Everything below is included. Nothing requires a guide or a reservation.
+            <motion.p className="font-display italic max-w-[46rem]" style={{ fontVariationSettings: '"opsz" 64, "SOFT" 40, "WONK" 0', fontWeight: 380, fontSize: 'clamp(1.5rem, 2.75vw, 2.13rem)', lineHeight: 1.32, letterSpacing: '-0.01em', color: '#B05329' }}>
+              What happens beyond your door isn't an add-on. It's the reason you came.
             </motion.p>
           </div>
 
-          {/* ── Experience dock — magnify on hover, expand-to-bento on click ── */}
+          {/* ── Experience dock — expand-to-bento on click ── */}
           {(() => { const expanded = expandedExp !== null; return (
           <div
             className="relative grid grid-cols-2 md:grid-cols-4"
@@ -780,54 +528,59 @@ export default function VillaCascade() {
               zIndex: 1,
               gap: 'clamp(10px, 1.4vw, 18px)',
               marginTop: 'clamp(32px, 6vh, 72px)',
-              paddingBottom: 'clamp(64px, 9vh, 116px)',
+              paddingBottom: 'clamp(36px, 4vh, 48px)',
               gridAutoRows: expanded ? 'var(--tileHalf)' : 'var(--tileH)',
               gridAutoFlow: expanded ? 'dense' : 'row',
             }}
-            onMouseLeave={() => setHoverExp(null)}
           >
             {EXPERIENCE_CARDS.map((card, i) => {
               const isExpanded = expandedExp === i;
-              const isHover    = !expanded && hoverExp === i;
-              const dimmed     = !expanded && hoverExp !== null && hoverExp !== i;
               return (
                 <motion.div
                   layout
                   key={card.title}
-                  onMouseEnter={() => { if (!expanded) setHoverExp(i); }}
+                  className="group"
                   onClick={() => setExpandedExp(isExpanded ? null : i)}
                   transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
                   style={{
                     position: 'relative', cursor: 'pointer',
-                    zIndex: isExpanded ? 40 : (isHover ? 30 : 1),
+                    zIndex: isExpanded ? 40 : 1,
                     gridColumn: isExpanded ? '1 / span 2' : undefined,
                     gridRow:    isExpanded ? '1 / span 4' : undefined,
                   }}
                 >
-                  {/* Inner — handles hover magnify without disturbing grid layout */}
-                  <motion.div
-                    animate={{ scale: isHover ? 1.08 : 1, y: isHover ? -6 : 0, opacity: dimmed ? 0.5 : 1 }}
-                    transition={{ type: 'spring', stiffness: 320, damping: 26, mass: 0.6 }}
-                    style={{ position: 'relative', width: '100%', height: '100%' }}
-                  >
+                  <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                     {/* Image surface — fills whole tile */}
                     <div
+                      className="ring-1 ring-inset ring-linen/0 transition-all duration-300 group-hover:ring-linen/30"
                       style={{
                         position: 'relative', borderRadius: isExpanded ? 18 : 16, overflow: 'hidden',
                         width: '100%', height: '100%',
-                        boxShadow: (isExpanded || isHover) ? '0 28px 64px rgba(0,0,0,0.42)' : '0 6px 18px rgba(0,0,0,0.16)',
+                        boxShadow: isExpanded ? '0 28px 64px rgba(0,0,0,0.42)' : '0 6px 18px rgba(0,0,0,0.16)',
                         transition: 'box-shadow 0.3s ease',
                       }}
                     >
-                      <img src={card.image} alt={card.title} loading="lazy" className="w-full h-full object-cover" style={{ display: 'block' }} />
+                      <img src={card.image} alt={card.title} loading="lazy" className="w-full h-full object-cover transition-[filter] duration-300 group-hover:brightness-110" style={{ display: 'block' }} />
                       <div style={{ position: 'absolute', inset: 0, background: isExpanded
                         ? 'linear-gradient(to top, rgba(8,6,4,0.96) 0%, rgba(8,6,4,0.55) 38%, rgba(8,6,4,0.05) 72%)'
-                        : 'linear-gradient(to top, rgba(8,6,4,0.86) 0%, rgba(8,6,4,0.12) 55%, transparent 80%)' }} />
+                        : 'linear-gradient(to top, rgba(8,6,4,0.9) 0%, rgba(8,6,4,0.32) 58%, transparent 85%)' }} />
 
                       {/* Number */}
                       <span style={{ position: 'absolute', top: 10, left: 12, fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 10, fontWeight: 600, letterSpacing: '0.18em', color: 'rgba(242,237,227,0.7)' }}>
                         {String(i + 1).padStart(2, '0')}
                       </span>
+
+                      {/* Expand hint — fades in on hover */}
+                      {!isExpanded && (
+                        <span
+                          className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          style={{ position: 'absolute', top: 10, right: 10, width: 26, height: 26, borderRadius: 999, border: '1px solid rgba(242,237,227,0.35)', background: 'rgba(8,6,4,0.45)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                        >
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F2EDE3" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="M8 3H5a2 2 0 0 0-2 2v3m0 8v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3m0-8V5a2 2 0 0 0-2-2h-3" />
+                          </svg>
+                        </span>
+                      )}
 
                       {/* Close button — only when expanded */}
                       {isExpanded && (
@@ -840,11 +593,14 @@ export default function VillaCascade() {
                         </button>
                       )}
 
-                      {/* Compact title — collapsed/other tiles */}
+                      {/* Compact title + description — collapsed tiles, always visible */}
                       {!isExpanded && (
                         <div style={{ position: 'absolute', left: 12, right: 12, bottom: 10 }}>
-                          <p className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontSize: expanded ? 'clamp(0.78rem, 1vw, 0.95rem)' : 'clamp(0.95rem, 1.5vw, 1.25rem)', lineHeight: 1.1, letterSpacing: '-0.01em' }}>
+                          <p className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontSize: 'clamp(0.95rem, 1.5vw, 1.25rem)', lineHeight: 1.1, letterSpacing: '-0.01em', marginBottom: 4 }}>
                             {card.title}
+                          </p>
+                          <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(10.5px, 0.9vw, 12px)', lineHeight: 1.4, color: 'rgba(231,222,199,0.68)' }}>
+                            {card.note}
                           </p>
                         </div>
                       )}
@@ -886,36 +642,7 @@ export default function VillaCascade() {
                         </motion.div>
                       )}
                     </div>
-
-                    {/* Thesis card grows below — hover only (collapsed state) */}
-                    <AnimatePresence>
-                      {isHover && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-                          style={{ position: 'absolute', top: '100%', left: 0, right: 0, overflow: 'hidden', zIndex: 30 }}
-                        >
-                          <div style={{
-                            marginTop: 8, borderRadius: 14,
-                            padding: 'clamp(12px, 1.6vh, 16px) clamp(13px, 1.4vw, 18px)',
-                            background: 'rgba(8,6,4,0.92)',
-                            backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)',
-                            border: '1px solid rgba(242,237,227,0.12)',
-                            boxShadow: '0 20px 50px rgba(0,0,0,0.45)',
-                          }}>
-                            <p className="font-display italic" style={{ fontVariationSettings: '"opsz" 32, "SOFT" 40', fontWeight: 420, fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)', lineHeight: 1.25, letterSpacing: '-0.01em', color: '#F2EDE3' }}>
-                              {card.badge}
-                            </p>
-                            <p className="font-eyebrow uppercase" style={{ fontSize: '9px', letterSpacing: '0.2em', color: 'rgba(176,83,41,0.92)', marginTop: 7 }}>
-                              {card.note}
-                            </p>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
+                  </div>
                 </motion.div>
               );
             })}
@@ -924,25 +651,24 @@ export default function VillaCascade() {
         </div>
 
         {/* ── Act 4 — Discovery ───────────────────────────────────────────── */}
-        <div ref={act4Ref} className="relative min-h-screen flex flex-col justify-between p-6 md:p-12 lg:p-16" style={{ zIndex: 1 }}>
-          <div className="pt-4 md:pt-6 max-w-[52rem]">
-            <p className="font-eyebrow text-signal uppercase mb-5 md:mb-6" style={{ fontSize: '11px', letterSpacing: '0.26em' }}>What's nearby</p>
-            <motion.h2 className="font-display mb-6 md:mb-8" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(2rem, 4.5vw, 3.8rem)', lineHeight: 1.05, letterSpacing: '-0.02em', color: act4HeadingColor }}>
-              Thirty minutes from here,<br />the world opens up.
+        <div ref={act4Ref} className="relative min-h-screen flex flex-col justify-start px-6 pb-6 pt-2 md:px-12 md:pb-12 md:pt-3 lg:px-16 lg:pb-16 lg:pt-4" style={{ zIndex: 1 }}>
+          <div className="max-w-[52rem]">
+            <motion.h2 className="font-display mb-3 md:mb-4" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(2rem, 4.5vw, 3.8rem)', lineHeight: 1.05, letterSpacing: '-0.02em', color: act4HeadingColor }}>
+              Just Beyond the Trees
             </motion.h2>
-            <motion.p className="max-w-[46rem]" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(0.88rem, 1.1vw, 1rem)', lineHeight: 1.72, color: act4SubColor }}>
-              Camden, Cheraw, the Peedee River. A wildlife refuge the size of a small country. All within half an hour. Leave the property not because you have to — but because you want to.
+            <motion.p className="font-display italic max-w-[46rem]" style={{ fontVariationSettings: '"opsz" 64, "SOFT" 40, "WONK" 0', fontWeight: 380, fontSize: 'clamp(1.5rem, 2.75vw, 2.13rem)', lineHeight: 1.32, letterSpacing: '-0.01em', color: '#B05329' }}>
+              Small towns, state parks, farm stands and scenic Sandhills roads — all close enough for a slow afternoon outside the property.
             </motion.p>
           </div>
-          <div>
-            <p className="font-eyebrow text-signal uppercase mb-5" style={{ fontSize: '11px', letterSpacing: '0.26em' }}>Around you</p>
+          <div style={{ marginTop: 'clamp(20px, 3vh, 32px)' }}>
             <div className="flex flex-col md:flex-row gap-3">
               {sandhillsData.nearby.map((poi, i) => (
                 <button key={poi.name} onClick={() => setNearbyIdx(i)} className="w-full md:flex-1 md:min-w-0 rounded-xl overflow-hidden relative group text-left h-[clamp(140px,38vw,180px)] md:h-[clamp(280px,44vh,440px)]">
                   <img src={poi.image} alt={poi.name} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" />
-                  <div className="absolute inset-x-0 bottom-0 px-3 pb-3 pt-12" style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.97) 0%, rgba(8,6,4,0.65) 55%, transparent 100%)' }}>
+                  <div className="absolute inset-x-0 bottom-0 px-3 pb-3 pt-16" style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.97) 0%, rgba(8,6,4,0.72) 52%, transparent 100%)' }}>
                     <p className="font-eyebrow text-signal uppercase mb-[5px]" style={{ fontSize: '9px', letterSpacing: '0.24em' }}>{poi.distance}</p>
-                    <p className="font-display text-linen leading-tight" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontStyle: 'italic', fontSize: 'clamp(1.05rem, 1.9vw, 1.4rem)', letterSpacing: '-0.01em' }}>{poi.name}</p>
+                    <p className="font-display text-linen leading-tight mb-1" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontStyle: 'italic', fontSize: 'clamp(1.05rem, 1.9vw, 1.4rem)', letterSpacing: '-0.01em' }}>{poi.name}</p>
+                    <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(11px, 1vw, 12.5px)', lineHeight: 1.45, color: 'rgba(231,222,199,0.7)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{poi.description}</p>
                   </div>
                   <div className="absolute inset-0 ring-1 ring-inset ring-linen/0 group-hover:ring-linen/20 rounded-xl transition-all duration-300" />
                 </button>
@@ -951,6 +677,146 @@ export default function VillaCascade() {
           </div>
         </div>
 
+        {/* ── B2B — Private hire (frosted matte glass, colors invert with bg) ── */}
+        <div ref={b2bRef} className="relative flex flex-col px-6 pb-14 pt-6 md:px-12 md:pb-24 md:pt-10 lg:px-16" style={{ zIndex: 1 }}>
+          <div className="w-full md:max-w-[82%] mx-auto">
+            {/* Headline — sits on the page, outside the panel */}
+            <motion.h2 className="font-display" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 0', fontWeight: 380, fontSize: 'clamp(2.1rem, 4.5vw, 3.7rem)', lineHeight: 1.06, letterSpacing: '-0.02em', maxWidth: '20ch', marginBottom: 'clamp(20px, 3vh, 34px)', color: b2bText }}>
+              Your private event deserves more than a restaurant table.
+            </motion.h2>
+
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                position: 'relative',
+                borderRadius: 28,
+                overflow: 'hidden',
+                background: b2bPanel,
+                backdropFilter: 'blur(30px) saturate(118%)',
+                WebkitBackdropFilter: 'blur(30px) saturate(118%)',
+                borderWidth: 1,
+                borderStyle: 'solid',
+                borderColor: b2bLine,
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.18), 0 30px 90px rgba(0,0,0,0.18)',
+                padding: 'clamp(28px, 4vh, 48px) clamp(24px, 4vw, 68px) clamp(40px, 7.5vh, 96px)',
+              }}
+            >
+              {/* warm sheen, top-left */}
+              <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none',
+                background: 'radial-gradient(130% 90% at 0% 0%, rgba(176,83,41,0.12), transparent 55%)' }} />
+
+              <div style={{ position: 'relative' }}>
+                {/* Lead-in line */}
+                <p className="font-display italic" style={{ fontVariationSettings: '"opsz" 96, "SOFT" 50, "WONK" 0', fontWeight: 400, fontSize: 'clamp(1.5rem, 3vw, 2.45rem)', lineHeight: 1.18, letterSpacing: '-0.015em', color: '#C2632F', marginBottom: 'clamp(22px, 3vh, 34px)' }}>
+                  Take over the whole retreat.
+                </p>
+
+                {/* Capacity — tactile paper / cardboard cards */}
+                <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: 'clamp(12px, 1.6vw, 20px)', marginBottom: 'clamp(30px, 4vh, 52px)' }}>
+                  {[
+                    { label: 'Daily Events', pre: 'Up to', num: '200', unit: 'guests', note: 'for private gatherings & celebrations' },
+                    { label: 'Overnight Stay', pre: 'Up to', num: '40', unit: 'guests', note: 'adults and kids are welcome' },
+                    { label: 'Minimum Stay', pre: 'From', num: '1', unit: 'night', note: "stay longer — you won't want to leave" },
+                  ].map((card) => (
+                    <div
+                      key={card.label}
+                      style={{
+                        borderRadius: 14,
+                        padding: 'clamp(22px, 3vh, 32px) clamp(22px, 2.4vw, 30px)',
+                        background: 'linear-gradient(168deg, #F5F0E7 0%, #E9E1CF 100%)',
+                        border: '1px solid rgba(31,36,32,0.10)',
+                        boxShadow: '0 1px 1px rgba(31,36,32,0.05), 0 10px 24px rgba(31,36,32,0.14), inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(31,36,32,0.06)',
+                      }}
+                    >
+                      <p className="font-eyebrow text-signal uppercase" style={{ fontSize: 'clamp(12.5px, 1.05vw, 14px)', fontWeight: 700, letterSpacing: '0.16em', marginBottom: 'clamp(14px, 2vh, 18px)' }}>
+                        {card.label}
+                      </p>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 'clamp(7px, 0.8vw, 11px)', marginBottom: 'clamp(9px, 1.3vh, 13px)' }}>
+                        <span className="font-eyebrow uppercase" style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(31,36,32,0.42)', flexShrink: 0 }}>
+                          {card.pre}
+                        </span>
+                        <span className="font-display" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 0, "WONK" 0', fontWeight: 330, fontSize: 'clamp(2.8rem, 5vw, 4.2rem)', lineHeight: 0.86, letterSpacing: '-0.035em', color: 'rgba(31,36,32,0.94)' }}>
+                          {card.num}
+                        </span>
+                        <span className="font-display italic" style={{ fontVariationSettings: '"opsz" 40, "SOFT" 40, "WONK" 0', fontWeight: 380, fontSize: 'clamp(1.05rem, 1.5vw, 1.35rem)', letterSpacing: '-0.01em', color: 'rgba(31,36,32,0.66)' }}>
+                          {card.unit}
+                        </span>
+                      </div>
+                      <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(0.8rem, 0.92vw, 0.88rem)', lineHeight: 1.45, color: 'rgba(31,36,32,0.56)' }}>
+                        {card.note}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Perfect for — benefits, not options */}
+                <div style={{ marginBottom: 'clamp(34px, 4.5vh, 56px)' }}>
+                  <div className="flex items-center" style={{ gap: 10, marginBottom: 'clamp(18px, 2.6vh, 26px)' }}>
+                    <span aria-hidden="true" style={{ display: 'block', width: 28, height: 1, background: '#D4804E', flexShrink: 0 }} />
+                    <motion.span className="font-eyebrow uppercase" style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.22em', color: b2bMuted }}>
+                      Perfect for
+                    </motion.span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: '0 clamp(20px, 3vw, 44px)' }}>
+                    {B2B_SCENARIOS.map((scenario, i) => (
+                      <motion.div
+                        key={scenario.title}
+                        initial={{ opacity: 0, y: 14 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-40px' }}
+                        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: i * 0.05 }}
+                        style={{
+                          paddingTop: 'clamp(16px, 2.2vh, 22px)',
+                          paddingBottom: 'clamp(16px, 2.2vh, 22px)',
+                          borderTopWidth: 1, borderTopStyle: 'solid', borderTopColor: b2bLine,
+                        }}
+                      >
+                        <motion.p className="font-display" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.12rem, 1.5vw, 1.3rem)', lineHeight: 1.15, letterSpacing: '-0.012em', marginBottom: 7, color: b2bText }}>
+                          {scenario.title}
+                        </motion.p>
+                        <motion.p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(0.82rem, 0.95vw, 0.92rem)', lineHeight: 1.5, color: b2bMuted }}>
+                          {scenario.benefit}
+                        </motion.p>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Closing band — statement + CTA, tied by a hairline rule */}
+                <motion.div
+                  className="flex flex-col md:flex-row md:items-center md:justify-between"
+                  style={{
+                    gap: 'clamp(20px, 3vw, 44px)',
+                    paddingTop: 'clamp(28px, 4vh, 44px)',
+                    borderTopWidth: 1, borderTopStyle: 'solid', borderTopColor: b2bLine,
+                  }}
+                >
+                  <motion.h3 className="font-display" style={{ fontVariationSettings: '"opsz" 96, "SOFT" 40, "WONK" 0', fontWeight: 380, fontSize: 'clamp(1.5rem, 2.8vw, 2.2rem)', lineHeight: 1.12, letterSpacing: '-0.015em', maxWidth: '16ch', margin: 0, color: b2bText }}>
+                    The whole property becomes <span style={{ fontStyle: 'italic', color: '#C2632F' }}>the event.</span>
+                  </motion.h3>
+                  <a
+                    href="#reserve"
+                    className="self-start md:self-auto"
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 10,
+                      background: '#B05329', color: '#F2EDE3', textDecoration: 'none',
+                      padding: 'clamp(13px, 1.7vh, 17px) clamp(24px, 2.6vw, 34px)',
+                      borderRadius: 999, flexShrink: 0, whiteSpace: 'nowrap',
+                      fontFamily: 'Inter Tight, Inter, system-ui, sans-serif',
+                      fontSize: 11, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase',
+                    }}
+                  >
+                    Plan Your Private Getaway
+                    <span style={{ fontSize: 14, lineHeight: 1 }}>→</span>
+                  </a>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
 
       </section>
 
@@ -1051,9 +917,8 @@ function ComfortModal({ cards, startIdx, onClose }: { cards: typeof COMFORT_CARD
               <img src={card.image} alt={card.title} className="w-full h-full object-cover" />
             </div>
             <div className="flex-1 flex flex-col justify-center p-8 md:p-10 lg:p-12">
-              <p className="font-eyebrow text-signal uppercase mb-4" style={{ fontSize: '10px', letterSpacing: '0.26em' }}>{card.note}</p>
-              <h2 className="font-display text-linen mb-6" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.5rem, 2.8vw, 2.2rem)', lineHeight: 1.1, letterSpacing: '-0.015em' }}>{card.headline}</h2>
-              <p className="text-linen/65" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(0.85rem, 1.05vw, 0.95rem)', lineHeight: 1.75 }}>{card.body}</p>
+              <h2 className="font-display text-linen mb-6" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.5rem, 2.8vw, 2.2rem)', lineHeight: 1.1, letterSpacing: '-0.015em' }}>{card.title}</h2>
+              <p className="text-linen/65" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(0.85rem, 1.05vw, 0.95rem)', lineHeight: 1.75 }}>{card.subtitle}</p>
             </div>
           </motion.div>
         </AnimatePresence>

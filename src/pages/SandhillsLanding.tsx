@@ -97,36 +97,39 @@ export default function SandhillsLanding() {
               HORIZONS
             </div>
             <div style={{ marginLeft: 10, marginTop: 3, display: 'flex', alignItems: 'baseline', gap: '0.35em', flexWrap: 'nowrap' }}>
-              <span style={{ fontFamily: FONT, fontSize: 'clamp(14px, 4vw, 20px)', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#8C3F1E', lineHeight: 1.05 }}>
+              <span style={{ fontFamily: FONT, fontSize: 'clamp(14px, 4vw, 20px)', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#DE7E44', lineHeight: 1.05 }}>
                 Sandhills
               </span>
-              <motion.span
-                style={{ fontFamily: 'Fraunces, Canela, Georgia, serif', fontSize: 'clamp(18px, 5vw, 26px)', fontWeight: 300, fontStyle: 'italic', color: 'rgba(242,237,227,0.85)', lineHeight: 1 }}
-                initial={{ opacity: 0, y: 6 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-20px' }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
-              >
-                is…
-              </motion.span>
             </div>
           </div>
 
-          {/* Positioning statement — completes "…is" on mobile */}
+          {/* Positioning statement — sans headline + slogan, set apart from wordmark */}
           <motion.div
-            style={{ padding: '14px 24px 0' }}
+            style={{ padding: 'clamp(26px, 6vh, 44px) 24px 0' }}
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-30px' }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
           >
             <h2
-              className="font-display"
-              style={{ fontVariationSettings: '"wght" 300, "opsz" 96, "SOFT" 50', fontSize: 'clamp(1.85rem, 9vw, 2.6rem)', lineHeight: 1.06, letterSpacing: '-0.02em', color: 'rgba(242,237,227,0.95)' }}
+              style={{ fontFamily: FONT, fontWeight: 500, fontSize: 'clamp(2.34rem, 11.18vw, 3.25rem)', lineHeight: 1.08, letterSpacing: '-0.01em', color: 'rgba(242,237,227,0.65)' }}
             >
-              A five-star hotel.<br />Except the hotel is a{' '}
-              <img src="/images/f-orest.webp" alt="forest" className="inline-block" style={{ height: '0.9em', width: 'auto', verticalAlign: '-0.05em', borderRadius: '0.12em' }} />.
+              Where the city disappears.
             </h2>
+            <p
+              style={{
+                marginTop: 14,
+                maxWidth: '38ch',
+                fontFamily: 'Montserrat, ui-sans-serif, system-ui',
+                fontSize: 'clamp(1.25rem, 5.54vw, 1.47rem)',
+                fontWeight: 300,
+                lineHeight: 1.52,
+                letterSpacing: '0.012em',
+                color: 'rgba(231,222,199,0.74)',
+              }}
+            >
+              Slow down, reconnect, and remember what a <span style={{ fontFamily: 'Fraunces, Canela, Georgia, serif', fontWeight: 700, fontStyle: 'italic', color: '#DE7E44' }}>real getaway</span> is supposed to feel like.
+            </p>
           </motion.div>
 
           {/* Territory roadmap — vertical zigzag, scroll-loaded */}
@@ -147,8 +150,8 @@ export default function SandhillsLanding() {
               className="font-display"
               style={{ fontVariationSettings: '"wght" 360, "opsz" 64, "SOFT" 30', fontSize: 'clamp(1.2rem, 5.6vw, 1.6rem)', lineHeight: 1.3, letterSpacing: '-0.01em', color: 'rgba(242,237,227,0.9)', maxWidth: '24ch' }}
             >
-              A place with a genuinely one-of-a-kind vibe.{' '}
-              <span style={{ fontStyle: 'italic', color: '#D4804E' }}>Don't believe us? See for yourself.</span>
+              Come for the stay. Leave with{' '}
+              <span style={{ fontStyle: 'italic', color: '#DE7E44' }}>the story.</span>
             </p>
             <div className="animate-bounceCue" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
               <span className="font-eyebrow" style={{ fontSize: 10, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(242,237,227,0.5)' }}>Scroll</span>
@@ -273,7 +276,6 @@ export default function SandhillsLanding() {
         {/* ── Карточка 3: WAITING наплывает (z-index 50) ── */}
         <StackCard zIndex={50}>
           <FinalCtaImmersive
-            bigType={d.finalCta.bigType}
             headline={d.finalCta.headline}
             sub={d.finalCta.sub}
             image={d.finalCta.image}

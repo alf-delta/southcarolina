@@ -251,7 +251,7 @@ export const sandhillsData = {
     {
       distance: '20 min · state park',
       name: 'Cheraw State Park',
-      description: 'Oldest state park in SC. Longleaf trails, a horseshoe lake, the quiet kind.',
+      description: "Shaded trails, lake views, fishing, paddling and one of South Carolina's most beautiful public golf courses.",
       image: '/images/nearby/Cheraw_State_Park.webp',
       why: "South Carolina's oldest state park. A horseshoe lake, ancient longleaf pines, and trails quiet enough to hear the woodpeckers work. No crowds, no agenda — just the forest doing what it's always done.",
       stats: [
@@ -263,8 +263,8 @@ export const sandhillsData = {
     },
     {
       distance: '35 min · wildlife refuge',
-      name: 'Carolina Sandhills NWR',
-      description: '47,850 acres. Red-cockaded woodpecker country. Bring binoculars.',
+      name: 'Scenic Sandhills',
+      description: 'Longleaf pines, sandy ridges, farmland and backroads made for slow drives.',
       image: '/images/nearby/Carolina_Sandhills_National_Wildlife.webp',
       why: '47,850 acres of managed longleaf pine savanna — the same habitat we\'re restoring at Horizons. Home to red-cockaded woodpeckers, bobwhite quail, and the kind of open-sky silence that recalibrates something in you.',
       stats: [
@@ -276,8 +276,8 @@ export const sandhillsData = {
     },
     {
       distance: '30 min · historic town',
-      name: 'Camden',
-      description: "Revolutionary War streets. Saturday farmers' market. Two good coffee shops.",
+      name: 'Small Town Charm',
+      description: 'Patrick, Cheraw and nearby towns with local restaurants, history and an easygoing pace.',
       image: '/images/nearby/Camden.webp',
       why: "The oldest inland city in South Carolina. Antebellum streets, a serious equestrian scene, two coffee shops worth the detour, and a Saturday farmers' market worth setting an alarm for.",
       stats: [
@@ -289,8 +289,8 @@ export const sandhillsData = {
     },
     {
       distance: '45 min · river',
-      name: 'Peedee River',
-      description: 'Blackwater paddling. Fish camps that have been there since 1952.',
+      name: 'Local Flavor',
+      description: 'Farm stands, farmers markets, country festivals and seasonal produce from the region.',
       image: '/images/nearby/Great_PeeDee_River.webp',
       why: 'Blackwater paddling through tannin-dark water under cypress canopy. Fish camps on the banks since before living memory. The kind of river that reminds you some things are better left exactly as they are.',
       stats: [
@@ -311,9 +311,8 @@ export const sandhillsData = {
     { q: 'Can we host an event here?', a: 'Yes — weddings up to 40, retreats and buyouts up to 20. We have a dedicated planner.' },
   ],
   finalCta: {
-    bigType: 'WAITING',
-    headline: 'A hundred and twenty-six acres is waiting.',
-    sub: '',
-    image: '/images/sandhills/waiting.webp',
+    headline: 'Take the Stay. Make the Story.',
+    sub: 'A private lake, Forest Villas, sauna heat, firelit evenings and acres of room to breathe — Sandhills is yours when you’re ready to step away.',
+    image: '/images/sandhills/final_image.png',
   },
 };

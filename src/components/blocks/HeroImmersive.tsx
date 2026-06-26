@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent, type MotionValue } from 'framer-motion';
-import { TreeEvergreenIcon, WavesIcon, HouseSimpleIcon, BicycleIcon, PathIcon, FishIcon, HexagonIcon, FireIcon } from '@phosphor-icons/react';
+import { TreeEvergreenIcon, WavesIcon, HouseSimpleIcon, BicycleIcon, PathIcon, FireIcon, MoonStarsIcon } from '@phosphor-icons/react';
 import Button from '../primitives/Button';
 
 export const FONT     = 'Coco Sharp, Encode Sans Expanded, ui-sans-serif';
@@ -44,12 +44,12 @@ export const GLANCE = [
 
 // ── Second-screen territory highlights — broad → specific ──
 export const TERRITORY = [
-  { icon: WavesIcon,   value: ['A lake', 'of your own'],     label: '18 private acres of still water — swim, paddle, or just watch the herons. No motors, no strangers, ever.' },
-  { icon: PathIcon,    value: ['Roam', 'without limits'],    label: 'Twelve miles of marked trail through longleaf pine, with four trailheads and a creek loop worth finding.' },
-  { icon: FishIcon,    value: ['Stocked,', 'not hopeful'],   label: 'Bass, bream and catfish actually stocked in the lake. Rods at the dock — and no license on private water.' },
-  { icon: HexagonIcon, value: ['Clean enough', 'for bees'],  label: 'Twenty hives and a million bees on land clean enough to keep them — honey in your pantry from fifty feet away.' },
-  { icon: BicycleIcon, value: ['Bikes,', 'always ready'],    label: 'A fleet of e-bikes kept charged and waiting — helmets, locks and a route map, enough for the whole group.' },
-  { icon: FireIcon,    value: ['Two', 'wood-fired saunas'],  label: 'Two wood-fired saunas with natural-stone heat, steps from the lake. Heat, cold plunge, then do it again.' },
+  { icon: TreeEvergreenIcon, value: ['Room to', 'Breathe'],                   label: '126 acres of land and forest, quiet trails, open space and the kind of freedom you don’t find in the city.' },
+  { icon: WavesIcon,         value: ['A Lake', 'to Yourself'],                label: 'Swim, fish, paddle, float — or do absolutely nothing on an 18-acre lake.' },
+  { icon: HouseSimpleIcon,   value: ['Five-Star Comfort,', 'Forest Edition'], label: 'Modern Forest Villas with everything you need to feel at home outside.' },
+  { icon: FireIcon,          value: ['The Wood-Fired', 'Reset'],              label: 'Sauna heat, lake views and the kind of calm you came here for.' },
+  { icon: BicycleIcon,       value: ['Play Without', 'a Schedule'],           label: 'Pool days, e-bikes, kayaks, paddleboards, trails, volleyball, soccer and open-air adventures.' },
+  { icon: MoonStarsIcon,     value: ['Stay Out', 'After Dark'],               label: 'Firepits, decks, stars and long evenings with your people.' },
 ];
 const NUMH = 'clamp(50px, 6.5vh, 78px)';
 const EDGE = 50 / TERRITORY.length;   // % inset to first/last dot center
@@ -77,8 +77,8 @@ function HeroNumeral({ progress, index }: { progress: MotionValue<number>; index
 function HeroDot({ progress, index }: { progress: MotionValue<number>; index: number }) {
   const t      = useTransform(progress, [index - 0.15, index + 0.25], [0, 1]);
   const scale  = useTransform(t, [0, 1], [0.5, 1]);
-  const bg     = useTransform(t, [0, 1], ['rgba(242,237,227,0.22)', '#B05329']);
-  const shadow = useTransform(t, [0, 1], ['0 0 0 rgba(176,83,41,0)', '0 0 14px rgba(176,83,41,0.7)']);
+  const bg     = useTransform(t, [0, 1], ['rgba(242,237,227,0.22)', '#BC4F1F']);
+  const shadow = useTransform(t, [0, 1], ['0 0 0 rgba(188,79,31,0)', '0 0 14px rgba(188,79,31,0.7)']);
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <motion.div style={{ width: 11, height: 11, borderRadius: 999, scale, background: bg, boxShadow: shadow }} />
@@ -124,14 +124,13 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
   const stickyBg = useTransform(
     scrollY,
     [h * 0.52, h * 0.82],
-    ['rgba(10,8,5,1)', 'rgba(10,8,5,0.5)']
+    ['rgba(10,8,5,1)', 'rgba(10,8,5,0.57)']
   );
 
   // ── Traveling wordmark: starts at blur-panel center, travels to top ──
   const wordmarkInitialY = h * 0.815 - 153;
   const wordmarkY     = useTransform(scrollY, [0, h * 0.65], [wordmarkInitialY, 0]);
   const sandhillsWeight = useTransform(scrollY, [h * 0.28, h * 0.65], [200, 600]);
-  const isOpacity = useTransform(scrollY, [h * 0.68, h * 0.82], [0, 1]);
 
   const contentOpacity = useTransform(scrollY, [h * 0.84, h * 1.0], [0, 1]);
   const contentY       = useTransform(scrollY, [h * 0.84, h * 1.0], [24, 0]);
@@ -252,8 +251,8 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
             {/* Center tagline */}
             <div className="hidden md:flex" style={{ position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', transform: 'translate(clamp(80px, 13vw, 200px), clamp(15px, 2.2vh, 30px))' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                <span style={{ fontFamily: FONT, fontSize: 'clamp(20px, 1.75vw, 25px)', fontWeight: 300, letterSpacing: '0.38em', textTransform: 'uppercase', color: 'rgba(242,237,227,0.55)' }}>
-                  Your Getaway Redefined
+                <span style={{ fontFamily: FONT, fontSize: 'clamp(17px, 1.49vw, 21.25px)', fontWeight: 300, letterSpacing: '0.38em', textTransform: 'uppercase', color: 'rgba(242,237,227,0.55)' }}>
+                  Your Private Nature Getaway
                 </span>
               </div>
             </div>
@@ -278,43 +277,50 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
           </motion.div>
 
           <div style={{ marginLeft: '15px', marginTop: '4px', display: 'flex', alignItems: 'baseline', gap: '0.4em', flexWrap: 'nowrap' }}>
-            <motion.span style={{ fontFamily: FONT, fontSize: 'clamp(22px, 3.4vw, 48px)', fontWeight: sandhillsWeight, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#8C3F1E', lineHeight: 1.05, flexShrink: 0 }}>
+            <motion.span style={{ fontFamily: FONT, fontSize: 'clamp(22px, 3.4vw, 48px)', fontWeight: sandhillsWeight, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#DE7E44', lineHeight: 1.05, flexShrink: 0 }}>
               Sandhills
-            </motion.span>
-            <motion.span style={{ fontFamily: 'Fraunces, Canela, Georgia, serif', fontSize: 'clamp(26px, 3.2vw, 56px)', fontWeight: 300, fontStyle: 'italic', color: 'rgba(242,237,227,0.88)', lineHeight: 1, whiteSpace: 'nowrap', opacity: isOpacity }}>
-              is…
             </motion.span>
           </div>
 
-          {/* ── Positioning statement — completes "Horizons Sandhills is…" ── */}
+          {/* ── Positioning statement ── */}
           <motion.div
             style={{
               opacity: contentOpacity,
               y: contentY,
-              marginTop: 'clamp(16px, 2.6vh, 40px)',
+              marginTop: 'clamp(30px, 5.5vh, 84px)',
             }}
           >
-            {/* Heading */}
-            <div style={{ maxWidth: 'min(54rem, calc(100vw - 48px))' }}>
+            {/* Headline — sans, set apart from the location wordmark */}
+            <div style={{ maxWidth: 'min(76rem, calc(100vw - 48px))' }}>
               <h2
-                className="font-display"
                 style={{
-                  fontVariationSettings: '"wght" 200, "opsz" 144, "SOFT" 50, "WONK" 0',
-                  fontWeight: 200,
-                  fontSize: 'clamp(2.1rem, 4.6vw, 4.2rem)',
-                  lineHeight: 1.03,
-                  letterSpacing: '-0.02em',
-                  color: 'rgba(242,237,227,0.96)',
-                  textShadow: '0 2px 30px rgba(0,0,0,0.5)',
+                  fontFamily: FONT,
+                  fontWeight: 500,
+                  fontSize: 'clamp(2.6rem, 5.72vw, 5.2rem)',
+                  lineHeight: 1.06,
+                  letterSpacing: '-0.01em',
+                  whiteSpace: 'nowrap',
+                  color: 'rgba(242,237,227,0.65)',
+                  textShadow: '0 2px 30px rgba(0,0,0,0.45)',
                 }}
               >
-                A five-star hotel.<br />Except the hotel is a{' '}
-                <img
-                  src="/images/f-orest.webp"
-                  alt="forest"
-                  style={{ display: 'inline-block', height: '0.9em', width: 'auto', position: 'relative', top: '-3px', verticalAlign: '-0.05em', borderRadius: '0.12em' }}
-                />.
+                Where the city disappears.
               </h2>
+              {/* Slogan */}
+              <p
+                style={{
+                  marginTop: 'clamp(16px, 2.4vh, 30px)',
+                  maxWidth: '48ch',
+                  fontFamily: 'Montserrat, ui-sans-serif, system-ui',
+                  fontSize: 'clamp(1.34rem, 1.98vw, 1.78rem)',
+                  fontWeight: 300,
+                  lineHeight: 1.55,
+                  letterSpacing: '0.012em',
+                  color: 'rgba(231,222,199,0.72)',
+                }}
+              >
+                Slow down, reconnect, and remember what a <span style={{ fontFamily: 'Fraunces, Canela, Georgia, serif', fontWeight: 700, fontStyle: 'italic', color: '#DE7E44' }}>real getaway</span> is supposed to feel like.
+              </p>
             </div>
 
             {/* Numerals — scroll-scrubbed "loading bar", full viewport width, no panel */}
@@ -339,7 +345,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
                 {/* base line */}
                 <div style={{ position: 'absolute', left: `${EDGE}%`, right: `${EDGE}%`, top: '50%', transform: 'translateY(-50%)', height: 2, borderRadius: 2, background: 'rgba(242,237,227,0.13)' }} />
                 {/* fill line */}
-                <motion.div style={{ position: 'absolute', left: `${EDGE}%`, top: '50%', transform: 'translateY(-50%)', height: 2, borderRadius: 2, width: territoryFill, background: '#B05329', boxShadow: '0 0 12px rgba(176,83,41,0.55)' }} />
+                <motion.div style={{ position: 'absolute', left: `${EDGE}%`, top: '50%', transform: 'translateY(-50%)', height: 2, borderRadius: 2, width: territoryFill, background: '#BC4F1F', boxShadow: '0 0 12px rgba(188,79,31,0.55)' }} />
                 {/* dots */}
                 <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: `repeat(${TERRITORY.length}, minmax(0, 1fr))`, alignItems: 'center' }}>
                   {TERRITORY.map((_, i) => (
@@ -390,8 +396,8 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
               color: 'rgba(242,237,227,0.92)',
             }}
           >
-            A place with a genuinely one-of-a-kind vibe.{' '}
-            <span style={{ fontStyle: 'italic', color: 'rgba(242,237,227,0.58)' }}>Don't believe us? See for yourself.</span>
+            Come for the stay. Leave with{' '}
+            <span style={{ fontStyle: 'italic', color: '#DE7E44' }}>the story.</span>
           </p>
           <div className="animate-bounceCue" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
             <span className="eyebrow" style={{ fontSize: '10px', letterSpacing: '0.26em', color: 'rgba(242,237,227,0.5)' }}>
