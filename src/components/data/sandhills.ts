@@ -65,7 +65,7 @@ export const sandhillsData = {
         '/images/villa/04_Sauna/1.webp',
       ],
       rooms: [
-        { name: 'Exterior', photos: ['/images/villa/hero/1.webp', '/images/villa/hero/2.webp', '/images/villa/hero/3.webp', '/images/villa/hero/4.webp', '/images/villa/hero/5.webp', '/images/villa/01_Exterior/1.webp', '/images/villa/01_Exterior/2.webp', '/images/villa/01_Exterior/3.webp', '/images/villa/01_Exterior/4.webp'] },
+        { name: 'Exterior', photos: ['/images/villa/hero/1.webp', '/images/villa/hero/2.webp', '/images/villa/hero/3.webp', '/images/villa/hero/4.webp', '/images/villa/hero/5.webp'] },
         { name: 'Interior', photos: ['/images/villa/02_Interior_Casita/1.webp', '/images/villa/02_Interior_Casita/2.webp', '/images/villa/02_Interior_Casita/3.webp', '/images/villa/02_Interior_Casita/4.webp', '/images/villa/02_Interior_Casita/5.webp', '/images/villa/02_Interior_Casita/6.webp'] },
         { name: 'Terrace', photos: ['/images/villa/03_Terrace/1.webp', '/images/villa/03_Terrace/2.webp'] },
         { name: 'Sauna', photos: ['/images/villa/04_Sauna/1.webp', '/images/villa/04_Sauna/2.webp', '/images/villa/04_Sauna/3.webp'] },
