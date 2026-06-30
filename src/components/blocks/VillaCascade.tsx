@@ -130,7 +130,7 @@ const EXPERIENCE_CARDS = [
     points:   ['20 active hives on property', '1M+ bees · longleaf pine + wildflower honey', 'Honey in every welcome pantry', 'Guided hive walk available on request'],
   },
   {
-    image:    '/images/sandhills/fire_pit.webp',
+    image:    '/images/sandhills/fire_pit2.webp',
     title:    'By the Outdoor Fireplace',
     note:     'A large deck, warm fire, open sky and the conversations that make the trip.',
     badge:    'Where your food starts.',
