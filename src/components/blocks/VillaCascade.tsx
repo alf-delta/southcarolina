@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from 'framer-motion';
 import { Wifi, Bath, Utensils, Armchair } from 'lucide-react';
 import Img from '../primitives/Img';
 import { sandhillsData } from '../data/sandhills';
@@ -9,19 +9,28 @@ import GalleryModal from './GalleryModal';
 
 // ── Card data ─────────────────────────────────────────────────────────────────
 
+// Act 1 hero — crossfading slideshow on the "Forest Villa" image
+const HERO_IMAGES = [
+  '/images/villa/hero/1.webp',
+  '/images/villa/hero/2.webp',
+  '/images/villa/hero/3.webp',
+  '/images/villa/hero/4.webp',
+  '/images/villa/hero/5.webp',
+] as const;
+
 const COMFORT_CARDS = [
   {
-    image:    '/images/comfort/brooklinen.webp',
+    image:    '/images/comfort/king-bed.webp',
     title:    'King Bed + Sofa Bed',
     subtitle: 'Brooklinen linens, soft pillows and space to sleep up to 4 guests in comfort.',
   },
   {
-    image:    '/images/comfort/appliences.webp',
+    image:    '/images/comfort/kitchen.webp',
     title:    'A Kitchen That’s Actually Ready',
     subtitle: 'SMEG appliances, Nespresso coffee and everything you need for slow breakfasts or dinner after the lake.',
   },
   {
-    image:    '/images/villa/02_Interior_Casita/2.webp',
+    image:    '/images/comfort/bathroom.webp',
     title:    'Everything-You-Need Bathroom',
     subtitle: 'A clean, comfortable bathroom stocked with the essentials, so you can pack lighter.',
   },
@@ -31,7 +40,7 @@ const COMFORT_CARDS = [
     subtitle: 'A Marshall speaker for your cabin playlist — in case the sounds of nature need a little backup.',
   },
   {
-    image:    '/images/comfort/weber.webp',
+    image:    '/images/comfort/deck-firepit.webp',
     title:    'Deck, Grill & Firepit',
     subtitle: 'Your private outdoor setup with a Weber grill, Adirondack chairs and everything you need for long dinners and slow nights by the fire.',
   },
@@ -44,7 +53,7 @@ const COMFORT_CARDS = [
 
 const EXPERIENCE_CARDS = [
   {
-    image:    '/images/sandhills/sauna_session.webp',
+    image:    '/images/sandhills/final_image.webp',
     title:    'The Sauna Ritual',
     note:     'Wood-fired heat, panoramic lake views and the kind of reset you feel immediately.',
     badge:    'Best wild spa ever',
@@ -77,7 +86,7 @@ const EXPERIENCE_CARDS = [
     points:   ['Illustrated map in your cabin', 'Longleaf pine savanna + creek loop', 'Easy to moderate grade', 'Ends at a creek worth finding'],
   },
   {
-    image:    '/images/sandhills/fishing.webp',
+    image:    '/images/experience/ready-for-the-water.webp',
     title:    'Ready for the Water',
     note:     'Kayaks, paddleboards and boats ready for quiet mornings or full-group lake adventures.',
     badge:    'Still in there. Go get it.',
@@ -99,7 +108,7 @@ const EXPERIENCE_CARDS = [
     points:   ['4 gravel bikes + 2 trail bikes on property', 'Helmets, locks, and a printed route map included', '12 miles of marked paths', 'Best morning ride: lake loop before 8 am'],
   },
   {
-    image:    '/images/aKbo_jkSiGvo_scLOlbIM_BngwcJ7U.webp',
+    image:    '/images/experience/pool-days.webp',
     title:    'Pool Days',
     note:     'A large outdoor pool made for long afternoons, sun, water and good company.',
     badge:    'Picked this morning.',
@@ -110,7 +119,7 @@ const EXPERIENCE_CARDS = [
     points:   ['Private orchard, guests only', 'Pick your own in season', 'Peaches available year-round from the welcome pantry', 'Jam, preserves, and fresh fruit on arrival'],
   },
   {
-    image:    '/images/hiveboxx-65icrs88YYs-unsplash.webp',
+    image:    '/images/experience/honey-from-the-land.webp',
     title:    'Honey From the Land',
     note:     'Our own beehives on property — a small taste of Sandhills, straight from nature.',
     badge:    'A million bees. All ours.',
@@ -121,7 +130,7 @@ const EXPERIENCE_CARDS = [
     points:   ['20 active hives on property', '1M+ bees · longleaf pine + wildflower honey', 'Honey in every welcome pantry', 'Guided hive walk available on request'],
   },
   {
-    image:    '/images/sandhills/farm_tour.jpg',
+    image:    '/images/experience/by-the-outdoor-fireplace.webp',
     title:    'By the Outdoor Fireplace',
     note:     'A large deck, warm fire, open sky and the conversations that make the trip.',
     badge:    'Where your food starts.',
@@ -214,6 +223,15 @@ export default function VillaCascade() {
   // When the B2B bone bg is showing, the whole section reads as a light zone so the
   // sticky header flips its logo/nav to dark — kept in sync with the actual bg (o5).
   const [b2bBgLight, setB2bBgLight] = useState(false);
+
+  // Act 1 hero slideshow — auto-advancing crossfade (paused for reduced-motion)
+  const reduceMotion = useReducedMotion();
+  const [heroIdx, setHeroIdx] = useState(0);
+  useEffect(() => {
+    if (reduceMotion) return;
+    const id = setInterval(() => setHeroIdx((i) => (i + 1) % HERO_IMAGES.length), 5000);
+    return () => clearInterval(id);
+  }, [reduceMotion]);
 
   useEffect(() => {
     const handler = () => setGalleryStartIdx(0);
@@ -310,13 +328,24 @@ export default function VillaCascade() {
             transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
             onClick={() => setGalleryStartIdx(0)}
           >
-            <Img
-              src="/images/villa/01_Exterior/4.webp"
-              alt="Forest Villa exterior"
-              className="w-full h-full object-cover object-bottom"
-              fetchPriority="high"
-              decoding="async"
-            />
+            {/* Crossfading slideshow */}
+            {HERO_IMAGES.map((src, i) => (
+              <motion.div
+                key={src}
+                style={{ position: 'absolute', inset: 0 }}
+                initial={false}
+                animate={{ opacity: i === heroIdx ? 1 : 0 }}
+                transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <Img
+                  src={src}
+                  alt="Forest Villa exterior"
+                  className="w-full h-full object-cover object-bottom"
+                  fetchPriority={i === 0 ? 'high' : 'auto'}
+                  decoding="async"
+                />
+              </motion.div>
+            ))}
             {/* Gradients: bottom bleed + top-right text backdrop */}
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.38) 0%, transparent 40%)' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom-left, rgba(8,6,4,0.62) 0%, rgba(8,6,4,0.18) 38%, transparent 60%)' }} />
@@ -437,34 +466,46 @@ export default function VillaCascade() {
             </motion.div>
           </motion.div>
 
-          {/* Thumbnail strip */}
+          {/* Thumbnail strip — mirrors the hero slideshow, active one framed */}
           <div className="flex gap-2 mt-2">
-            {[
-              { src: '/images/villa/01_Exterior/1.webp', idx: 0 },
-              { src: '/images/villa/01_Exterior/2.webp', idx: 1 },
-              { src: '/images/villa/02_Interior_Casita/1.webp', idx: 4 },
-              { src: '/images/villa/03_Terrace/1.webp', idx: 10 },
-              { src: '/images/villa/04_Sauna/1.webp', idx: 12 },
-            ].map((thumb, i) => (
-              <motion.button
-                key={thumb.src}
-                className="flex-1 rounded-xl overflow-hidden relative group"
-                style={{ height: 'clamp(140px, 22vh, 240px)' }}
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 + i * 0.07 }}
-                onClick={() => setGalleryStartIdx(thumb.idx)}
-              >
-                <img
-                  src={thumb.src}
-                  alt=""
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-night/0 group-hover:bg-night/20 transition-colors duration-300 rounded-xl" />
-              </motion.button>
-            ))}
+            {HERO_IMAGES.map((src, i) => {
+              const active = i === heroIdx;
+              return (
+                <motion.button
+                  key={src}
+                  className="flex-1 rounded-xl overflow-hidden relative group"
+                  style={{ height: 'clamp(140px, 22vh, 240px)' }}
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 + i * 0.07 }}
+                  onClick={() => setHeroIdx(i)}
+                  aria-label={`Show Forest Villa photo ${i + 1}`}
+                  aria-pressed={active}
+                >
+                  <img
+                    src={src}
+                    alt=""
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  {/* Dim inactive thumbs slightly so the active one reads clearly */}
+                  <div
+                    className="absolute inset-0 transition-colors duration-300 rounded-xl"
+                    style={{ background: active ? 'rgba(8,6,4,0)' : 'rgba(8,6,4,0.32)' }}
+                  />
+                  {/* Active frame */}
+                  <div
+                    className="absolute inset-0 rounded-xl pointer-events-none transition-all duration-300"
+                    style={{
+                      boxShadow: active
+                        ? 'inset 0 0 0 2px #D4804E, 0 4px 18px rgba(176,83,41,0.35)'
+                        : 'inset 0 0 0 1px rgba(231,222,199,0)',
+                    }}
+                  />
+                </motion.button>
+              );
+            })}
           </div>
           </div>{/* /max-w-content wrapper */}
         </div>
@@ -487,13 +528,13 @@ export default function VillaCascade() {
 
             <div className="grid gap-3 grid-cols-2 md:grid-cols-3">
               {COMFORT_CARDS.map((card, i) => (
-                <button key={card.title} onClick={() => setComfortIdx(i)} className="rounded-xl overflow-hidden relative group text-left" style={{ height: 'clamp(192px, 31vh, 308px)' }}>
-                  <img src={card.image} alt={card.title} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" />
+                <button key={card.title} onClick={() => setComfortIdx(i)} className="rounded-xl overflow-hidden relative group text-left cursor-pointer" style={{ height: 'clamp(192px, 31vh, 308px)' }}>
+                  <img src={card.image} alt={card.title} className="w-full h-full object-cover" loading="lazy" />
                   <div className="absolute inset-x-0 bottom-0 px-3.5 pb-3.5 pt-16" style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.97) 0%, rgba(8,6,4,0.72) 52%, transparent 100%)' }}>
-                    <p className="font-display leading-tight" style={{ fontVariationSettings: '"wght" 600, "opsz" 48, "SOFT" 20', fontWeight: 600, fontSize: 'clamp(1.155rem, 2.09vw, 1.485rem)', letterSpacing: '-0.01em', marginBottom: 5, color: '#CC6E37' }}>{card.title}</p>
+                    <p className="font-display leading-tight" style={{ fontVariationSettings: '"wght" 600, "opsz" 48, "SOFT" 20', fontWeight: 600, fontSize: 'clamp(1.155rem, 2.09vw, 1.485rem)', letterSpacing: '-0.01em', marginBottom: 5, color: 'rgba(242,237,227,0.97)' }}>{card.title}</p>
                     <p style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(11px, 1vw, 12.5px)', lineHeight: 1.45, color: 'rgba(231,222,199,0.7)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{card.subtitle}</p>
                   </div>
-                  <div className="absolute inset-0 ring-1 ring-inset ring-linen/0 group-hover:ring-linen/20 rounded-xl transition-all duration-300" />
+                  <div className="absolute inset-0 ring-1 ring-inset ring-linen/10 group-hover:ring-linen/30 rounded-xl transition-all duration-200" />
                 </button>
               ))}
             </div>
@@ -501,12 +542,13 @@ export default function VillaCascade() {
           </div>
         </div>
 
-        {/* ── Act 3 — Experience ──────────────────────────────────────────── */}
+        {/* ── Act 3 — Experience (anchor target for "The Land" nav) ───────── */}
         <div
+          id="land"
           ref={act3Ref}
           data-zone="light"
           className="relative flex flex-col p-6 md:p-12 lg:p-16"
-          style={{ zIndex: 1 }}
+          style={{ zIndex: 1, scrollMarginTop: '80px' }}
         >
           <div className="w-full max-w-content mx-auto">
 
@@ -615,7 +657,19 @@ export default function VillaCascade() {
                           transition={{ duration: 0.4, delay: 0.22 }}
                           style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 'clamp(16px, 2vw, 28px)', overflow: 'hidden' }}
                         >
-                          <p className="font-eyebrow uppercase" style={{ fontSize: '10px', letterSpacing: '0.24em', color: 'rgba(176,83,41,0.95)', marginBottom: 8 }}>
+                          <p className="font-eyebrow uppercase" style={{
+                            alignSelf: 'flex-start',
+                            fontSize: '10px',
+                            letterSpacing: '0.24em',
+                            color: '#E89A6A',
+                            marginBottom: 10,
+                            padding: '5px 11px',
+                            borderRadius: 999,
+                            background: 'rgba(8,6,4,0.55)',
+                            backdropFilter: 'blur(6px)',
+                            WebkitBackdropFilter: 'blur(6px)',
+                            border: '1px solid rgba(176,83,41,0.45)',
+                          }}>
                             {card.badge}
                           </p>
                           <h3 className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 72, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.3rem, 2.4vw, 2rem)', lineHeight: 1.08, letterSpacing: '-0.02em', marginBottom: 'clamp(8px, 1.2vh, 14px)' }}>
@@ -847,6 +901,78 @@ export default function VillaCascade() {
   );
 }
 
+// ── Comfort lightbox — enlarges the photo, caption stays card-sized ────────────
+
+function ComfortModal({ cards, startIdx, onClose }: { cards: typeof COMFORT_CARDS; startIdx: number; onClose: () => void }) {
+  const [currentIdx, setCurrentIdx] = useState(startIdx);
+  const go = (dir: number) => setCurrentIdx((i) => (i + dir + cards.length) % cards.length);
+  const card = cards[currentIdx];
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') go(-1);
+      else if (e.key === 'ArrowRight') go(1);
+      else if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const Arrow = ({ dir }: { dir: number }) => (
+    <button
+      onClick={(e) => { e.stopPropagation(); go(dir); }}
+      aria-label={dir < 0 ? 'Previous' : 'Next'}
+      className="absolute top-1/2 -translate-y-1/2 z-20 flex items-center justify-center rounded-full bg-night/50 backdrop-blur-sm hover:bg-night/75 text-linen/80 hover:text-linen transition-all"
+      style={{ [dir < 0 ? 'left' : 'right']: 'clamp(10px, 1.4vw, 18px)', width: 'clamp(40px, 4vw, 52px)', height: 'clamp(40px, 4vw, 52px)' } as React.CSSProperties}
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5" style={{ transform: dir < 0 ? 'none' : 'rotate(180deg)' }} aria-hidden="true">
+        <path d="M15 18l-6-6 6-6" />
+      </svg>
+    </button>
+  );
+
+  return (
+    <motion.div className="fixed inset-0 z-[300] flex items-center justify-center p-5 md:p-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose}>
+      <div className="absolute inset-0 bg-night/80 backdrop-blur-md" />
+      <motion.div
+        className="relative z-10 w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl"
+        style={{ aspectRatio: '16/10', maxHeight: '86vh' }}
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.97 }}
+        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIdx}
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <img src={card.image} alt={card.title} className="w-full h-full object-cover" />
+            {/* Caption — same sizes as on the card */}
+            <div className="absolute inset-x-0 bottom-0 px-5 pb-5 pt-24" style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.97) 0%, rgba(8,6,4,0.72) 52%, transparent 100%)' }}>
+              <p className="font-display leading-tight" style={{ fontVariationSettings: '"wght" 600, "opsz" 48, "SOFT" 20', fontWeight: 600, fontSize: 'clamp(1.155rem, 2.09vw, 1.485rem)', letterSpacing: '-0.01em', marginBottom: 5, color: 'rgba(242,237,227,0.97)' }}>{card.title}</p>
+              <p style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(11px, 1vw, 12.5px)', lineHeight: 1.45, color: 'rgba(231,222,199,0.7)', maxWidth: '52ch' }}>{card.subtitle}</p>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        <Arrow dir={-1} />
+        <Arrow dir={1} />
+
+        <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 z-20 flex items-center justify-center w-8 h-8 rounded-full bg-night/50 backdrop-blur-sm hover:bg-night/70 text-linen/70 hover:text-linen transition-all">
+          <svg viewBox="0 0 16 16" fill="currentColor" className="w-3.5 h-3.5"><path d="M2.22 2.22a.75.75 0 011.06 0L8 6.94l4.72-4.72a.75.75 0 111.06 1.06L9.06 8l4.72 4.72a.75.75 0 11-1.06 1.06L8 9.06l-4.72 4.72a.75.75 0 01-1.06-1.06L6.94 8 2.22 3.28a.75.75 0 010-1.06z" /></svg>
+        </button>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // ── Shared nav bar ────────────────────────────────────────────────────────────
 
 function ModalNavBar({ current, total, onPrev, onNext }: { current: number; total: number; onPrev: () => void; onNext: () => void }) {
@@ -907,32 +1033,4 @@ function NearbyModal({ pois, startIdx, onClose }: { pois: typeof sandhillsData.n
   );
 }
 
-// ── Comfort Modal ─────────────────────────────────────────────────────────────
-
-function ComfortModal({ cards, startIdx, onClose }: { cards: typeof COMFORT_CARDS; startIdx: number; onClose: () => void }) {
-  const [currentIdx, setCurrentIdx] = useState(startIdx);
-  const card = cards[currentIdx];
-  return (
-    <motion.div className="fixed inset-0 z-[300] flex items-center justify-center p-5 md:p-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.22 }} onClick={onClose}>
-      <div className="absolute inset-0 bg-night/80 backdrop-blur-md" />
-      <motion.div className="relative z-10 w-full max-w-3xl bg-nightWarm rounded-2xl overflow-hidden flex flex-col shadow-2xl" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.97, y: 10 }} transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }} onClick={(e) => e.stopPropagation()}>
-        <AnimatePresence mode="wait">
-          <motion.div key={currentIdx} className="flex flex-col md:flex-row" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.2 } }} exit={{ opacity: 0, transition: { duration: 0.12 } }}>
-            <div className="w-full md:w-[42%] shrink-0 overflow-hidden" style={{ aspectRatio: '4/3' }}>
-              <img src={card.image} alt={card.title} className="w-full h-full object-cover" />
-            </div>
-            <div className="flex-1 flex flex-col justify-center p-8 md:p-10 lg:p-12">
-              <h2 className="font-display text-linen mb-6" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.5rem, 2.8vw, 2.2rem)', lineHeight: 1.1, letterSpacing: '-0.015em' }}>{card.title}</h2>
-              <p className="text-linen/65" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(0.85rem, 1.05vw, 0.95rem)', lineHeight: 1.75 }}>{card.subtitle}</p>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-        <ModalNavBar current={currentIdx} total={cards.length} onPrev={() => setCurrentIdx(currentIdx - 1)} onNext={() => setCurrentIdx(currentIdx + 1)} />
-        <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 flex items-center justify-center w-8 h-8 rounded-full bg-linen/10 hover:bg-linen/20 text-linen/60 hover:text-linen transition-all">
-          <svg viewBox="0 0 16 16" fill="currentColor" className="w-3.5 h-3.5"><path d="M2.22 2.22a.75.75 0 011.06 0L8 6.94l4.72-4.72a.75.75 0 111.06 1.06L9.06 8l4.72 4.72a.75.75 0 11-1.06 1.06L8 9.06l-4.72 4.72a.75.75 0 01-1.06-1.06L6.94 8 2.22 3.28a.75.75 0 010-1.06z" /></svg>
-        </button>
-      </motion.div>
-    </motion.div>
-  );
-}
 
