@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent, type MotionValue } from 'framer-motion';
 import { TreeEvergreenIcon, WavesIcon, HouseSimpleIcon, BicycleIcon, PathIcon, FireIcon, MoonStarsIcon } from '@phosphor-icons/react';
 import Button from '../primitives/Button';
@@ -108,6 +108,18 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollY } = useScroll();
   const h = typeof window !== 'undefined' ? window.innerHeight : 800;
+
+  // ── Proportional shrink of the second-screen content on short viewports ──
+  // Below ~900px tall the whole positioning block scales down as one unit
+  // (origin top-left, so it stays aligned with the wordmark and frees space
+  // at the bottom for the scroll cue). Above 900px → scale 1, desktop untouched.
+  const [heroScale, setHeroScale] = useState(1);
+  useEffect(() => {
+    const compute = () => setHeroScale(Math.min(1, Math.max(0.8, window.innerHeight / 900)));
+    compute();
+    window.addEventListener('resize', compute);
+    return () => window.removeEventListener('resize', compute);
+  }, []);
 
   // ── Second screen stays dark, so StickyHeader logo stays light throughout ──
   useMotionValueEvent(scrollY, 'change', () => {
@@ -291,6 +303,8 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
               marginTop: 'clamp(30px, 5.5vh, 84px)',
             }}
           >
+            {/* Proportional shrink wrapper — scales the whole block as one unit on short screens */}
+            <div style={{ transform: `scale(${heroScale})`, transformOrigin: 'top left' }}>
             {/* Headline — sans, set apart from the location wordmark */}
             <div style={{ maxWidth: 'min(76rem, calc(100vw - 48px))' }}>
               <h2
@@ -329,7 +343,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
               style={{
                 marginTop: 'clamp(24px, 3.6vh, 52px)',
                 marginLeft: 'min(-24px, calc(760px - 50vw))',
-                width: '100vw',
+                width: `calc(100vw / ${heroScale})`,
                 paddingLeft: 'clamp(24px, 4vw, 72px)',
                 paddingRight: 'clamp(24px, 4vw, 72px)',
               }}
@@ -362,6 +376,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
                 ))}
               </div>
             </div>
+            </div>{/* /proportional shrink wrapper */}
           </motion.div>
         </motion.div>
 
@@ -384,6 +399,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
             zIndex: 10,
           }}
         >
+          <div style={{ transform: `scale(${heroScale})`, transformOrigin: 'bottom center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'clamp(12px, 1.8vh, 20px)' }}>
           <p
             className="font-display"
             style={{
@@ -408,6 +424,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
               <path d="M6 9l6 6 6-6" />
             </svg>
           </div>
+          </div>{/* /scale wrapper */}
         </motion.div>
 
       </div>
