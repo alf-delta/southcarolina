@@ -122,11 +122,7 @@ export default function BookingModal() {
   const tooShort = !!checkIn && !!checkOut && nights < MIN_NIGHTS;
 
   const reset = () => { setCheckIn(null); setCheckOut(null); setHover(null); };
-  const confirm = () => {
-    if (!valid || !checkIn || !checkOut) return;
-    window.open(buildBookingUrl(checkIn, checkOut), '_blank', 'noopener');
-    setOpen(false);
-  };
+  const bookingUrl = valid && checkIn && checkOut ? buildBookingUrl(checkIn, checkOut) : undefined;
 
   return createPortal(
     <AnimatePresence>
@@ -201,16 +197,24 @@ export default function BookingModal() {
                 <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 12.5, color: tooShort ? '#E0926A' : 'rgba(231,222,199,0.45)', lineHeight: 1.4 }}>
                   {tooShort ? `${MIN_NIGHTS}-night minimum` : nights >= MIN_NIGHTS ? `${nights} night${nights > 1 ? 's' : ''} selected` : `${MIN_NIGHTS}-night minimum`}
                 </p>
-                <button
-                  onClick={confirm}
-                  disabled={!valid}
+                <a
+                  href={bookingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-disabled={!valid}
+                  onClick={(e) => {
+                    if (!valid) { e.preventDefault(); return; }
+                    setOpen(false);
+                  }}
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: 10,
                     background: valid ? '#B05329' : 'rgba(231,222,199,0.12)',
                     color: valid ? '#F2EDE3' : 'rgba(231,222,199,0.4)',
                     padding: 'clamp(12px, 1.6vh, 15px) clamp(26px, 3vw, 38px)',
                     borderRadius: 999, border: 'none',
+                    textDecoration: 'none',
                     cursor: valid ? 'pointer' : 'default',
+                    pointerEvents: valid ? 'auto' : 'none',
                     fontFamily: 'Inter Tight, Inter, system-ui, sans-serif',
                     fontSize: 11, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase',
                     transition: 'background 0.25s ease, color 0.25s ease',
@@ -218,7 +222,7 @@ export default function BookingModal() {
                 >
                   Check availability
                   <span style={{ fontSize: 14, lineHeight: 1 }}>→</span>
-                </button>
+                </a>
               </div>
               {(checkIn || checkOut) && (
                 <button onClick={reset} className="text-linen/40 hover:text-linen/70 transition-colors" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 11.5, marginTop: 12, cursor: 'pointer' }}>
