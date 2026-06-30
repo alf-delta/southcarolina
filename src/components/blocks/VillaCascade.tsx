@@ -53,7 +53,7 @@ const COMFORT_CARDS = [
 
 const EXPERIENCE_CARDS = [
   {
-    image:    '/images/sandhills/final_image.webp',
+    image:    '/images/sandhills/sauna.webp',
     title:    'The Sauna Ritual',
     note:     'Wood-fired heat, panoramic lake views and the kind of reset you feel immediately.',
     badge:    'Best wild spa ever',
@@ -130,7 +130,7 @@ const EXPERIENCE_CARDS = [
     points:   ['20 active hives on property', '1M+ bees · longleaf pine + wildflower honey', 'Honey in every welcome pantry', 'Guided hive walk available on request'],
   },
   {
-    image:    '/images/experience/by-the-outdoor-fireplace.webp',
+    image:    '/images/sandhills/fire_pit.webp',
     title:    'By the Outdoor Fireplace',
     note:     'A large deck, warm fire, open sky and the conversations that make the trip.',
     badge:    'Where your food starts.',
