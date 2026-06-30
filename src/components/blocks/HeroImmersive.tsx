@@ -114,8 +114,19 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
   // (origin top-left, so it stays aligned with the wordmark and frees space
   // at the bottom for the scroll cue). Above 900px → scale 1, desktop untouched.
   const [heroScale, setHeroScale] = useState(1);
+  // The scroll cue shrinks harder (lower floor) so it reads smaller on short
+  // screens and gains more breathing room above it.
+  const [cueScale, setCueScale] = useState(1);
+  // How far to nudge the top block upward on short screens, to open the gap
+  // above the scroll cue (the cue itself also drops lower — see its `bottom`).
+  const [topShift, setTopShift] = useState(0);
   useEffect(() => {
-    const compute = () => setHeroScale(Math.min(1, Math.max(0.8, window.innerHeight / 900)));
+    const compute = () => {
+      const r = window.innerHeight / 900;
+      setHeroScale(Math.min(1, Math.max(0.8, r)));
+      setCueScale(Math.min(1, Math.max(0.5, r)));
+      setTopShift(Math.min(70, Math.max(0, Math.round((900 - window.innerHeight) * 0.18))));
+    };
     compute();
     window.addEventListener('resize', compute);
     return () => window.removeEventListener('resize', compute);
@@ -304,7 +315,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
             }}
           >
             {/* Proportional shrink wrapper — scales the whole block as one unit on short screens */}
-            <div style={{ transform: `scale(${heroScale})`, transformOrigin: 'top left' }}>
+            <div style={{ transform: `translateY(${-topShift}px) scale(${heroScale})`, transformOrigin: 'top left' }}>
             {/* Headline — sans, set apart from the location wordmark */}
             <div style={{ maxWidth: 'min(76rem, calc(100vw - 48px))' }}>
               <h2
@@ -387,7 +398,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
             position: 'absolute',
             left: 0,
             right: 0,
-            bottom: 'clamp(26px, 5vh, 56px)',
+            bottom: 'clamp(12px, 2.5vh, 56px)',
             flexDirection: 'column',
             alignItems: 'center',
             gap: 'clamp(12px, 1.8vh, 20px)',
@@ -399,7 +410,7 @@ export default function HeroImmersive({ primaryCta, secondaryCta }: Props) {
             zIndex: 10,
           }}
         >
-          <div style={{ transform: `scale(${heroScale})`, transformOrigin: 'bottom center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'clamp(12px, 1.8vh, 20px)' }}>
+          <div style={{ transform: `scale(${cueScale})`, transformOrigin: 'bottom center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'clamp(12px, 1.8vh, 20px)' }}>
           <p
             className="font-display"
             style={{
