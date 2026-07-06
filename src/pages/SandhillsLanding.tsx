@@ -184,22 +184,10 @@ export default function SandhillsLanding() {
         {/* ── Land story (collapsed) + Press ── */}
         <div style={{ position: 'relative', zIndex: 20 }}>
 
-          {/* Fade-in edge above the strip */}
-          <div aria-hidden="true" style={{
-            height: 'clamp(32px, 5vh, 56px)',
-            background: 'linear-gradient(to bottom, transparent, rgba(10,8,6,0.38))',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            pointerEvents: 'none',
-          }} />
-
-          {/* Land history disclosure strip — glass */}
+          {/* Land history disclosure strip — clean, no tint */}
           <div style={{
             padding: 'clamp(18px, 2.8vh, 28px) clamp(24px, 4vw, 64px)',
             display: 'flex', alignItems: 'center', gap: 'clamp(16px, 2vw, 28px)', flexWrap: 'wrap',
-            background: 'rgba(10,8,6,0.38)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
           }}>
             <button
               onClick={() => setLandStoryOpen(v => !v)}

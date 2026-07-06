@@ -257,13 +257,15 @@ const bgRooms: React.CSSProperties = {
 
 // ── B2B / private-hire use cases ──────────────────────────────────────────────
 
+// Six use-case cards, one shared design: paper card with an inset photo strip
+// (rounded on all sides) above the title + benefit.
 const B2B_SCENARIOS = [
-  { title: 'Birthday Weekends', benefit: 'Celebrate on your own clock — no last call, no rush home.' },
-  { title: 'Corporate Retreats', benefit: 'The team actually connects when no one is watching the door.' },
-  { title: 'Family Reunions', benefit: 'Every generation under one roof, finally in the same place.' },
-  { title: 'Wellness Retreats', benefit: 'Space to slow down, with nothing pulling you back.' },
-  { title: 'Bachelor & Bachelorette', benefit: 'Your crew, your rules, complete privacy.' },
-  { title: 'Private Celebrations', benefit: 'Mark the moment without sharing the room.' },
+  { title: 'Corporate Retreats', benefit: 'The team actually connects when no one is watching the door.', strip: '/images/sandhills/fire_pit2.webp' },
+  { title: 'Family Reunions', benefit: 'Every generation under one roof, finally in the same place.', strip: '/images/sandhills/house.webp' },
+  { title: 'Wellness Retreats', benefit: 'Space to slow down, with nothing pulling you back.', strip: '/images/sandhills/sauna.webp' },
+  { title: 'Birthday Weekends', benefit: 'Celebrate on your own clock — no last call, no rush home.', strip: '/images/b2b/birthday-weekends.webp' },
+  { title: 'Bachelor & Bachelorette', benefit: 'Your crew, your rules, complete privacy.', strip: '/images/b2b/bachelor-bachelorette.webp' },
+  { title: 'Private Celebrations', benefit: 'Mark the moment without sharing the room.', strip: '/images/b2b/private-celebrations.webp' },
 ] as const;
 
 
@@ -685,41 +687,35 @@ export default function VillaCascade() {
                   Take over the whole retreat.
                 </p>
 
-                {/* Capacity — tactile paper / cardboard cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: 'clamp(12px, 1.6vw, 20px)', marginBottom: 'clamp(30px, 4vh, 52px)' }}>
+                {/* Capacity — bare editorial stats: hairline, label, big signal numeral, note */}
+                <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: 'clamp(14px, 2.4vw, 40px)', marginBottom: 'clamp(30px, 4vh, 52px)' }}>
                   {[
                     { label: 'Daily Events', pre: 'Up to', num: '200', unit: 'guests', note: 'for private gatherings & celebrations' },
                     { label: 'Overnight Stay', pre: 'Up to', num: '40', unit: 'guests', note: 'adults and kids are welcome' },
                     { label: 'Minimum Stay', pre: 'From', num: '1', unit: 'night', note: "stay longer — you won't want to leave" },
                   ].map((card) => (
-                    <div
+                    <motion.div
                       key={card.label}
-                      style={{
-                        borderRadius: 14,
-                        padding: 'clamp(22px, 3vh, 32px) clamp(22px, 2.4vw, 30px)',
-                        background: 'linear-gradient(168deg, #F5F0E7 0%, #E9E1CF 100%)',
-                        border: '1px solid rgba(31,36,32,0.10)',
-                        boxShadow: '0 1px 1px rgba(31,36,32,0.05), 0 10px 24px rgba(31,36,32,0.14), inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(31,36,32,0.06)',
-                      }}
+                      style={{ borderTopWidth: 2, borderTopStyle: 'solid', borderTopColor: '#B05329', paddingTop: 'clamp(12px, 1.8vh, 18px)' }}
                     >
-                      <p className="font-eyebrow text-signal uppercase" style={{ fontSize: 'clamp(12.5px, 1.05vw, 14px)', fontWeight: 700, letterSpacing: '0.16em', marginBottom: 'clamp(14px, 2vh, 18px)' }}>
+                      <p className="font-eyebrow text-signal uppercase" style={{ fontSize: 'clamp(12.5px, 1.05vw, 14px)', fontWeight: 700, letterSpacing: '0.16em', marginBottom: 'clamp(8px, 1.2vh, 12px)' }}>
                         {card.label}
                       </p>
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 'clamp(7px, 0.8vw, 11px)', marginBottom: 'clamp(9px, 1.3vh, 13px)' }}>
-                        <span className="font-eyebrow uppercase" style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(31,36,32,0.42)', flexShrink: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 'clamp(7px, 0.8vw, 11px)', marginBottom: 'clamp(6px, 0.9vh, 9px)' }}>
+                        <motion.span className="font-eyebrow uppercase" style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', color: b2bMuted, flexShrink: 0 }}>
                           {card.pre}
-                        </span>
-                        <span className="font-display" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 0, "WONK" 0', fontWeight: 330, fontSize: 'clamp(2.8rem, 5vw, 4.2rem)', lineHeight: 0.86, letterSpacing: '-0.035em', color: 'rgba(31,36,32,0.94)' }}>
+                        </motion.span>
+                        <span className="font-display" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 0, "WONK" 0', fontWeight: 330, fontSize: 'clamp(2.6rem, 4.2vw, 3.6rem)', lineHeight: 0.86, letterSpacing: '-0.035em', color: '#B05329' }}>
                           {card.num}
                         </span>
-                        <span className="font-display italic" style={{ fontVariationSettings: '"opsz" 40, "SOFT" 40, "WONK" 0', fontWeight: 380, fontSize: 'clamp(1.05rem, 1.5vw, 1.35rem)', letterSpacing: '-0.01em', color: 'rgba(31,36,32,0.66)' }}>
+                        <motion.span className="font-display italic" style={{ fontVariationSettings: '"opsz" 40, "SOFT" 40, "WONK" 0', fontWeight: 380, fontSize: 'clamp(1.05rem, 1.5vw, 1.35rem)', letterSpacing: '-0.01em', color: b2bText }}>
                           {card.unit}
-                        </span>
+                        </motion.span>
                       </div>
-                      <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(0.8rem, 0.92vw, 0.88rem)', lineHeight: 1.45, color: 'rgba(31,36,32,0.56)' }}>
+                      <motion.p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(0.8rem, 0.92vw, 0.88rem)', lineHeight: 1.45, color: b2bMuted }}>
                         {card.note}
-                      </p>
-                    </div>
+                      </motion.p>
+                    </motion.div>
                   ))}
                 </div>
 
@@ -731,27 +727,36 @@ export default function VillaCascade() {
                       Perfect for
                     </motion.span>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: '0 clamp(20px, 3vw, 44px)' }}>
-                    {B2B_SCENARIOS.map((scenario, i) => (
-                      <motion.div
+                  {/* Scenario cards — one shared design: paper card, inset photo strip
+                      rounded on all sides, title + benefit below. Static by design. */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3" style={{ gap: 'clamp(12px, 1.6vw, 20px)' }}>
+                    {B2B_SCENARIOS.map((scenario) => (
+                      <div
                         key={scenario.title}
-                        initial={{ opacity: 0, y: 14 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: '-40px' }}
-                        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: i * 0.05 }}
+                        className="overflow-hidden"
                         style={{
-                          paddingTop: 'clamp(16px, 2.2vh, 22px)',
-                          paddingBottom: 'clamp(16px, 2.2vh, 22px)',
-                          borderTopWidth: 1, borderTopStyle: 'solid', borderTopColor: b2bLine,
+                          borderRadius: 14,
+                          background: 'linear-gradient(168deg, #F5F0E7 0%, #E9E1CF 100%)',
+                          border: '1px solid rgba(31,36,32,0.10)',
+                          boxShadow: '0 1px 1px rgba(31,36,32,0.05), 0 10px 24px rgba(31,36,32,0.14), inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(31,36,32,0.06)',
                         }}
                       >
-                        <motion.p className="font-display" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.12rem, 1.5vw, 1.3rem)', lineHeight: 1.15, letterSpacing: '-0.012em', marginBottom: 7, color: b2bText }}>
-                          {scenario.title}
-                        </motion.p>
-                        <motion.p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(0.82rem, 0.95vw, 0.92rem)', lineHeight: 1.5, color: b2bMuted }}>
-                          {scenario.benefit}
-                        </motion.p>
-                      </motion.div>
+                        {/* Photo — 16:9, identical height in every equal-width column */}
+                        <div style={{ padding: '5px 5px 0' }}>
+                          <div style={{ aspectRatio: '16/9', overflow: 'hidden', borderRadius: 10, boxShadow: 'inset 0 0 0 1px rgba(31,36,32,0.08)' }}>
+                            <img src={scenario.strip} alt="" aria-hidden="true" loading="lazy" className="w-full h-full object-cover" style={{ display: 'block' }} />
+                          </div>
+                        </div>
+                        {/* Text — fixed height so every card ends at the same line */}
+                        <div style={{ height: 'clamp(96px, 12.5vh, 110px)', overflow: 'hidden', padding: 'clamp(12px, 1.8vh, 18px) clamp(18px, 2vw, 26px) 0' }}>
+                          <p className="font-display" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.2rem, 1.7vw, 1.5rem)', lineHeight: 1.12, letterSpacing: '-0.012em', marginBottom: 7, color: 'rgba(31,36,32,0.94)', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                            {scenario.title}
+                          </p>
+                          <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(0.8rem, 0.92vw, 0.9rem)', lineHeight: 1.5, color: 'rgba(31,36,32,0.56)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                            {scenario.benefit}
+                          </p>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -979,17 +984,27 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
   const headlineAccent = card.headline.slice(accentStart);
 
   return (
-    <div className="relative w-full overflow-hidden" style={{ borderRadius: 28, height: 'clamp(620px, 92vh, 980px)', boxShadow: '0 28px 64px rgba(0,0,0,0.28)' }}>
-      <AnimatePresence mode="wait">
+    <div className="relative w-full overflow-hidden" style={{ borderRadius: 28, height: 'clamp(620px, 92vh, 980px)', boxShadow: '0 28px 64px rgba(0,0,0,0.28)', backgroundColor: '#1A1F1B' }}>
+      {/* Overlapping crossfade — the new slide fades in on top of the old one (no background flash),
+          while its photo settles from a slight zoom (same reveal language as the Act 1 villa photo). */}
+      <AnimatePresence initial={false}>
         <motion.div
           key={currentIdx}
           className="absolute inset-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: reduceMotion ? 0 : 0.32, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: reduceMotion ? 0 : 0.55, ease: [0.22, 1, 0.36, 1] }}
+          style={{ willChange: 'opacity' }}
         >
-          <img src={card.image} alt={card.title} className="w-full h-full object-cover" />
+          <motion.img
+            src={card.image}
+            alt={card.title}
+            className="w-full h-full object-cover"
+            initial={{ scale: reduceMotion ? 1 : 1.06 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: reduceMotion ? 0 : 1.1, ease: [0.22, 1, 0.36, 1] }}
+          />
 
           {/* Directional scrim — keeps the left copy readable, right half of the photo stays visible */}
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(26,31,27,0.82) 0%, rgba(26,31,27,0.45) 40%, rgba(26,31,27,0.12) 65%, transparent 85%)' }} />
@@ -1019,21 +1034,21 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
               <h2 className="font-display max-w-full md:max-w-[min(62%,800px)]" style={{ fontVariationSettings: '"opsz" 96, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(2rem, 3.8vw, 3.9rem)', lineHeight: 1.06, letterSpacing: '-0.02em', color: 'rgba(242,237,227,0.98)', marginBottom: 'clamp(14px, 2vh, 22px)' }}>
                 {headlinePrefix}<span style={{ color: EXP_ACCENT }}>{headlineAccent}</span>
               </h2>
-              <p className="max-w-[560px] md:max-w-[min(46%,560px)]" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(14px, 1.15vw, 17px)', lineHeight: 1.6, color: 'rgba(231,222,199,0.88)', marginBottom: 'clamp(20px, 3vh, 34px)' }}>
+              <p className="max-w-[560px] md:max-w-[min(46%,560px)]" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(14px, 1.15vw, 17px)', lineHeight: 1.6, color: 'rgba(231,222,199,0.88)', marginBottom: 'clamp(20px, 3vh, 34px)', textShadow: '0 1px 12px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.45)' }}>
                 {card.body}
               </p>
 
               {/* Icon fact row — icon left, label right, hairline dividers.
                   Wide single-row lane: items share the width evenly, labels wrap to 2 lines max, icons never drop to a second row. */}
-              <div className="flex items-start flex-nowrap max-w-full md:max-w-[min(64%,820px)]" style={{ gap: 'clamp(12px, 1.5vw, 24px)' }}>
+              <div className="flex items-start flex-nowrap max-w-full md:max-w-[min(52%,660px)]" style={{ gap: 'clamp(8px, 1vw, 14px)' }}>
                 {card.facts.map((f, i) => {
                   const Icon = f.icon;
                   return (
-                    <div key={f.label} className="flex items-start" style={{ gap: 'clamp(12px, 1.5vw, 24px)', flex: '1 1 0', minWidth: 0 }}>
+                    <div key={f.label} className="flex items-start" style={{ gap: 'clamp(8px, 1vw, 14px)', flex: '1 1 0', minWidth: 0 }}>
                       {i > 0 && <span aria-hidden="true" style={{ width: 1, alignSelf: 'stretch', background: 'rgba(242,237,227,0.22)', flexShrink: 0 }} />}
                       <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start', flex: '1 1 0', minWidth: 0 }}>
-                        <Icon style={{ width: 'clamp(20px, 1.7vw, 26px)', height: 'clamp(20px, 1.7vw, 26px)', color: EXP_ACCENT, flexShrink: 0 }} strokeWidth={1.4} />
-                        <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(12px, 1vw, 14px)', lineHeight: 1.4, color: 'rgba(242,237,227,0.88)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{f.label}</span>
+                        <Icon style={{ width: 'clamp(20px, 1.7vw, 26px)', height: 'clamp(20px, 1.7vw, 26px)', color: EXP_ACCENT, flexShrink: 0, filter: 'drop-shadow(0 1px 6px rgba(0,0,0,0.8)) drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }} strokeWidth={2.2} />
+                        <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(12px, 1vw, 14px)', lineHeight: 1.4, color: 'rgba(242,237,227,0.88)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', textShadow: '0 1px 12px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.45)' }}>{f.label}</span>
                       </div>
                     </div>
                   );
@@ -1044,11 +1059,20 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
         </motion.div>
       </AnimatePresence>
 
-      {/* Next capsule — top-right, same glass style as the badge; advances to the next experience */}
-      <button
+      {/* Next capsule — top-right, solid signal fill with a barely-there brightness pulse */}
+      <motion.button
         onClick={() => onSelect((currentIdx + 1) % cards.length)}
         aria-label="Next experience"
         className="group font-eyebrow uppercase absolute flex items-center bg-signal hover:bg-signal2 transition-colors"
+        animate={reduceMotion ? undefined : {
+          filter: ['brightness(1)', 'brightness(1.1)', 'brightness(1)'],
+          boxShadow: [
+            '0 0 0px 0px rgba(176,83,41,0)',
+            '0 0 16px 3px rgba(176,83,41,0.45)',
+            '0 0 0px 0px rgba(176,83,41,0)',
+          ],
+        }}
+        transition={reduceMotion ? undefined : { duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
         style={{
           top: 'clamp(20px, 2.6vw, 32px)', right: 'clamp(24px, 4vw, 56px)', zIndex: 2,
           gap: 9, fontSize: '11px', letterSpacing: '0.24em', color: '#F2EDE3',
@@ -1064,7 +1088,7 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
         >
           →
         </span>
-      </button>
+      </motion.button>
 
       {/* Mini-card strip + controls — outside the crossfade so it stays put on switch */}
       <div style={{ position: 'absolute', left: 'clamp(20px, 2.8vw, 40px)', right: 'clamp(20px, 2.8vw, 40px)', bottom: 'clamp(14px, 2vh, 24px)', zIndex: 2 }}>
