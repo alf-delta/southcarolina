@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from 'framer-motion';
-import { Wifi, Bath, Utensils, Armchair } from 'lucide-react';
+import { Wifi, Bath, Utensils, Armchair, Users, Flame, Snowflake, Clock, Ban, Sailboat, Waves, Route, MapPin, TreePine, Compass, ShieldCheck, Gift, Bug, Sprout, Handshake, ArrowLeft, ArrowRight } from 'lucide-react';
 import Img from '../primitives/Img';
 import { sandhillsData } from '../data/sandhills';
 import { openPrivateEvent } from './PrivateEventModal';
@@ -62,6 +62,13 @@ const EXPERIENCE_CARDS = [
     schedule: 'Open daily · 6 am – 11 pm',
     location: 'Lakeside sauna pavilion',
     points:   ['Wood-fired, reaches 194 °F in 40 min', 'Cold plunge in the lake, steps away', 'Seats 6 · towels provided', 'No booking needed'],
+    accent:   'it here.',
+    facts: [
+      { icon: Flame, label: '194°F, wood-fired' },
+      { icon: Snowflake, label: 'Cold plunge, lakeside' },
+      { icon: Users, label: 'Seats 6' },
+      { icon: Clock, label: 'No booking needed' },
+    ],
   },
   {
     image:    '/qaYcANUQR-PNzw3QPCqKA_uEzp7Ijh.webp',
@@ -73,6 +80,13 @@ const EXPERIENCE_CARDS = [
     schedule: 'Sunrise to sunset',
     location: 'Main dock, north shore',
     points:   ['18 acres of private lake', 'No motor boats — ever', '2 Kevlar canoes · 2 paddleboards on the dock', 'Swimming, fishing, floating — all welcome'],
+    accent:   'of them yours.',
+    facts: [
+      { icon: Waves, label: '18 private acres' },
+      { icon: Ban, label: 'No motor boats' },
+      { icon: Sailboat, label: '2 canoes · 2 boards' },
+      { icon: Clock, label: 'Sunrise to sunset' },
+    ],
   },
   {
     image:    '/images/sandhills/twelve_miles.webp',
@@ -84,39 +98,67 @@ const EXPERIENCE_CARDS = [
     schedule: 'All day · self-guided',
     location: '4 trailheads across the property',
     points:   ['Illustrated map in your cabin', 'Longleaf pine savanna + creek loop', 'Easy to moderate grade', 'Ends at a creek worth finding'],
+    accent:   'the pines.',
+    facts: [
+      { icon: Route, label: '12 miles marked' },
+      { icon: MapPin, label: '4 trailheads' },
+      { icon: TreePine, label: 'Pine savanna + creek' },
+      { icon: Compass, label: 'Self-guided, all day' },
+    ],
   },
   {
     image:    '/images/experience/ready-for-the-water.webp',
     title:    'Ready for the Water',
     note:     'Kayaks, paddleboards and boats ready for quiet mornings or full-group lake adventures.',
-    badge:    'Still in there. Go get it.',
-    headline: 'Cast a line.',
-    body:     'Bass, bream, catfish. Rods and tackle at the dock box. No fishing license required on private water. Dawn and dusk are the best windows. Catch-and-release only.',
-    schedule: 'Dawn & dusk · best windows',
-    location: 'South dock + creek mouth',
-    points:   ['Bass, bream, catfish in the lake', 'Rods & tackle available at the dock box', 'Catch-and-release only', 'No license required on private water'],
+    badge:    'The dock is stocked.',
+    headline: 'Push off. The lake is waiting.',
+    body:     'Canoes, kayaks and paddleboards live at the dock — no rental counter, no schedule. Push off into eighteen acres of still water and trace the shoreline at whatever speed the morning allows. Life jackets in every size, right where you’d look for them.',
+    schedule: 'Sunrise to sunset · no booking',
+    location: 'The main dock',
+    points:   ['Canoes, kayaks and paddleboards at the dock', 'Life jackets in every size', '18 acres of private, calm water', 'No booking — just push off'],
+    accent:   'is waiting.',
+    facts: [
+      { icon: Sailboat, label: 'Canoes, kayaks & boards' },
+      { icon: Waves, label: '18 acres of calm water' },
+      { icon: ShieldCheck, label: 'Life jackets, all sizes' },
+      { icon: Clock, label: 'Sunrise to sunset' },
+    ],
   },
   {
     image:    '/images/bikes.webp',
     title:    'The Open Field',
     note:     'Volleyball, soccer and open-air games for families, friends and teams.',
-    badge:    'Tour de Sandhills.',
-    headline: 'Twelve miles on two wheels.',
-    body:     'Four gravel bikes and two trail bikes on property. Helmets, locks, and a printed route map included. Twelve miles of marked paths. The morning lake loop takes forty minutes.',
-    schedule: 'All day · self-guided',
-    location: 'Bike rack at the main cabin',
-    points:   ['4 gravel bikes + 2 trail bikes on property', 'Helmets, locks, and a printed route map included', '12 miles of marked paths', 'Best morning ride: lake loop before 8 am'],
+    badge:    'Bring your A-game.',
+    headline: 'Room to run wild.',
+    body:     'A flat stretch of open grass made for volleyball, soccer, frisbee — or whatever your group invents by day three. Nets and balls are in the shed, setup takes five minutes, and the pines keep the score to themselves.',
+    schedule: 'Open play · all day',
+    location: 'The open lawn, mid-property',
+    points:   ['Volleyball and soccer setups', 'Nets and balls in the shed', 'Room for the whole group', 'Open all day'],
+    accent:   'run wild.',
+    facts: [
+      { icon: Users, label: 'Volleyball, soccer, frisbee' },
+      { icon: Sprout, label: 'Flat, open grass' },
+      { icon: MapPin, label: 'Mid-property lawn' },
+      { icon: Clock, label: 'Open all day' },
+    ],
   },
   {
     image:    '/images/experience/pool-days.webp',
     title:    'Pool Days',
     note:     'A large outdoor pool made for long afternoons, sun, water and good company.',
-    badge:    'Picked this morning.',
-    headline: 'The orchard is yours.',
-    body:     'Rows of peach trees inside the property fence. In season, you pick your own — straight from the branch, still warm from the sun. The kind of fruit a grocery store has never stocked. Your host will tell you which rows are ready.',
-    schedule: 'June – August · dawn to dusk',
-    location: 'East field, five-minute walk from the main cabin',
-    points:   ['Private orchard, guests only', 'Pick your own in season', 'Peaches available year-round from the welcome pantry', 'Jam, preserves, and fresh fruit on arrival'],
+    badge:    'The water is fine.',
+    headline: 'Long afternoons, solved.',
+    body:     'A proper outdoor pool with loungers around it and towels stacked poolside. Swim before breakfast, float through the afternoon, let the kids wear themselves out before dinner. Bring sunscreen — the rest is handled.',
+    schedule: 'Open daily · dawn to dusk',
+    location: 'Pool terrace, by the main cabin',
+    points:   ['Large outdoor pool', 'Loungers and towels poolside', 'Swim laps or just float', 'Open dawn to dusk'],
+    accent:   'solved.',
+    facts: [
+      { icon: Waves, label: 'Big outdoor pool' },
+      { icon: Armchair, label: 'Loungers for everyone' },
+      { icon: Gift, label: 'Towels provided' },
+      { icon: Clock, label: 'Dawn to dusk' },
+    ],
   },
   {
     image:    '/images/experience/honey-from-the-land.webp',
@@ -128,17 +170,31 @@ const EXPERIENCE_CARDS = [
     schedule: 'Hive walks by arrangement',
     location: 'Apiary meadow, south of the lake',
     points:   ['20 active hives on property', '1M+ bees · longleaf pine + wildflower honey', 'Honey in every welcome pantry', 'Guided hive walk available on request'],
+    accent:   'One million workers.',
+    facts: [
+      { icon: Bug, label: '20 active hives' },
+      { icon: Sprout, label: 'Pine + wildflower forage' },
+      { icon: Gift, label: 'Honey in every pantry' },
+      { icon: Handshake, label: 'Hive walk by arrangement' },
+    ],
   },
   {
     image:    '/images/sandhills/fire_pit2.webp',
     title:    'By the Outdoor Fireplace',
     note:     'A large deck, warm fire, open sky and the conversations that make the trip.',
-    badge:    'Where your food starts.',
-    headline: 'The farms that feed this county.',
-    body:     'The Sandhills region has been farming land for three hundred years. We work with a handful of local operations — heritage breed livestock, row crops, a working dairy — and can arrange a morning visit. Nothing curated, nothing performative. Just real people doing the work.',
-    schedule: 'Morning visits · by arrangement',
-    location: '15–30 min from the property',
-    points:   ['Heritage breed livestock farms', 'Working dairy + row crop operations', 'Arranged through your host', 'Half-day or full-day options'],
+    badge:    'Where evenings land.',
+    headline: 'The fire does the hosting.',
+    body:     'A wide deck, a circle of chairs and a fire that catches on the first match. The wood is stacked and dry, the sky does something cities forgot how to do, and the conversations take care of themselves. This is where the trip’s best hour happens, every night.',
+    schedule: 'Every night · wood provided',
+    location: 'Fire deck, above the lake',
+    points:   ['Fire pit lit every evening', 'Dry firewood stacked and ready', 'Chairs around the ring', 'Stars you can actually see'],
+    accent:   'the hosting.',
+    facts: [
+      { icon: Flame, label: 'Lit every evening' },
+      { icon: Armchair, label: 'Chairs for the whole crew' },
+      { icon: TreePine, label: 'Open sky, tall pines' },
+      { icon: Clock, label: 'Best after dark' },
+    ],
   },
 ] as const;
 
@@ -218,7 +274,7 @@ export default function VillaCascade() {
 
   const [galleryStartIdx, setGalleryStartIdx] = useState<number | null>(null);
   const [comfortIdx,    setComfortIdx]    = useState<number | null>(null);
-  const [expandedExp, setExpandedExp] = useState<number | null>(null);
+  const [experienceIdx, setExperienceIdx] = useState(0);
   const [nearbyIdx,     setNearbyIdx]     = useState<number | null>(null);
   // When the B2B bone bg is showing, the whole section reads as a light zone so the
   // sticky header flips its logo/nav to dark — kept in sync with the actual bg (o5).
@@ -423,9 +479,9 @@ export default function VillaCascade() {
 
               {/* Right col: spec infographic on glass card */}
               <div style={{
-                display: 'inline-flex', flexWrap: 'wrap', gap: 'clamp(8px, 1.37vw, 16px)',
-                padding: 'clamp(12px, 1.8vh, 20px) clamp(16px, 2vw, 24px)',
-                borderRadius: 14,
+                display: 'inline-flex', flexWrap: 'wrap', gap: 'clamp(9px, 1.58vw, 18px)',
+                padding: 'clamp(14px, 2.07vh, 23px) clamp(18px, 2.3vw, 28px)',
+                borderRadius: 16,
                 background: 'rgba(120,116,110,0.30)',
                 backdropFilter: 'blur(16px)',
                 WebkitBackdropFilter: 'blur(16px)',
@@ -433,34 +489,29 @@ export default function VillaCascade() {
                 boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.30), inset 0 0 0 1px rgba(255,255,255,0.05), inset 0 -8px 18px rgba(0,0,0,0.16), 0 12px 32px rgba(0,0,0,0.30)',
               }}>
                 {/* Guests */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, width: 'clamp(54px, 6.5vw, 78px)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <svg viewBox="0 0 20 20" fill="currentColor" style={{ width: 'clamp(1.32rem, 2.16vw, 1.8rem)', height: 'clamp(1.32rem, 2.16vw, 1.8rem)', color: '#B05329', flexShrink: 0 }}>
-                      <path d="M10 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 8a7 7 0 1 1 14 0H3z" />
-                    </svg>
-                    <span className="font-display" style={{ fontVariationSettings: '"opsz" 48', fontWeight: 380, fontSize: 'clamp(1.2rem, 1.8vw, 1.6rem)', lineHeight: 1, letterSpacing: '-0.02em', color: 'rgba(242,237,227,1)', textShadow: '0 1px 12px rgba(0,0,0,0.8)' }}>4</span>
-                  </div>
-                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>up to<br />Guests</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, width: 'clamp(62px, 7.48vw, 90px)' }}>
+                  <Users style={{ width: 'clamp(1.52rem, 2.48vw, 2.07rem)', height: 'clamp(1.52rem, 2.48vw, 2.07rem)', color: '#D4804E', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 10, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.62)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Up to<br />4 Guests</span>
                 </div>
                 {/* Bathroom */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, width: 'clamp(54px, 6.5vw, 78px)' }}>
-                  <Bath style={{ width: 'clamp(1.32rem, 2.16vw, 1.8rem)', height: 'clamp(1.32rem, 2.16vw, 1.8rem)', color: '#B05329', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
-                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Bathroom</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, width: 'clamp(62px, 7.48vw, 90px)' }}>
+                  <Bath style={{ width: 'clamp(1.52rem, 2.48vw, 2.07rem)', height: 'clamp(1.52rem, 2.48vw, 2.07rem)', color: '#D4804E', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 10, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.62)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Bathroom</span>
                 </div>
                 {/* Equipped Kitchen */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, width: 'clamp(54px, 6.5vw, 78px)' }}>
-                  <Utensils style={{ width: 'clamp(1.32rem, 2.16vw, 1.8rem)', height: 'clamp(1.32rem, 2.16vw, 1.8rem)', color: '#B05329', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
-                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Equipped<br />Kitchen</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, width: 'clamp(62px, 7.48vw, 90px)' }}>
+                  <Utensils style={{ width: 'clamp(1.52rem, 2.48vw, 2.07rem)', height: 'clamp(1.52rem, 2.48vw, 2.07rem)', color: '#D4804E', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 10, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.62)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Equipped<br />Kitchen</span>
                 </div>
                 {/* Wi-Fi */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, width: 'clamp(54px, 6.5vw, 78px)' }}>
-                  <Wifi style={{ width: 'clamp(1.32rem, 2.16vw, 1.8rem)', height: 'clamp(1.32rem, 2.16vw, 1.8rem)', color: '#B05329', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
-                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Wi-Fi</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, width: 'clamp(62px, 7.48vw, 90px)' }}>
+                  <Wifi style={{ width: 'clamp(1.52rem, 2.48vw, 2.07rem)', height: 'clamp(1.52rem, 2.48vw, 2.07rem)', color: '#D4804E', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 10, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.62)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Wi-Fi</span>
                 </div>
                 {/* Private Deck */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, width: 'clamp(54px, 6.5vw, 78px)' }}>
-                  <Armchair style={{ width: 'clamp(1.32rem, 2.16vw, 1.8rem)', height: 'clamp(1.32rem, 2.16vw, 1.8rem)', color: '#B05329', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
-                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.40)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Private<br />Deck</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, width: 'clamp(62px, 7.48vw, 90px)' }}>
+                  <Armchair style={{ width: 'clamp(1.52rem, 2.48vw, 2.07rem)', height: 'clamp(1.52rem, 2.48vw, 2.07rem)', color: '#D4804E', filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.7))' }} strokeWidth={1.3} />
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 10, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(231,222,199,0.62)', textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.7)' }}>Private<br />Deck</span>
                 </div>
               </div>
             </motion.div>
@@ -561,149 +612,10 @@ export default function VillaCascade() {
             </motion.p>
           </div>
 
-          {/* ── Experience dock — expand-to-bento on click ── */}
-          {(() => { const expanded = expandedExp !== null; return (
-          <div
-            className="relative grid grid-cols-2 md:grid-cols-4"
-            style={{
-              // @ts-expect-error custom CSS vars
-              '--tileH': 'clamp(150px, 22vh, 232px)',
-              '--tileHalf': 'clamp(86px, 12.5vh, 128px)',
-              zIndex: 1,
-              gap: 'clamp(10px, 1.4vw, 18px)',
-              marginTop: 'clamp(32px, 6vh, 72px)',
-              paddingBottom: 'clamp(36px, 4vh, 48px)',
-              gridAutoRows: expanded ? 'var(--tileHalf)' : 'var(--tileH)',
-              gridAutoFlow: expanded ? 'dense' : 'row',
-            }}
-          >
-            {EXPERIENCE_CARDS.map((card, i) => {
-              const isExpanded = expandedExp === i;
-              return (
-                <motion.div
-                  layout
-                  key={card.title}
-                  className="group"
-                  onClick={() => setExpandedExp(isExpanded ? null : i)}
-                  transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
-                  style={{
-                    position: 'relative', cursor: 'pointer',
-                    zIndex: isExpanded ? 40 : 1,
-                    gridColumn: isExpanded ? '1 / span 2' : undefined,
-                    gridRow:    isExpanded ? '1 / span 4' : undefined,
-                  }}
-                >
-                  <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                    {/* Image surface — fills whole tile */}
-                    <div
-                      className="ring-1 ring-inset ring-linen/0 transition-all duration-300 group-hover:ring-linen/30"
-                      style={{
-                        position: 'relative', borderRadius: isExpanded ? 18 : 16, overflow: 'hidden',
-                        width: '100%', height: '100%',
-                        boxShadow: isExpanded ? '0 28px 64px rgba(0,0,0,0.42)' : '0 6px 18px rgba(0,0,0,0.16)',
-                        transition: 'box-shadow 0.3s ease',
-                      }}
-                    >
-                      <img src={card.image} alt={card.title} loading="lazy" className="w-full h-full object-cover transition-[filter] duration-300 group-hover:brightness-110" style={{ display: 'block' }} />
-                      <div style={{ position: 'absolute', inset: 0, background: isExpanded
-                        ? 'linear-gradient(to top, rgba(8,6,4,0.96) 0%, rgba(8,6,4,0.55) 38%, rgba(8,6,4,0.05) 72%)'
-                        : 'linear-gradient(to top, rgba(8,6,4,0.9) 0%, rgba(8,6,4,0.32) 58%, transparent 85%)' }} />
-
-                      {/* Number */}
-                      <span style={{ position: 'absolute', top: 10, left: 12, fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 10, fontWeight: 600, letterSpacing: '0.18em', color: 'rgba(242,237,227,0.7)' }}>
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-
-                      {/* Expand hint — fades in on hover */}
-                      {!isExpanded && (
-                        <span
-                          className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          style={{ position: 'absolute', top: 10, right: 10, width: 26, height: 26, borderRadius: 999, border: '1px solid rgba(242,237,227,0.35)', background: 'rgba(8,6,4,0.45)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                        >
-                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F2EDE3" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                            <path d="M8 3H5a2 2 0 0 0-2 2v3m0 8v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3m0-8V5a2 2 0 0 0-2-2h-3" />
-                          </svg>
-                        </span>
-                      )}
-
-                      {/* Close button — only when expanded */}
-                      {isExpanded && (
-                        <button
-                          onClick={(e) => { e.stopPropagation(); setExpandedExp(null); }}
-                          aria-label="Close"
-                          style={{ position: 'absolute', top: 10, right: 10, width: 32, height: 32, borderRadius: 999, border: '1px solid rgba(242,237,227,0.25)', background: 'rgba(8,6,4,0.5)', backdropFilter: 'blur(8px)', color: '#F2EDE3', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', lineHeight: 1, fontSize: 16 }}
-                        >
-                          ×
-                        </button>
-                      )}
-
-                      {/* Compact title + description — collapsed tiles, always visible */}
-                      {!isExpanded && (
-                        <div style={{ position: 'absolute', left: 12, right: 12, bottom: 10 }}>
-                          <p className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontSize: 'clamp(0.95rem, 1.5vw, 1.25rem)', lineHeight: 1.1, letterSpacing: '-0.01em', marginBottom: 4 }}>
-                            {card.title}
-                          </p>
-                          <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(10.5px, 0.9vw, 12px)', lineHeight: 1.4, color: 'rgba(231,222,199,0.68)' }}>
-                            {card.note}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Expanded detail content */}
-                      {isExpanded && (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ duration: 0.4, delay: 0.22 }}
-                          style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 'clamp(16px, 2vw, 28px)', overflow: 'hidden' }}
-                        >
-                          <p className="font-eyebrow uppercase" style={{
-                            alignSelf: 'flex-start',
-                            fontSize: '10px',
-                            letterSpacing: '0.24em',
-                            color: '#E89A6A',
-                            marginBottom: 10,
-                            padding: '5px 11px',
-                            borderRadius: 999,
-                            background: 'rgba(8,6,4,0.55)',
-                            backdropFilter: 'blur(6px)',
-                            WebkitBackdropFilter: 'blur(6px)',
-                            border: '1px solid rgba(176,83,41,0.45)',
-                          }}>
-                            {card.badge}
-                          </p>
-                          <h3 className="font-display text-linen" style={{ fontVariationSettings: '"opsz" 72, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.3rem, 2.4vw, 2rem)', lineHeight: 1.08, letterSpacing: '-0.02em', marginBottom: 'clamp(8px, 1.2vh, 14px)' }}>
-                            {card.headline}
-                          </h3>
-                          <p style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(12px, 1vw, 14px)', lineHeight: 1.6, color: 'rgba(231,222,199,0.72)', marginBottom: 'clamp(10px, 1.6vh, 16px)', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                            {card.body}
-                          </p>
-                          {/* Meta tags */}
-                          <div className="flex flex-wrap gap-2" style={{ marginBottom: 'clamp(10px, 1.4vh, 14px)' }}>
-                            {[card.schedule, card.location].filter(Boolean).map((t) => (
-                              <span key={t} style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(242,237,227,0.7)', background: 'rgba(242,237,227,0.1)', borderRadius: 6, padding: '4px 9px' }}>
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                          {/* Points — hidden on very short tiles */}
-                          <ul className="hidden sm:flex" style={{ listStyle: 'none', padding: 0, margin: 0, flexDirection: 'column', gap: 5 }}>
-                            {card.points.slice(0, 3).map((pt: string) => (
-                              <li key={pt} style={{ display: 'flex', alignItems: 'baseline', gap: 8, fontFamily: 'Inter, system-ui', fontSize: 'clamp(11px, 0.95vw, 12.5px)', color: 'rgba(231,222,199,0.6)', lineHeight: 1.45 }}>
-                                <span style={{ color: '#B05329', flexShrink: 0, fontSize: 7 }}>●</span>
-                                {pt}
-                              </li>
-                            ))}
-                          </ul>
-                        </motion.div>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+          {/* ── Experience panel — one large card at a time, chips below switch between them ── */}
+          <div style={{ marginTop: 'clamp(14px, 2.4vh, 28px)', paddingBottom: 'clamp(36px, 4vh, 48px)' }}>
+            <ExperiencePanel cards={EXPERIENCE_CARDS} currentIdx={experienceIdx} onSelect={setExperienceIdx} />
           </div>
-          ); })()}
           </div>{/* /max-w-content */}
         </div>
 
@@ -1033,4 +945,195 @@ function NearbyModal({ pois, startIdx, onClose }: { pois: typeof sandhillsData.n
   );
 }
 
+// ── Experience Panel ──────────────────────────────────────────────────────────
+// Always-visible, inline (not a modal) — one full-bleed photo "hero" card at a
+// time. Left column: badge, serif headline with an accent tail, body copy and
+// an icon fact-row. The card's lower third hosts photo mini-cards for the
+// other experiences (3 per page on desktop, 1 on mobile) with pagination dots
+// and side arrows; clicking a mini-card promotes it to the main view.
+
+const EXP_ACCENT = '#D4804E';
+
+function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERIENCE_CARDS; currentIdx: number; onSelect: (i: number) => void }) {
+  const reduceMotion = useReducedMotion();
+  const card = cards[currentIdx];
+
+  // Mini-card carousel paging — 4 per page on desktop, 1 on mobile
+  const [perPage, setPerPage] = useState(4);
+  const [page, setPage] = useState(0);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const apply = () => setPerPage(mq.matches ? 4 : 1);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, []);
+
+  const pageCount = Math.ceil(cards.length / perPage);
+  const safePage = Math.min(page, pageCount - 1);
+  const visible = cards.map((_, i) => i).slice(safePage * perPage, safePage * perPage + perPage);
+  const flip = (dir: number) => setPage((safePage + dir + pageCount) % pageCount);
+
+  const accentStart = Math.max(0, card.headline.length - card.accent.length);
+  const headlinePrefix = card.headline.slice(0, accentStart);
+  const headlineAccent = card.headline.slice(accentStart);
+
+  return (
+    <div className="relative w-full overflow-hidden" style={{ borderRadius: 28, height: 'clamp(620px, 92vh, 980px)', boxShadow: '0 28px 64px rgba(0,0,0,0.28)' }}>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentIdx}
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.32, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <img src={card.image} alt={card.title} className="w-full h-full object-cover" />
+
+          {/* Directional scrim — keeps the left copy readable, right half of the photo stays visible */}
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(26,31,27,0.82) 0%, rgba(26,31,27,0.45) 40%, rgba(26,31,27,0.12) 65%, transparent 85%)' }} />
+          {/* Light global veil */}
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(26,31,27,0.10)' }} />
+          {/* Bottom wash under the mini-cards */}
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.72) 0%, rgba(8,6,4,0.28) 26%, transparent 44%)' }} />
+
+          {/* Index + badge capsule on one line (right side reserved for the Next capsule) */}
+          <div style={{ position: 'absolute', top: 'clamp(20px, 2.6vw, 32px)', left: 'clamp(24px, 4vw, 56px)', right: 'clamp(110px, 13vw, 180px)', display: 'flex', alignItems: 'center', gap: 'clamp(14px, 1.8vw, 24px)' }}>
+            <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 'clamp(18px, 1.8vw, 23px)', fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(242,237,227,0.92)', flexShrink: 0 }}>
+              {String(currentIdx + 1).padStart(2, '0')}
+            </span>
+            <p className="font-eyebrow uppercase" style={{
+              fontSize: '11px', letterSpacing: '0.24em', color: EXP_ACCENT, margin: 0,
+              padding: '7px 15px', borderRadius: 999, border: '1px solid rgba(212,128,78,0.55)', display: 'inline-block', whiteSpace: 'nowrap',
+              background: 'rgba(26,31,27,0.35)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
+            }}>
+              {card.badge}
+            </p>
+          </div>
+
+          {/* Left content column — top-aligned so it clears the mini-card strip below */}
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'flex-start', padding: 'clamp(64px, 8.5vh, 108px) clamp(24px, 4vw, 56px) 0' }}>
+            <div className="w-full">
+              {/* Headline gets a wider lane than the body so it never wraps past 2 lines */}
+              <h2 className="font-display max-w-full md:max-w-[min(62%,800px)]" style={{ fontVariationSettings: '"opsz" 96, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(2rem, 3.8vw, 3.9rem)', lineHeight: 1.06, letterSpacing: '-0.02em', color: 'rgba(242,237,227,0.98)', marginBottom: 'clamp(14px, 2vh, 22px)' }}>
+                {headlinePrefix}<span style={{ color: EXP_ACCENT }}>{headlineAccent}</span>
+              </h2>
+              <p className="max-w-[560px] md:max-w-[min(46%,560px)]" style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(14px, 1.15vw, 17px)', lineHeight: 1.6, color: 'rgba(231,222,199,0.88)', marginBottom: 'clamp(20px, 3vh, 34px)' }}>
+                {card.body}
+              </p>
+
+              {/* Icon fact row — icon left, label right, hairline dividers.
+                  Wide single-row lane: items share the width evenly, labels wrap to 2 lines max, icons never drop to a second row. */}
+              <div className="flex items-start flex-nowrap max-w-full md:max-w-[min(64%,820px)]" style={{ gap: 'clamp(12px, 1.5vw, 24px)' }}>
+                {card.facts.map((f, i) => {
+                  const Icon = f.icon;
+                  return (
+                    <div key={f.label} className="flex items-start" style={{ gap: 'clamp(12px, 1.5vw, 24px)', flex: '1 1 0', minWidth: 0 }}>
+                      {i > 0 && <span aria-hidden="true" style={{ width: 1, alignSelf: 'stretch', background: 'rgba(242,237,227,0.22)', flexShrink: 0 }} />}
+                      <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start', flex: '1 1 0', minWidth: 0 }}>
+                        <Icon style={{ width: 'clamp(20px, 1.7vw, 26px)', height: 'clamp(20px, 1.7vw, 26px)', color: EXP_ACCENT, flexShrink: 0 }} strokeWidth={1.4} />
+                        <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(12px, 1vw, 14px)', lineHeight: 1.4, color: 'rgba(242,237,227,0.88)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{f.label}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Next capsule — top-right, same glass style as the badge; advances to the next experience */}
+      <button
+        onClick={() => onSelect((currentIdx + 1) % cards.length)}
+        aria-label="Next experience"
+        className="group font-eyebrow uppercase absolute flex items-center bg-signal hover:bg-signal2 transition-colors"
+        style={{
+          top: 'clamp(20px, 2.6vw, 32px)', right: 'clamp(24px, 4vw, 56px)', zIndex: 2,
+          gap: 9, fontSize: '11px', letterSpacing: '0.24em', color: '#F2EDE3',
+          padding: '7px 15px', borderRadius: 999, border: 'none',
+          cursor: 'pointer', whiteSpace: 'nowrap',
+        }}
+      >
+        Next
+        <span
+          className="transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none"
+          style={{ color: '#F2EDE3', fontSize: 14, lineHeight: 1 }}
+          aria-hidden="true"
+        >
+          →
+        </span>
+      </button>
+
+      {/* Mini-card strip + controls — outside the crossfade so it stays put on switch */}
+      <div style={{ position: 'absolute', left: 'clamp(20px, 2.8vw, 40px)', right: 'clamp(20px, 2.8vw, 40px)', bottom: 'clamp(14px, 2vh, 24px)', zIndex: 2 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${perPage}, minmax(0, 1fr))`, gap: 'clamp(12px, 1.6vw, 22px)' }}>
+          {visible.map((i) => {
+            const c = cards[i];
+            const active = i === currentIdx;
+            return (
+              <button
+                key={c.title}
+                onClick={() => onSelect(i)}
+                aria-pressed={active}
+                className="group relative text-left overflow-hidden"
+                style={{ borderRadius: 14, height: 'clamp(140px, 20vh, 205px)' }}
+              >
+                <img src={c.image} alt={c.title} loading="lazy" className="w-full h-full object-cover" />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.88) 0%, rgba(8,6,4,0.48) 55%, rgba(8,6,4,0.22) 100%)' }} />
+                <div style={{ position: 'absolute', inset: 0, padding: 'clamp(12px, 1.2vw, 17px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 11, marginBottom: 'auto' }}>
+                    <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(242,237,227,0.9)' }}>{String(i + 1).padStart(2, '0')}</span>
+                    <span className="font-eyebrow uppercase" style={{ fontSize: 9, letterSpacing: '0.18em', color: 'rgba(242,237,227,0.72)' }}>{c.schedule.split('·')[0].trim()}</span>
+                  </div>
+                  <p className="font-display" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontSize: 'clamp(1rem, 1.35vw, 1.35rem)', lineHeight: 1.12, letterSpacing: '-0.015em', color: 'rgba(242,237,227,0.97)', marginBottom: 5 }}>
+                    {c.badge}
+                  </p>
+                  <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(10.5px, 0.85vw, 12px)', lineHeight: 1.4, color: 'rgba(231,222,199,0.75)', paddingRight: 44, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    {c.note}
+                  </p>
+                </div>
+                <span
+                  className="absolute flex items-center justify-center rounded-full transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none"
+                  style={{ right: 11, bottom: 11, width: 38, height: 38, border: '1px solid rgba(242,237,227,0.35)', background: 'rgba(8,6,4,0.35)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', color: '#F2EDE3' }}
+                  aria-hidden="true"
+                >
+                  <ArrowRight style={{ width: 16, height: 16 }} strokeWidth={1.6} />
+                </span>
+                {/* Frame — accent ring marks the currently shown experience */}
+                <div
+                  className={active ? 'absolute inset-0 rounded-[14px] pointer-events-none' : 'absolute inset-0 rounded-[14px] ring-1 ring-inset ring-linen/10 group-hover:ring-linen/35 transition-all duration-200 pointer-events-none'}
+                  style={active ? { boxShadow: `inset 0 0 0 2px ${EXP_ACCENT}, 0 4px 18px rgba(176,83,41,0.35)` } : undefined}
+                />
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Controls: arrows flanking pagination dots */}
+        {pageCount > 1 && (
+          <div className="flex items-center justify-between" style={{ marginTop: 'clamp(8px, 1.4vh, 16px)' }}>
+            <button onClick={() => flip(-1)} aria-label="Previous experiences" className="flex items-center justify-center text-linen/75 hover:text-linen transition-colors" style={{ width: 44, height: 44 }}>
+              <ArrowLeft style={{ width: 22, height: 22 }} strokeWidth={1.6} />
+            </button>
+            <div className="flex items-center" style={{ gap: 8 }}>
+              {Array.from({ length: pageCount }, (_, p) => (
+                <button
+                  key={p}
+                  onClick={() => setPage(p)}
+                  aria-label={`Experiences page ${p + 1}`}
+                  style={{ width: 8, height: 8, borderRadius: 999, padding: 0, border: 'none', cursor: 'pointer', background: p === safePage ? EXP_ACCENT : 'rgba(242,237,227,0.35)', transition: 'background 0.2s ease' }}
+                />
+              ))}
+            </div>
+            <button onClick={() => flip(1)} aria-label="Next experiences" className="flex items-center justify-center text-linen/75 hover:text-linen transition-colors" style={{ width: 44, height: 44 }}>
+              <ArrowRight style={{ width: 22, height: 22 }} strokeWidth={1.6} />
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 

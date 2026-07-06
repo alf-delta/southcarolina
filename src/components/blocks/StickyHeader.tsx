@@ -126,6 +126,9 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
         WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
         maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
         boxShadow: overDark ? 'none' : '0 1px 0 rgba(0,0,0,0.06)',
+        // The bar itself is transparent — don't let it swallow clicks meant for
+        // content underneath; interactive children re-enable pointer events.
+        pointerEvents: 'none',
       }}
     >
       <div className="max-w-content mx-auto px-6 md:px-10 h-16 flex items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr]">
@@ -133,7 +136,7 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
         {/* Logo — grows in hero, shrinks on scroll */}
         <a
           href="#"
-          className="flex items-center"
+          className="flex items-center pointer-events-auto"
           style={{ transform: 'translateX(max(-100px, min(-16px, calc(684px - 50vw))))' }}
           onClick={(e) => {
             e.preventDefault();
@@ -155,7 +158,7 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
 
         {/* Nav */}
         <motion.nav
-          className="hidden md:flex items-center gap-8"
+          className="hidden md:flex items-center gap-8 pointer-events-auto"
           style={{ opacity: navOpacity, x: navX }}
         >
           {navLinks.map((l) => (
@@ -166,14 +169,14 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
         </motion.nav>
 
         {/* Book button */}
-        <motion.div className="hidden md:flex justify-end" style={{ opacity: bookOpacity }}>
+        <motion.div className="hidden md:flex justify-end pointer-events-auto" style={{ opacity: bookOpacity }}>
           <Button onClick={openBooking} variant={overDark ? 'ghost-light' : 'primary'} className="!py-2 !px-5 !min-h-0">
             Book
           </Button>
         </motion.div>
 
         <button
-          className={`md:hidden p-2 ${textColor}`}
+          className={`md:hidden p-2 pointer-events-auto ${textColor}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -185,7 +188,7 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
       <motion.a
         href="#"
         onClick={(e) => { e.preventDefault(); openGallery(); }}
-        className="hidden md:flex items-center eyebrow text-linen/90 hover:text-linen transition-colors"
+        className="hidden md:flex items-center eyebrow text-linen/90 hover:text-linen transition-colors pointer-events-auto"
         style={{
           opacity: galleryOpacity,
           position: 'absolute',
@@ -205,7 +208,7 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
       </motion.a>
 
       {menuOpen && (
-        <div className="md:hidden bg-night/95 backdrop-blur-md px-6 pb-8 pt-4 flex flex-col gap-6">
+        <div className="md:hidden bg-night/95 backdrop-blur-md px-6 pb-8 pt-4 flex flex-col gap-6 pointer-events-auto">
           {navLinks.map((l) => (
             <a
               key={l.href}
