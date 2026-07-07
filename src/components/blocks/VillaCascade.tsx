@@ -57,8 +57,10 @@ const EXPERIENCE_CARDS = [
     title:    'The Sauna Ritual',
     note:     'Wood-fired heat, panoramic lake views and the kind of reset you feel immediately.',
     badge:    'Best wild spa ever',
+    badgeShort: 'Best wild spa',
     headline: 'The ritual the Romans knew. You rediscover it here.',
     body:     "Wood-fired to 194 °F. The sauna sits on the water — heat, then cold, then silence. Step off the dock into the lake. Two thousand years of the same ritual, still unmatched.",
+    bodyShort: 'Wood-fired to 194 °F on the water. Heat, cold plunge, silence — the same ritual, two thousand years on.',
     schedule: 'Open daily · 6 am – 11 pm',
     location: 'Lakeside sauna pavilion',
     points:   ['Wood-fired, reaches 194 °F in 40 min', 'Cold plunge in the lake, steps away', 'Seats 6 · towels provided', 'No booking needed'],
@@ -75,8 +77,10 @@ const EXPERIENCE_CARDS = [
     title:    'The Lake',
     note:     'An 18-acre lake for swimming, fishing, floating and slow days by the water.',
     badge:    'Your ocean. No salt, no strangers.',
+    badgeShort: 'Your private ocean',
     headline: 'Sixty Olympic pools. Every single one of them yours.',
     body:     'Eighteen acres of still, clean water — private to our guests, always. No jet skis, no strangers, no one doing cannonballs near your kayak. Just you, the herons, and a surface so calm in the morning it reflects the pines like a mirror. Go for a swim. Take a canoe. Sit on the dock and do absolutely nothing. All three are correct answers.',
+    bodyShort: 'Eighteen acres of still, private water. Swim, canoe, or do nothing on the dock — all correct answers.',
     schedule: 'Sunrise to sunset',
     location: 'Main dock, north shore',
     points:   ['18 acres of private lake', 'No motor boats — ever', '2 Kevlar canoes · 2 paddleboards on the dock', 'Swimming, fishing, floating — all welcome'],
@@ -93,8 +97,10 @@ const EXPERIENCE_CARDS = [
     title:    'Trails & Rides',
     note:     'Open land, forest paths and e-bikes for exploring the property at your own pace.',
     badge:    '12 miles. Zero treadmills.',
+    badgeShort: '12 miles of trails',
     headline: 'Into the pines.',
     body:     'Twelve miles of marked trail through longleaf pine savanna. Four trailheads across the property. The creek loop is the one worth finding. Illustrated map in your cabin.',
+    bodyShort: 'Twelve miles of marked trail through longleaf pine. Four trailheads, map in your cabin.',
     schedule: 'All day · self-guided',
     location: '4 trailheads across the property',
     points:   ['Illustrated map in your cabin', 'Longleaf pine savanna + creek loop', 'Easy to moderate grade', 'Ends at a creek worth finding'],
@@ -111,8 +117,10 @@ const EXPERIENCE_CARDS = [
     title:    'Ready for the Water',
     note:     'Kayaks, paddleboards and boats ready for quiet mornings or full-group lake adventures.',
     badge:    'The dock is stocked.',
+    badgeShort: 'The dock is stocked',
     headline: 'Push off. The lake is waiting.',
     body:     'Canoes, kayaks and paddleboards live at the dock — no rental counter, no schedule. Push off into eighteen acres of still water and trace the shoreline at whatever speed the morning allows. Life jackets in every size, right where you’d look for them.',
+    bodyShort: 'Canoes, kayaks and boards live at the dock. Push off whenever — life jackets in every size.',
     schedule: 'Sunrise to sunset · no booking',
     location: 'The main dock',
     points:   ['Canoes, kayaks and paddleboards at the dock', 'Life jackets in every size', '18 acres of private, calm water', 'No booking — just push off'],
@@ -129,8 +137,10 @@ const EXPERIENCE_CARDS = [
     title:    'The Open Field',
     note:     'Volleyball, soccer and open-air games for families, friends and teams.',
     badge:    'Bring your A-game.',
+    badgeShort: 'Bring your A-game',
     headline: 'Room to run wild.',
     body:     'A flat stretch of open grass made for volleyball, soccer, frisbee — or whatever your group invents by day three. Nets and balls are in the shed, setup takes five minutes, and the pines keep the score to themselves.',
+    bodyShort: 'Open grass for volleyball, soccer, frisbee. Nets and balls in the shed — setup takes five minutes.',
     schedule: 'Open play · all day',
     location: 'The open lawn, mid-property',
     points:   ['Volleyball and soccer setups', 'Nets and balls in the shed', 'Room for the whole group', 'Open all day'],
@@ -147,8 +157,10 @@ const EXPERIENCE_CARDS = [
     title:    'Pool Days',
     note:     'A large outdoor pool made for long afternoons, sun, water and good company.',
     badge:    'The water is fine.',
+    badgeShort: 'The water is fine',
     headline: 'Long afternoons, solved.',
     body:     'A proper outdoor pool with loungers around it and towels stacked poolside. Swim before breakfast, float through the afternoon, let the kids wear themselves out before dinner. Bring sunscreen — the rest is handled.',
+    bodyShort: 'A proper outdoor pool, loungers and towels waiting. Bring sunscreen — the rest is handled.',
     schedule: 'Open daily · dawn to dusk',
     location: 'Pool terrace, by the main cabin',
     points:   ['Large outdoor pool', 'Loungers and towels poolside', 'Swim laps or just float', 'Open dawn to dusk'],
@@ -165,8 +177,10 @@ const EXPERIENCE_CARDS = [
     title:    'Honey From the Land',
     note:     'Our own beehives on property — a small taste of Sandhills, straight from nature.',
     badge:    'A million bees. All ours.',
+    badgeShort: 'A million bees',
     headline: 'Twenty hives. One million workers.',
     body:     'Our apiary runs twenty hives — over a million bees foraging the longleaf pine savanna, wildflowers, and clover within the property. The honey in your welcome pantry came from fifty feet away. Ask your host for a hive walk. Nets provided.',
+    bodyShort: 'Twenty hives, a million bees, honey from fifty feet away. Ask your host for a hive walk.',
     schedule: 'Hive walks by arrangement',
     location: 'Apiary meadow, south of the lake',
     points:   ['20 active hives on property', '1M+ bees · longleaf pine + wildflower honey', 'Honey in every welcome pantry', 'Guided hive walk available on request'],
@@ -183,8 +197,10 @@ const EXPERIENCE_CARDS = [
     title:    'By the Outdoor Fireplace',
     note:     'A large deck, warm fire, open sky and the conversations that make the trip.',
     badge:    'Where evenings land.',
+    badgeShort: 'Evenings land here',
     headline: 'The fire does the hosting.',
     body:     'A wide deck, a circle of chairs and a fire that catches on the first match. The wood is stacked and dry, the sky does something cities forgot how to do, and the conversations take care of themselves. This is where the trip’s best hour happens, every night.',
+    bodyShort: 'A wide deck, a ring of chairs, a fire that catches on the first match. The trip’s best hour, nightly.',
     schedule: 'Every night · wood provided',
     location: 'Fire deck, above the lake',
     points:   ['Fire pit lit every evening', 'Dry firewood stacked and ready', 'Chairs around the ring', 'Stars you can actually see'],
@@ -963,16 +979,27 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
   const reduceMotion = useReducedMotion();
   const card = cards[currentIdx];
 
-  // Mini-card carousel paging — 4 per page on desktop, 1 on mobile
-  const [perPage, setPerPage] = useState(4);
+  // Desktop mini-strip paging; the mobile layout uses a free-scrolling strip instead
+  const perPage = 4;
   const [page, setPage] = useState(0);
-  useEffect(() => {
-    const mq = window.matchMedia('(min-width: 768px)');
-    const apply = () => setPerPage(mq.matches ? 4 : 1);
-    apply();
-    mq.addEventListener('change', apply);
-    return () => mq.removeEventListener('change', apply);
-  }, []);
+
+  // Mobile swipe on the photo/content area — horizontal, with vertical-scroll dominance guard
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY };
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const s = touchStart.current;
+    touchStart.current = null;
+    if (!s) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - s.x;
+    const dy = t.clientY - s.y;
+    if (Math.abs(dx) > 56 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+      onSelect(dx < 0 ? (currentIdx + 1) % cards.length : (currentIdx - 1 + cards.length) % cards.length);
+    }
+  };
 
   const pageCount = Math.ceil(cards.length / perPage);
   const safePage = Math.min(page, pageCount - 1);
@@ -983,8 +1010,42 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
   const headlinePrefix = card.headline.slice(0, accentStart);
   const headlineAccent = card.headline.slice(accentStart);
 
+  // Shared Next capsule — rendered in both the desktop and mobile trees
+  const nextCapsule = (
+    <motion.button
+      onClick={() => onSelect((currentIdx + 1) % cards.length)}
+      aria-label="Next experience"
+      className="group font-eyebrow uppercase absolute flex items-center bg-signal hover:bg-signal2 transition-colors"
+      animate={reduceMotion ? undefined : {
+        filter: ['brightness(1)', 'brightness(1.1)', 'brightness(1)'],
+        boxShadow: [
+          '0 0 0px 0px rgba(176,83,41,0)',
+          '0 0 16px 3px rgba(176,83,41,0.45)',
+          '0 0 0px 0px rgba(176,83,41,0)',
+        ],
+      }}
+      transition={reduceMotion ? undefined : { duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+      style={{
+        top: 'clamp(20px, 2.6vw, 32px)', right: 'clamp(24px, 4vw, 56px)', zIndex: 2,
+        gap: 9, fontSize: '11px', letterSpacing: '0.24em', color: '#F2EDE3',
+        padding: '7px 15px', borderRadius: 999, border: 'none',
+        cursor: 'pointer', whiteSpace: 'nowrap',
+      }}
+    >
+      Next
+      <span
+        className="transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none"
+        style={{ color: '#F2EDE3', fontSize: 14, lineHeight: 1 }}
+        aria-hidden="true"
+      >
+        →
+      </span>
+    </motion.button>
+  );
+
   return (
-    <div className="relative w-full overflow-hidden" style={{ borderRadius: 28, height: 'clamp(620px, 92vh, 980px)', boxShadow: '0 28px 64px rgba(0,0,0,0.28)', backgroundColor: '#1A1F1B' }}>
+    <>
+    <div className="hidden md:block relative w-full overflow-hidden" style={{ borderRadius: 28, height: 'clamp(620px, 92vh, 980px)', boxShadow: '0 28px 64px rgba(0,0,0,0.28)', backgroundColor: '#1A1F1B' }}>
       {/* Overlapping crossfade — the new slide fades in on top of the old one (no background flash),
           while its photo settles from a slight zoom (same reveal language as the Act 1 villa photo). */}
       <AnimatePresence initial={false}>
@@ -1059,36 +1120,7 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
         </motion.div>
       </AnimatePresence>
 
-      {/* Next capsule — top-right, solid signal fill with a barely-there brightness pulse */}
-      <motion.button
-        onClick={() => onSelect((currentIdx + 1) % cards.length)}
-        aria-label="Next experience"
-        className="group font-eyebrow uppercase absolute flex items-center bg-signal hover:bg-signal2 transition-colors"
-        animate={reduceMotion ? undefined : {
-          filter: ['brightness(1)', 'brightness(1.1)', 'brightness(1)'],
-          boxShadow: [
-            '0 0 0px 0px rgba(176,83,41,0)',
-            '0 0 16px 3px rgba(176,83,41,0.45)',
-            '0 0 0px 0px rgba(176,83,41,0)',
-          ],
-        }}
-        transition={reduceMotion ? undefined : { duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
-        style={{
-          top: 'clamp(20px, 2.6vw, 32px)', right: 'clamp(24px, 4vw, 56px)', zIndex: 2,
-          gap: 9, fontSize: '11px', letterSpacing: '0.24em', color: '#F2EDE3',
-          padding: '7px 15px', borderRadius: 999, border: 'none',
-          cursor: 'pointer', whiteSpace: 'nowrap',
-        }}
-      >
-        Next
-        <span
-          className="transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none"
-          style={{ color: '#F2EDE3', fontSize: 14, lineHeight: 1 }}
-          aria-hidden="true"
-        >
-          →
-        </span>
-      </motion.button>
+      {nextCapsule}
 
       {/* Mini-card strip + controls — outside the crossfade so it stays put on switch */}
       <div style={{ position: 'absolute', left: 'clamp(20px, 2.8vw, 40px)', right: 'clamp(20px, 2.8vw, 40px)', bottom: 'clamp(14px, 2vh, 24px)', zIndex: 2 }}>
@@ -1158,6 +1190,129 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
         )}
       </div>
     </div>
+
+    {/* ── Mobile layout — photo on top, content flows on the dark card below ── */}
+    <div className="md:hidden relative w-full overflow-hidden" style={{ borderRadius: 24, backgroundColor: '#1A1F1B', boxShadow: '0 20px 48px rgba(0,0,0,0.30)' }}>
+      <motion.div
+        key={currentIdx}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: reduceMotion ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
+        {/* Photo — fades into the dark body */}
+        <div style={{ position: 'relative', height: '37vh', minHeight: 240 }}>
+          <img src={card.image} alt={card.title} className="w-full h-full object-cover" style={{ display: 'block' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(26,31,27,0.4) 0%, transparent 30%, rgba(26,31,27,0.4) 64%, #1A1F1B 100%)' }} />
+          {/* Index + badge over the photo */}
+          <div style={{ position: 'absolute', top: 18, left: 18, right: 96, display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 19, fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(242,237,227,0.95)', flexShrink: 0 }}>
+              {String(currentIdx + 1).padStart(2, '0')}
+            </span>
+            <p className="font-eyebrow uppercase" style={{
+              fontSize: '10px', letterSpacing: '0.22em', color: EXP_ACCENT, margin: 0,
+              padding: '6px 13px', borderRadius: 999, border: '1px solid rgba(212,128,78,0.55)',
+              background: 'rgba(26,31,27,0.35)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
+              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+            }}>
+              {card.badgeShort}
+            </p>
+          </div>
+        </div>
+
+        {/* Content on dark */}
+        <div style={{ padding: '2px 20px 20px' }}>
+          <h2 className="font-display" style={{ fontVariationSettings: '"opsz" 96, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(2.1rem, 10vw, 2.7rem)', lineHeight: 1.12, letterSpacing: '-0.02em', color: 'rgba(242,237,227,0.98)', marginBottom: 14 }}>
+            {headlinePrefix}<span style={{ color: EXP_ACCENT }}>{headlineAccent}</span>
+          </h2>
+          <p style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 15, lineHeight: 1.55, color: 'rgba(231,222,199,0.8)', marginBottom: 8 }}>
+            {card.bodyShort}
+          </p>
+
+          {/* Facts — 2×2 grid with hairline dividers */}
+          <div className="grid grid-cols-2">
+            {card.facts.map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <div
+                  key={f.label}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 14,
+                    padding: '16px 0',
+                    paddingRight: i % 2 === 0 ? 14 : 0,
+                    paddingLeft: i % 2 === 1 ? 16 : 0,
+                    borderRight: i % 2 === 0 ? '1px solid rgba(242,237,227,0.14)' : 'none',
+                    borderBottom: i < 2 ? '1px solid rgba(242,237,227,0.14)' : 'none',
+                  }}
+                >
+                  <Icon style={{ width: 24, height: 24, color: EXP_ACCENT, flexShrink: 0 }} strokeWidth={2.2} />
+                  <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 15, lineHeight: 1.35, color: 'rgba(242,237,227,0.92)' }}>{f.label}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </motion.div>
+
+      {nextCapsule}
+
+      {/* Mini strip — continuous horizontal scroll, next card peeks in */}
+      <div className="exp-mini-scroll flex overflow-x-auto" style={{ gap: 12, padding: '4px 20px 12px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <style>{`.exp-mini-scroll::-webkit-scrollbar { display: none; }`}</style>
+        {cards.map((c, i) => {
+          const active = i === currentIdx;
+          return (
+            <button
+              key={c.title}
+              onClick={() => onSelect(i)}
+              aria-pressed={active}
+              className="relative text-left overflow-hidden shrink-0"
+              style={{ borderRadius: 16, width: '78vw', maxWidth: 340, height: 'clamp(180px, 52vw, 230px)' }}
+            >
+              <img src={c.image} alt={c.title} loading="lazy" className="w-full h-full object-cover" />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.9) 0%, rgba(8,6,4,0.42) 55%, rgba(8,6,4,0.28) 100%)' }} />
+              <div style={{ position: 'absolute', inset: 0, padding: 18, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 'auto' }}>
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 14, fontWeight: 700, letterSpacing: '0.1em', color: EXP_ACCENT }}>{String(i + 1).padStart(2, '0')}</span>
+                  <span className="font-eyebrow uppercase" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'rgba(242,237,227,0.75)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.schedule.split('·')[0].trim()}</span>
+                </div>
+                <p className="font-display" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontSize: 'clamp(1.4rem, 6.4vw, 1.75rem)', lineHeight: 1.12, letterSpacing: '-0.015em', color: 'rgba(242,237,227,0.97)', marginBottom: 7 }}>
+                  {c.badge}
+                </p>
+                <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 13, lineHeight: 1.45, color: 'rgba(231,222,199,0.75)', paddingRight: 56, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                  {c.note}
+                </p>
+              </div>
+              <span
+                className="absolute flex items-center justify-center rounded-full"
+                style={{ right: 14, bottom: 14, width: 44, height: 44, border: '1px solid rgba(242,237,227,0.35)', background: 'rgba(8,6,4,0.35)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', color: '#F2EDE3' }}
+                aria-hidden="true"
+              >
+                <ArrowRight style={{ width: 18, height: 18 }} strokeWidth={1.6} />
+              </span>
+              <div
+                className="absolute inset-0 rounded-2xl pointer-events-none"
+                style={active ? { boxShadow: `inset 0 0 0 2px ${EXP_ACCENT}` } : { boxShadow: 'inset 0 0 0 1px rgba(231,222,199,0.10)' }}
+              />
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Dots — reflect the currently shown experience */}
+      <div className="flex items-center justify-center" style={{ gap: 7, paddingBottom: 16 }}>
+        {cards.map((c, i) => (
+          <button
+            key={c.title}
+            onClick={() => onSelect(i)}
+            aria-label={`Show experience ${i + 1}`}
+            style={{ width: 7, height: 7, borderRadius: 999, padding: 0, border: 'none', background: i === currentIdx ? EXP_ACCENT : 'rgba(242,237,227,0.3)', transition: 'background 0.2s ease' }}
+          />
+        ))}
+      </div>
+    </div>
+    </>
   );
 }
 
