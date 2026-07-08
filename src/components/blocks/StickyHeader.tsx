@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Button from '../primitives/Button';
 import { openBooking } from '../data/booking';
@@ -123,15 +123,17 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
       className="fixed top-0 left-0 right-0 z-[200] transition-colors duration-500"
       style={{
         paddingBottom: headerPb,
-        WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
-        maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
+        // The soft-fade mask must be off while the mobile menu is open —
+        // otherwise it dissolves the expanded menu into transparency.
+        WebkitMaskImage: menuOpen ? 'none' : 'linear-gradient(to bottom, black 50%, transparent 100%)',
+        maskImage: menuOpen ? 'none' : 'linear-gradient(to bottom, black 50%, transparent 100%)',
         boxShadow: overDark ? 'none' : '0 1px 0 rgba(0,0,0,0.06)',
         // The bar itself is transparent — don't let it swallow clicks meant for
         // content underneath; interactive children re-enable pointer events.
         pointerEvents: 'none',
       }}
     >
-      <div className="max-w-content mx-auto px-6 md:px-10 h-16 flex items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr]">
+      <div className="max-w-content mx-auto px-6 md:px-10 h-16 flex items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr] relative z-[2]">
 
         {/* Logo — grows in hero, shrinks on scroll */}
         <a
@@ -207,21 +209,69 @@ const fullBgOpacity    = useTransform(scrollY, [0, trigger * 0.4], [0, 1]);
         View gallery
       </motion.a>
 
-      {menuOpen && (
-        <div className="md:hidden bg-night/95 backdrop-blur-md px-6 pb-8 pt-4 flex flex-col gap-6 pointer-events-auto">
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="eyebrow-lg text-linen/80 hover:text-linen"
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            {/* Backdrop — dims the page, tap outside closes */}
+            <motion.div
+              className="md:hidden fixed inset-0 pointer-events-auto"
+              style={{ zIndex: 1, background: 'rgba(10,12,10,0.55)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
               onClick={() => setMenuOpen(false)}
+            />
+
+            {/* Menu card — modal-style rounded panel unfolding from the burger */}
+            <motion.div
+              className="md:hidden pointer-events-auto relative flex flex-col"
+              style={{
+                zIndex: 2,
+                margin: '6px 12px 0',
+                borderRadius: 22,
+                background: 'rgba(26,31,27,0.97)',
+                border: '1px solid rgba(231,222,199,0.12)',
+                boxShadow: '0 24px 60px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)',
+                padding: '10px 24px 24px',
+                transformOrigin: 'top right',
+                overflow: 'hidden',
+              }}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={{
+                open: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.34, ease: [0.22, 1, 0.36, 1], when: 'beforeChildren', staggerChildren: 0.055 } },
+                closed: { opacity: 0, scale: 0.94, y: -12, transition: { duration: 0.2, ease: 'easeIn' } },
+              }}
             >
-              {l.label}
-            </a>
-          ))}
-          <Button onClick={() => { setMenuOpen(false); openBooking(); }} variant="primary" className="self-start mt-2">Book a Stay</Button>
-        </div>
-      )}
+              {navLinks.map((l, i) => (
+                <motion.a
+                  key={l.href}
+                  href={l.href}
+                  className="eyebrow-lg text-linen/80 hover:text-linen"
+                  style={{ padding: '16px 0', borderBottom: i < navLinks.length - 1 ? '1px solid rgba(231,222,199,0.08)' : 'none' }}
+                  variants={{
+                    open: { opacity: 1, y: 0, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } },
+                    closed: { opacity: 0, y: 10 },
+                  }}
+                  onClick={(e) => { if (l.onClick) { e.preventDefault(); l.onClick(); } setMenuOpen(false); }}
+                >
+                  {l.label}
+                </motion.a>
+              ))}
+              <motion.div
+                variants={{
+                  open: { opacity: 1, y: 0, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } },
+                  closed: { opacity: 0, y: 10 },
+                }}
+              >
+                <Button onClick={() => { setMenuOpen(false); openBooking(); }} variant="primary" className="self-start mt-5">Book a Stay</Button>
+              </motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.header>
     </>
   );

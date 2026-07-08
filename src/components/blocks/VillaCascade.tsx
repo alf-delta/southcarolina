@@ -392,9 +392,119 @@ export default function VillaCascade() {
           style={{ zIndex: 1 }}
         >
           <div className="w-full max-w-content mx-auto flex flex-col gap-2">
+
+          {/* ── Mobile listing — full-bleed photo fading out, title + spec grid + swipe gallery ── */}
+          <div className="md:hidden">
+            {/* Photo slideshow, edge-to-edge; alpha mask dissolves it into whatever bg is behind */}
+            <div
+              className="relative overflow-hidden -mx-6"
+              style={{
+                height: '54vh', minHeight: 380,
+                maskImage: 'linear-gradient(to bottom, transparent 0%, black 9%, black 52%, transparent 99%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 9%, black 52%, transparent 99%)',
+              }}
+              onClick={() => setGalleryStartIdx(0)}
+            >
+              {HERO_IMAGES.map((src, i) => (
+                <motion.div
+                  key={src}
+                  style={{ position: 'absolute', inset: 0 }}
+                  initial={false}
+                  animate={{ opacity: i === heroIdx ? 1 : 0 }}
+                  transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <Img src={src} alt="Forest Villa exterior" className="w-full h-full object-cover" decoding="async" />
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Title block — sits in the photo's faded zone */}
+            <div style={{ position: 'relative', zIndex: 1, marginTop: 'clamp(-140px, -18vh, -100px)' }}>
+              <h2 className="font-display" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 20, "WONK" 0', fontWeight: 340, fontSize: 'clamp(3rem, 14vw, 4rem)', lineHeight: 1, letterSpacing: '-0.03em', color: 'rgba(242,237,227,1)', marginBottom: 10, textShadow: '0 2px 24px rgba(0,0,0,0.8)' }}>
+                Forest Villa
+              </h2>
+              <p className="font-eyebrow uppercase" style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.22em', color: '#D4804E', marginBottom: 12 }}>
+                Five-Star Comfort, Forest Edition
+              </p>
+              <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 16, lineHeight: 1.55, color: 'rgba(231,222,199,0.82)' }}>
+                Surrounded by pines and lake views. Your private retreat for rest, reset and real connection.
+              </p>
+            </div>
+
+            {/* Spec grid — glass panel, icon left + label */}
+            <div className="rounded-2xl" style={{ marginTop: 18, padding: '2px 16px', background: 'rgba(120,116,110,0.14)', border: '1px solid rgba(242,237,227,0.14)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+              <div className="grid grid-cols-3">
+                {[
+                  { Icon: Users, label: 'Up to 4\nGuests' },
+                  { Icon: Bath, label: '1\nBathroom' },
+                  { Icon: Utensils, label: 'Equipped\nKitchen' },
+                ].map(({ Icon, label }, i) => (
+                  <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 0', paddingLeft: i > 0 ? 12 : 0, borderLeft: i > 0 ? '1px solid rgba(242,237,227,0.12)' : 'none' }}>
+                    <Icon style={{ width: 22, height: 22, color: '#D4804E', flexShrink: 0 }} strokeWidth={1.5} />
+                    <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', lineHeight: 1.4, color: 'rgba(242,237,227,0.88)', whiteSpace: 'pre-line' }}>{label}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="grid grid-cols-2" style={{ borderTop: '1px solid rgba(242,237,227,0.12)' }}>
+                {[
+                  { Icon: Wifi, label: 'Wi-Fi' },
+                  { Icon: Armchair, label: 'Private\nDeck' },
+                ].map(({ Icon, label }, i) => (
+                  <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 0', paddingLeft: i > 0 ? 12 : 0, borderLeft: i > 0 ? '1px solid rgba(242,237,227,0.12)' : 'none' }}>
+                    <Icon style={{ width: 22, height: 22, color: '#D4804E', flexShrink: 0 }} strokeWidth={1.5} />
+                    <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', lineHeight: 1.4, color: 'rgba(242,237,227,0.88)', whiteSpace: 'pre-line' }}>{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Gallery header */}
+            <div className="flex items-end justify-between" style={{ marginTop: 26, marginBottom: 12 }}>
+              <p className="font-display" style={{ fontVariationSettings: '"opsz" 72, "SOFT" 30', fontWeight: 380, fontSize: '1.7rem', letterSpacing: '-0.015em', color: 'rgba(242,237,227,0.97)', margin: 0 }}>
+                Gallery
+              </p>
+              <button onClick={() => setGalleryStartIdx(0)} className="flex items-center" style={{ gap: 6, background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'Inter, system-ui, sans-serif', fontSize: 14, color: '#D4804E' }}>
+                See all
+                <ArrowRight style={{ width: 15, height: 15 }} strokeWidth={1.8} />
+              </button>
+            </div>
+
+            {/* Swipeable mini-gallery — active thumb framed, synced with the slideshow */}
+            <div className="vc-mob-gal flex overflow-x-auto" style={{ gap: 10, paddingBottom: 4, scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <style>{`.vc-mob-gal::-webkit-scrollbar { display: none; }`}</style>
+              {HERO_IMAGES.map((src, i) => {
+                const active = i === heroIdx;
+                return (
+                  <button
+                    key={src}
+                    onClick={() => setHeroIdx(i)}
+                    aria-pressed={active}
+                    className="relative shrink-0 overflow-hidden"
+                    style={{ width: '33vw', maxWidth: 150, height: '46vw', maxHeight: 215, borderRadius: 18 }}
+                  >
+                    <img src={src} alt="" loading="lazy" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 pointer-events-none" style={{ borderRadius: 18, boxShadow: active ? 'inset 0 0 0 2px #D4804E' : 'inset 0 0 0 1px rgba(231,222,199,0.14)', background: active ? 'transparent' : 'rgba(8,6,4,0.25)', transition: 'box-shadow 0.3s ease, background 0.3s ease' }} />
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Dots */}
+            <div className="flex items-center justify-center" style={{ gap: 7, marginTop: 14 }}>
+              {HERO_IMAGES.map((src, i) => (
+                <button
+                  key={src}
+                  onClick={() => setHeroIdx(i)}
+                  aria-label={`Photo ${i + 1}`}
+                  style={{ width: 7, height: 7, borderRadius: 999, padding: 0, border: 'none', background: i === heroIdx ? '#D4804E' : 'rgba(242,237,227,0.3)', transition: 'background 0.2s ease' }}
+                />
+              ))}
+            </div>
+          </div>
+
           {/* Full-bleed exterior photo with reveal animation */}
           <motion.div
-            className="w-full rounded-2xl overflow-hidden cursor-pointer relative"
+            className="hidden md:block w-full rounded-2xl overflow-hidden cursor-pointer relative"
             style={{ height: 'clamp(420px, 80vh, 960px)' }}
             initial={{ opacity: 0, scale: 1.04 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -536,7 +646,7 @@ export default function VillaCascade() {
           </motion.div>
 
           {/* Thumbnail strip — mirrors the hero slideshow, active one framed */}
-          <div className="flex gap-2 mt-2">
+          <div className="hidden md:flex gap-2 mt-2">
             {HERO_IMAGES.map((src, i) => {
               const active = i === heroIdx;
               return (
