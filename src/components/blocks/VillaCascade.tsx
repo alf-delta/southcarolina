@@ -5,7 +5,7 @@ import { Wifi, Bath, Utensils, Armchair, Users, Flame, Snowflake, Clock, Ban, Sa
 import Img from '../primitives/Img';
 import { sandhillsData } from '../data/sandhills';
 import { openPrivateEvent } from './PrivateEventModal';
-import GalleryModal from './GalleryModal';
+import PhotoGalleryModal from './PhotoGalleryModal';
 
 // ── Card data ─────────────────────────────────────────────────────────────────
 
@@ -51,9 +51,13 @@ const COMFORT_CARDS = [
   },
 ] as const;
 
+// Flat photo pool for the gallery — every photo used in the listing (hero slideshow)
+// plus the Thoughtfully Stocked comfort cards. No room categories.
+const GALLERY_PHOTOS: string[] = [...HERO_IMAGES, ...COMFORT_CARDS.map((c) => c.image)];
+
 const EXPERIENCE_CARDS = [
   {
-    image:    '/images/sandhills/sauna.webp',
+    image:    '/images/experience/01-sauna.webp',
     title:    'The Sauna Ritual',
     note:     'Wood-fired heat, panoramic lake views and the kind of reset you feel immediately.',
     badge:    'Best wild spa ever',
@@ -113,7 +117,7 @@ const EXPERIENCE_CARDS = [
     ],
   },
   {
-    image:    '/images/experience/ready-for-the-water.webp',
+    image:    '/images/experience/04-ready-for-the-water.webp',
     title:    'Ready for the Water',
     note:     'Kayaks, paddleboards and boats ready for quiet mornings or full-group lake adventures.',
     badge:    'The dock is stocked.',
@@ -133,7 +137,7 @@ const EXPERIENCE_CARDS = [
     ],
   },
   {
-    image:    '/images/bikes.webp',
+    image:    '/images/experience/05-the-open-field.webp',
     title:    'The Open Field',
     note:     'Volleyball, soccer and open-air games for families, friends and teams.',
     badge:    'Bring your A-game.',
@@ -153,7 +157,7 @@ const EXPERIENCE_CARDS = [
     ],
   },
   {
-    image:    '/images/experience/pool-days.webp',
+    image:    '/images/experience/06-pool-days.webp',
     title:    'Pool Days',
     note:     'A large outdoor pool made for long afternoons, sun, water and good company.',
     badge:    'The water is fine.',
@@ -193,7 +197,7 @@ const EXPERIENCE_CARDS = [
     ],
   },
   {
-    image:    '/images/sandhills/fire_pit2.webp',
+    image:    '/images/experience/08-by-the-outdoor-fireplace.webp',
     title:    'By the Outdoor Fireplace',
     note:     'A large deck, warm fire, open sky and the conversations that make the trip.',
     badge:    'Where evenings land.',
@@ -276,10 +280,10 @@ const bgRooms: React.CSSProperties = {
 // Six use-case cards, one shared design: paper card with an inset photo strip
 // (rounded on all sides) above the title + benefit.
 const B2B_SCENARIOS = [
-  { title: 'Corporate Retreats', benefit: 'The team actually connects when no one is watching the door.', strip: '/images/sandhills/fire_pit2.webp' },
-  { title: 'Family Reunions', benefit: 'Every generation under one roof, finally in the same place.', strip: '/images/sandhills/house.webp' },
-  { title: 'Wellness Retreats', benefit: 'Space to slow down, with nothing pulling you back.', strip: '/images/sandhills/sauna.webp' },
-  { title: 'Birthday Weekends', benefit: 'Celebrate on your own clock — no last call, no rush home.', strip: '/images/b2b/birthday-weekends.webp' },
+  { title: 'Corporate Retreats', benefit: 'The team connects with no one watching.', strip: '/images/b2b/corporate-retreats.webp' },
+  { title: 'Family Reunions', benefit: 'Every generation, finally under one roof.', strip: '/images/b2b/family-reunions.webp' },
+  { title: 'Wellness Retreats', benefit: 'Space to slow down, with nothing pulling you back.', strip: '/images/b2b/wellness-retreats.webp' },
+  { title: 'Birthday Weekends', benefit: 'Celebrate on your own clock. No rush home.', strip: '/images/b2b/birthday-weekends.webp' },
   { title: 'Bachelor & Bachelorette', benefit: 'Your crew, your rules, complete privacy.', strip: '/images/b2b/bachelor-bachelorette.webp' },
   { title: 'Private Celebrations', benefit: 'Mark the moment without sharing the room.', strip: '/images/b2b/private-celebrations.webp' },
 ] as const;
@@ -288,8 +292,6 @@ const B2B_SCENARIOS = [
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function VillaCascade() {
-  const villa = sandhillsData.stays[0];
-
   const [galleryStartIdx, setGalleryStartIdx] = useState<number | null>(null);
   const [comfortIdx,    setComfortIdx]    = useState<number | null>(null);
   const [experienceIdx, setExperienceIdx] = useState(0);
@@ -710,7 +712,7 @@ export default function VillaCascade() {
                 <button key={card.title} onClick={() => setComfortIdx(i)} className="rounded-xl overflow-hidden relative group text-left cursor-pointer" style={{ height: 'clamp(192px, 31vh, 308px)' }}>
                   <img src={card.image} alt={card.title} className="w-full h-full object-cover" loading="lazy" />
                   <div className="absolute inset-x-0 bottom-0 px-3.5 pb-3.5 pt-16" style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.97) 0%, rgba(8,6,4,0.72) 52%, transparent 100%)' }}>
-                    <p className="font-display leading-tight" style={{ fontVariationSettings: '"wght" 600, "opsz" 48, "SOFT" 20', fontWeight: 600, fontSize: 'clamp(1.155rem, 2.09vw, 1.485rem)', letterSpacing: '-0.01em', marginBottom: 5, color: 'rgba(242,237,227,0.97)' }}>{card.title}</p>
+                    <p className="font-display leading-tight" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontStyle: 'italic', fontSize: 'clamp(1.155rem, 2.09vw, 1.485rem)', letterSpacing: '-0.01em', marginBottom: 5, color: 'rgba(242,237,227,0.97)' }}>{card.title}</p>
                     <p style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(11px, 1vw, 12.5px)', lineHeight: 1.45, color: 'rgba(231,222,199,0.7)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{card.subtitle}</p>
                   </div>
                   <div className="absolute inset-0 ring-1 ring-inset ring-linen/10 group-hover:ring-linen/30 rounded-xl transition-all duration-200" />
@@ -873,12 +875,15 @@ export default function VillaCascade() {
                             <img src={scenario.strip} alt="" aria-hidden="true" loading="lazy" className="w-full h-full object-cover" style={{ display: 'block' }} />
                           </div>
                         </div>
-                        {/* Text — fixed height so every card ends at the same line */}
-                        <div style={{ height: 'clamp(96px, 12.5vh, 110px)', overflow: 'hidden', padding: 'clamp(12px, 1.8vh, 18px) clamp(18px, 2vw, 26px) 0' }}>
-                          <p className="font-display" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.2rem, 1.7vw, 1.5rem)', lineHeight: 1.12, letterSpacing: '-0.012em', marginBottom: 7, color: 'rgba(31,36,32,0.94)', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                        {/* Text — title and benefit are both forced to one line (nowrap + ellipsis),
+                            so every card renders the same two lines of content; letting the box
+                            size itself (auto) guarantees it always matches that content exactly,
+                            instead of a guessed fixed height clipping or leaving a gap. */}
+                        <div style={{ padding: 'clamp(10px, 1.6vw, 14px) clamp(18px, 2vw, 26px) clamp(12px, 1.8vw, 16px)' }}>
+                          <p className="font-display" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.2rem, 1.7vw, 1.5rem)', lineHeight: 1.12, letterSpacing: '-0.012em', marginBottom: 5, color: 'rgba(31,36,32,0.94)', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
                             {scenario.title}
                           </p>
-                          <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(0.8rem, 0.92vw, 0.9rem)', lineHeight: 1.5, color: 'rgba(31,36,32,0.56)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                          <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(0.8rem, 0.92vw, 0.9rem)', lineHeight: 1.5, color: 'rgba(31,36,32,0.56)', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
                             {scenario.benefit}
                           </p>
                         </div>
@@ -924,7 +929,7 @@ export default function VillaCascade() {
 
       {createPortal(
         <AnimatePresence>
-          {galleryStartIdx !== null && <GalleryModal rooms={villa.rooms} startIndex={galleryStartIdx} onClose={() => setGalleryStartIdx(null)} />}
+          {galleryStartIdx !== null && <PhotoGalleryModal photos={GALLERY_PHOTOS} onClose={() => setGalleryStartIdx(null)} />}
         </AnimatePresence>,
         document.body
       )}
@@ -999,7 +1004,7 @@ function ComfortModal({ cards, startIdx, onClose }: { cards: typeof COMFORT_CARD
             <img src={card.image} alt={card.title} className="w-full h-full object-cover" />
             {/* Caption — same sizes as on the card */}
             <div className="absolute inset-x-0 bottom-0 px-5 pb-5 pt-24" style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.97) 0%, rgba(8,6,4,0.72) 52%, transparent 100%)' }}>
-              <p className="font-display leading-tight" style={{ fontVariationSettings: '"wght" 600, "opsz" 48, "SOFT" 20', fontWeight: 600, fontSize: 'clamp(1.155rem, 2.09vw, 1.485rem)', letterSpacing: '-0.01em', marginBottom: 5, color: 'rgba(242,237,227,0.97)' }}>{card.title}</p>
+              <p className="font-display leading-tight" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontStyle: 'italic', fontSize: 'clamp(1.155rem, 2.09vw, 1.485rem)', letterSpacing: '-0.01em', marginBottom: 5, color: 'rgba(242,237,227,0.97)' }}>{card.title}</p>
               <p style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 'clamp(11px, 1vw, 12.5px)', lineHeight: 1.45, color: 'rgba(231,222,199,0.7)', maxWidth: '52ch' }}>{card.subtitle}</p>
             </div>
           </motion.div>
@@ -1089,9 +1094,47 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
   const reduceMotion = useReducedMotion();
   const card = cards[currentIdx];
 
-  // Desktop mini-strip paging; the mobile layout uses a free-scrolling strip instead
-  const perPage = 4;
-  const [page, setPage] = useState(0);
+  // Desktop mini-strip — a true single-card conveyor: the track holds the real cards plus a
+  // trailing clone of the first `perPage`, so stepping past the last card slides seamlessly
+  // into the clone, then silently resets to the real start (invisible — the clone is
+  // pixel-identical to it).
+  const perPage = 5;
+  const [stripStart, setStripStart] = useState(0); // 0..cards.length; cards.length is the seam
+  const [stripJump, setStripJump] = useState(false); // true only for the one silent reset frame
+  const [stripPaused, setStripPaused] = useState(false);
+  const stripViewportRef = useRef<HTMLDivElement>(null);
+  const [stripViewportWidth, setStripViewportWidth] = useState(1300); // sane fallback until measured
+
+  useEffect(() => {
+    const el = stripViewportRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver((entries) => setStripViewportWidth(entries[0].contentRect.width));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion || stripPaused) return;
+    const id = setInterval(() => setStripStart((s) => s + 1), 3200);
+    return () => clearInterval(id);
+  }, [reduceMotion, stripPaused]);
+
+  // Seam reset — once the belt reaches the cloned tail, snap back to the real start without
+  // a transition, timed to land right after the slide animation finishes.
+  useEffect(() => {
+    if (stripStart !== cards.length) return;
+    const id = setTimeout(() => {
+      setStripJump(true);
+      setStripStart(0);
+      requestAnimationFrame(() => requestAnimationFrame(() => setStripJump(false)));
+    }, 560);
+    return () => clearTimeout(id);
+  }, [stripStart, cards.length]);
+
+  const stripGap = Math.min(16, Math.max(9, stripViewportWidth * 0.012));
+  const stripCardWidth = (stripViewportWidth - stripGap * (perPage - 1)) / perPage;
+  const stripStep = stripCardWidth + stripGap;
+  const stripCards = [...cards, ...cards.slice(0, perPage)];
 
   // Mobile swipe on the photo/content area — horizontal, with vertical-scroll dominance guard
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -1111,10 +1154,16 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
     }
   };
 
-  const pageCount = Math.ceil(cards.length / perPage);
-  const safePage = Math.min(page, pageCount - 1);
-  const visible = cards.map((_, i) => i).slice(safePage * perPage, safePage * perPage + perPage);
-  const flip = (dir: number) => setPage((safePage + dir + pageCount) % pageCount);
+  const advance = (dir: number) => {
+    if (dir < 0 && stripStart === 0) {
+      // No clone behind the start — jump straight to the end without a slide.
+      setStripJump(true);
+      setStripStart(cards.length - 1);
+      requestAnimationFrame(() => requestAnimationFrame(() => setStripJump(false)));
+      return;
+    }
+    setStripStart((s) => s + dir);
+  };
 
   const accentStart = Math.max(0, card.headline.length - card.accent.length);
   const headlinePrefix = card.headline.slice(0, accentStart);
@@ -1155,7 +1204,10 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
 
   return (
     <>
-    <div className="hidden md:block relative w-full overflow-hidden" style={{ borderRadius: 28, height: 'clamp(620px, 92vh, 980px)', boxShadow: '0 28px 64px rgba(0,0,0,0.28)', backgroundColor: '#1A1F1B' }}>
+    {/* ── Desktop layout — the photo card is its own fixed-proportion box; the mini-strip
+        lives below as a separate block, so neither competes with the other for height. ── */}
+    <div className="hidden md:block w-full">
+    <div className="relative w-full overflow-hidden" style={{ borderRadius: 28, aspectRatio: '2 / 1', minHeight: 520, maxHeight: 760, boxShadow: '0 28px 64px rgba(0,0,0,0.28)', backgroundColor: '#1A1F1B' }}>
       {/* Overlapping crossfade — the new slide fades in on top of the old one (no background flash),
           while its photo settles from a slight zoom (same reveal language as the Act 1 villa photo). */}
       <AnimatePresence initial={false}>
@@ -1181,8 +1233,6 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(26,31,27,0.82) 0%, rgba(26,31,27,0.45) 40%, rgba(26,31,27,0.12) 65%, transparent 85%)' }} />
           {/* Light global veil */}
           <div style={{ position: 'absolute', inset: 0, background: 'rgba(26,31,27,0.10)' }} />
-          {/* Bottom wash under the mini-cards */}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.72) 0%, rgba(8,6,4,0.28) 26%, transparent 44%)' }} />
 
           {/* Index + badge capsule on one line (right side reserved for the Next capsule) */}
           <div style={{ position: 'absolute', top: 'clamp(20px, 2.6vw, 32px)', left: 'clamp(24px, 4vw, 56px)', right: 'clamp(110px, 13vw, 180px)', display: 'flex', alignItems: 'center', gap: 'clamp(14px, 1.8vw, 24px)' }}>
@@ -1231,73 +1281,72 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
       </AnimatePresence>
 
       {nextCapsule}
+    </div>
 
-      {/* Mini-card strip + controls — outside the crossfade so it stays put on switch */}
-      <div style={{ position: 'absolute', left: 'clamp(20px, 2.8vw, 40px)', right: 'clamp(20px, 2.8vw, 40px)', bottom: 'clamp(14px, 2vh, 24px)', zIndex: 2 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${perPage}, minmax(0, 1fr))`, gap: 'clamp(12px, 1.6vw, 22px)' }}>
-          {visible.map((i) => {
-            const c = cards[i];
-            const active = i === currentIdx;
-            return (
-              <button
-                key={c.title}
-                onClick={() => onSelect(i)}
-                aria-pressed={active}
-                className="group relative text-left overflow-hidden"
-                style={{ borderRadius: 14, height: 'clamp(140px, 20vh, 205px)' }}
-              >
-                <img src={c.image} alt={c.title} loading="lazy" className="w-full h-full object-cover" />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.88) 0%, rgba(8,6,4,0.48) 55%, rgba(8,6,4,0.22) 100%)' }} />
-                <div style={{ position: 'absolute', inset: 0, padding: 'clamp(12px, 1.2vw, 17px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 11, marginBottom: 'auto' }}>
-                    <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(242,237,227,0.9)' }}>{String(i + 1).padStart(2, '0')}</span>
-                    <span className="font-eyebrow uppercase" style={{ fontSize: 9, letterSpacing: '0.18em', color: 'rgba(242,237,227,0.72)' }}>{c.schedule.split('·')[0].trim()}</span>
-                  </div>
-                  <p className="font-display" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontSize: 'clamp(1rem, 1.35vw, 1.35rem)', lineHeight: 1.12, letterSpacing: '-0.015em', color: 'rgba(242,237,227,0.97)', marginBottom: 5 }}>
-                    {c.badge}
-                  </p>
-                  <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 'clamp(10.5px, 0.85vw, 12px)', lineHeight: 1.4, color: 'rgba(231,222,199,0.75)', paddingRight: 44, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                    {c.note}
-                  </p>
-                </div>
-                <span
-                  className="absolute flex items-center justify-center rounded-full transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none"
-                  style={{ right: 11, bottom: 11, width: 38, height: 38, border: '1px solid rgba(242,237,227,0.35)', background: 'rgba(8,6,4,0.35)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', color: '#F2EDE3' }}
-                  aria-hidden="true"
+      {/* Mini-card strip — infinite auto-advancing carousel, separate block below the photo card */}
+      <div
+        style={{ marginTop: 'clamp(20px, 2.6vh, 32px)' }}
+        onMouseEnter={() => setStripPaused(true)}
+        onMouseLeave={() => setStripPaused(false)}
+      >
+        {/* Fixed-height viewport (16:9 per card × 5 columns) clips a single persistent track —
+            the track's x position animates by exactly one card-width per step, so it reads as
+            a real conveyor belt rather than a full-panel swap. */}
+        <div ref={stripViewportRef} style={{ position: 'relative', aspectRatio: `${16 * perPage} / 9`, minHeight: 100, maxHeight: 170, overflow: 'hidden' }}>
+          <motion.div
+            style={{ display: 'flex', gap: stripGap, position: 'absolute', top: 0, left: 0, height: '100%' }}
+            animate={{ x: -stripStart * stripStep }}
+            transition={{ duration: reduceMotion || stripJump ? 0 : 0.55, ease: [0.65, 0, 0.35, 1] }}
+          >
+            {stripCards.map((c, i) => {
+              const realI = i % cards.length;
+              const active = realI === currentIdx;
+              return (
+                <button
+                  key={`${c.title}-${i}`}
+                  onClick={() => onSelect(realI)}
+                  aria-pressed={active}
+                  className="group relative text-left overflow-hidden"
+                  style={{ borderRadius: 12, width: stripCardWidth, flexShrink: 0, height: '100%' }}
                 >
-                  <ArrowRight style={{ width: 16, height: 16 }} strokeWidth={1.6} />
-                </span>
-                {/* Frame — accent ring marks the currently shown experience */}
-                <div
-                  className={active ? 'absolute inset-0 rounded-[14px] pointer-events-none' : 'absolute inset-0 rounded-[14px] ring-1 ring-inset ring-linen/10 group-hover:ring-linen/35 transition-all duration-200 pointer-events-none'}
-                  style={active ? { boxShadow: `inset 0 0 0 2px ${EXP_ACCENT}, 0 4px 18px rgba(176,83,41,0.35)` } : undefined}
-                />
-              </button>
-            );
-          })}
+                  <img src={c.image} alt={c.title} loading="lazy" className="w-full h-full object-cover" />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.88) 0%, rgba(8,6,4,0.48) 55%, rgba(8,6,4,0.22) 100%)' }} />
+                  <div style={{ position: 'absolute', inset: 0, padding: 'clamp(9px, 0.9vw, 13px)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                      <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(242,237,227,0.9)' }}>{String(realI + 1).padStart(2, '0')}</span>
+                      <span className="font-eyebrow uppercase" style={{ fontSize: 9.4, letterSpacing: '0.16em', color: 'rgba(242,237,227,0.72)' }}>{c.schedule.split('·')[0].trim()}</span>
+                    </div>
+                    <p className="font-display" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontStyle: 'italic', fontSize: 'clamp(0.75rem, 1.03vw, 1.03rem)', lineHeight: 1.15, letterSpacing: '-0.01em', color: 'rgba(242,237,227,0.97)', paddingRight: 32, margin: 0 }}>
+                      {c.badge}
+                    </p>
+                  </div>
+                  <span
+                    className="absolute flex items-center justify-center rounded-full transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none"
+                    style={{ right: 8, bottom: 8, width: 28, height: 28, border: '1px solid rgba(242,237,227,0.35)', background: 'rgba(8,6,4,0.35)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', color: '#F2EDE3' }}
+                    aria-hidden="true"
+                  >
+                    <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={1.6} />
+                  </span>
+                  {/* Frame — accent ring marks the currently shown experience */}
+                  <div
+                    className={active ? 'absolute inset-0 rounded-[12px] pointer-events-none' : 'absolute inset-0 rounded-[12px] ring-1 ring-inset ring-linen/10 group-hover:ring-linen/35 transition-all duration-200 pointer-events-none'}
+                    style={active ? { boxShadow: `inset 0 0 0 2px ${EXP_ACCENT}, 0 4px 18px rgba(176,83,41,0.35)` } : undefined}
+                  />
+                </button>
+              );
+            })}
+          </motion.div>
         </div>
 
-        {/* Controls: arrows flanking pagination dots */}
-        {pageCount > 1 && (
-          <div className="flex items-center justify-between" style={{ marginTop: 'clamp(8px, 1.4vh, 16px)' }}>
-            <button onClick={() => flip(-1)} aria-label="Previous experiences" className="flex items-center justify-center text-linen/75 hover:text-linen transition-colors" style={{ width: 44, height: 44 }}>
-              <ArrowLeft style={{ width: 22, height: 22 }} strokeWidth={1.6} />
-            </button>
-            <div className="flex items-center" style={{ gap: 8 }}>
-              {Array.from({ length: pageCount }, (_, p) => (
-                <button
-                  key={p}
-                  onClick={() => setPage(p)}
-                  aria-label={`Experiences page ${p + 1}`}
-                  style={{ width: 8, height: 8, borderRadius: 999, padding: 0, border: 'none', cursor: 'pointer', background: p === safePage ? EXP_ACCENT : 'rgba(242,237,227,0.35)', transition: 'background 0.2s ease' }}
-                />
-              ))}
-            </div>
-            <button onClick={() => flip(1)} aria-label="Next experiences" className="flex items-center justify-center text-linen/75 hover:text-linen transition-colors" style={{ width: 44, height: 44 }}>
-              <ArrowRight style={{ width: 22, height: 22 }} strokeWidth={1.6} />
-            </button>
-          </div>
-        )}
+        {/* Manual override — nudges the loop by one card; dark, since this strip sits on the light Territory bg */}
+        <div className="flex items-center justify-end" style={{ gap: 6, marginTop: 'clamp(8px, 1.4vh, 16px)' }}>
+          <button onClick={() => advance(-1)} aria-label="Previous experiences" className="flex items-center justify-center transition-colors" style={{ width: 40, height: 40, color: 'rgba(31,36,32,0.7)' }} onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(31,36,32,1)')} onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(31,36,32,0.7)')}>
+            <ArrowLeft style={{ width: 20, height: 20 }} strokeWidth={1.6} />
+          </button>
+          <button onClick={() => advance(1)} aria-label="Next experiences" className="flex items-center justify-center transition-colors" style={{ width: 40, height: 40, color: 'rgba(31,36,32,0.7)' }} onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(31,36,32,1)')} onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(31,36,32,0.7)')}>
+            <ArrowRight style={{ width: 20, height: 20 }} strokeWidth={1.6} />
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1312,7 +1361,7 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
         onTouchEnd={onTouchEnd}
       >
         {/* Photo — fades into the dark body */}
-        <div style={{ position: 'relative', height: '37vh', minHeight: 240 }}>
+        <div style={{ position: 'relative', height: '35vh', minHeight: 225 }}>
           <img src={card.image} alt={card.title} className="w-full h-full object-cover" style={{ display: 'block' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(26,31,27,0.4) 0%, transparent 30%, rgba(26,31,27,0.4) 64%, #1A1F1B 100%)' }} />
           {/* Index + badge over the photo */}
@@ -1331,16 +1380,22 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
           </div>
         </div>
 
-        {/* Content on dark */}
+        {/* Content on dark — every variable-length text block below is boxed to a fixed
+            height (line-clamped), so the whole card is the same height for all 8 experiences
+            regardless of how long any given title/body/fact label happens to be. */}
         <div style={{ padding: '2px 20px 20px' }}>
-          <h2 className="font-display" style={{ fontVariationSettings: '"opsz" 96, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(2.1rem, 10vw, 2.7rem)', lineHeight: 1.12, letterSpacing: '-0.02em', color: 'rgba(242,237,227,0.98)', marginBottom: 14 }}>
-            {headlinePrefix}<span style={{ color: EXP_ACCENT }}>{headlineAccent}</span>
-          </h2>
-          <p style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 15, lineHeight: 1.55, color: 'rgba(231,222,199,0.8)', marginBottom: 8 }}>
-            {card.bodyShort}
-          </p>
+          <div style={{ height: 'clamp(3.06rem, 14.6vw, 3.92rem)', overflow: 'hidden', marginBottom: 13 }}>
+            <h2 className="font-display" style={{ fontVariationSettings: '"opsz" 96, "SOFT" 30', fontWeight: 380, fontSize: 'clamp(1.37rem, 6.5vw, 1.75rem)', lineHeight: 1.12, letterSpacing: '-0.02em', color: 'rgba(242,237,227,0.98)', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+              {headlinePrefix}<span style={{ color: EXP_ACCENT }}>{headlineAccent}</span>
+            </h2>
+          </div>
+          <div style={{ height: 42, overflow: 'hidden', marginBottom: 8 }}>
+            <p style={{ fontFamily: 'Montserrat, ui-sans-serif, system-ui', fontSize: 14, lineHeight: 1.5, color: 'rgba(231,222,199,0.8)', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+              {card.bodyShort}
+            </p>
+          </div>
 
-          {/* Facts — 2×2 grid with hairline dividers */}
+          {/* Facts — 2×2 grid with hairline dividers, each cell a fixed height regardless of label length */}
           <div className="grid grid-cols-2">
             {card.facts.map((f, i) => {
               const Icon = f.icon;
@@ -1348,16 +1403,16 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
                 <div
                   key={f.label}
                   style={{
-                    display: 'flex', alignItems: 'center', gap: 14,
-                    padding: '16px 0',
+                    display: 'flex', alignItems: 'center', gap: 13,
+                    height: 66,
                     paddingRight: i % 2 === 0 ? 14 : 0,
                     paddingLeft: i % 2 === 1 ? 16 : 0,
                     borderRight: i % 2 === 0 ? '1px solid rgba(242,237,227,0.14)' : 'none',
                     borderBottom: i < 2 ? '1px solid rgba(242,237,227,0.14)' : 'none',
                   }}
                 >
-                  <Icon style={{ width: 24, height: 24, color: EXP_ACCENT, flexShrink: 0 }} strokeWidth={2.2} />
-                  <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 15, lineHeight: 1.35, color: 'rgba(242,237,227,0.92)' }}>{f.label}</span>
+                  <Icon style={{ width: 22, height: 22, color: EXP_ACCENT, flexShrink: 0 }} strokeWidth={2.2} />
+                  <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 14, lineHeight: 1.35, color: 'rgba(242,237,227,0.92)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{f.label}</span>
                 </div>
               );
             })}
@@ -1368,7 +1423,7 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
       {nextCapsule}
 
       {/* Mini strip — continuous horizontal scroll, next card peeks in */}
-      <div className="exp-mini-scroll flex overflow-x-auto" style={{ gap: 12, padding: '4px 20px 12px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+      <div className="exp-mini-scroll flex overflow-x-auto" style={{ gap: 8, padding: '4px 20px 12px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         <style>{`.exp-mini-scroll::-webkit-scrollbar { display: none; }`}</style>
         {cards.map((c, i) => {
           const active = i === currentIdx;
@@ -1378,31 +1433,28 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
               onClick={() => onSelect(i)}
               aria-pressed={active}
               className="relative text-left overflow-hidden shrink-0"
-              style={{ borderRadius: 16, width: '78vw', maxWidth: 340, height: 'clamp(180px, 52vw, 230px)' }}
+              style={{ borderRadius: 10, width: '47vw', maxWidth: 208, height: 'clamp(109px, 31vw, 140px)' }}
             >
               <img src={c.image} alt={c.title} loading="lazy" className="w-full h-full object-cover" />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,6,4,0.9) 0%, rgba(8,6,4,0.42) 55%, rgba(8,6,4,0.28) 100%)' }} />
-              <div style={{ position: 'absolute', inset: 0, padding: 18, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 'auto' }}>
-                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 14, fontWeight: 700, letterSpacing: '0.1em', color: EXP_ACCENT }}>{String(i + 1).padStart(2, '0')}</span>
-                  <span className="font-eyebrow uppercase" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'rgba(242,237,227,0.75)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.schedule.split('·')[0].trim()}</span>
+              <div style={{ position: 'absolute', inset: 0, padding: 12, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                  <span style={{ fontFamily: 'Inter Tight, Inter, system-ui', fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: EXP_ACCENT }}>{String(i + 1).padStart(2, '0')}</span>
+                  <span className="font-eyebrow uppercase" style={{ fontSize: 6.5, letterSpacing: '0.16em', color: 'rgba(242,237,227,0.75)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.schedule.split('·')[0].trim()}</span>
                 </div>
-                <p className="font-display" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontSize: 'clamp(1.4rem, 6.4vw, 1.75rem)', lineHeight: 1.12, letterSpacing: '-0.015em', color: 'rgba(242,237,227,0.97)', marginBottom: 7 }}>
+                <p className="font-display" style={{ fontVariationSettings: '"opsz" 48, "SOFT" 20', fontWeight: 380, fontStyle: 'italic', fontSize: 'clamp(0.59rem, 2.7vw, 0.74rem)', lineHeight: 1.12, letterSpacing: '-0.01em', color: 'rgba(242,237,227,0.97)', paddingRight: 36, margin: 0 }}>
                   {c.badge}
-                </p>
-                <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 13, lineHeight: 1.45, color: 'rgba(231,222,199,0.75)', paddingRight: 56, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                  {c.note}
                 </p>
               </div>
               <span
                 className="absolute flex items-center justify-center rounded-full"
-                style={{ right: 14, bottom: 14, width: 44, height: 44, border: '1px solid rgba(242,237,227,0.35)', background: 'rgba(8,6,4,0.35)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', color: '#F2EDE3' }}
+                style={{ right: 9, bottom: 9, width: 29, height: 29, border: '1px solid rgba(242,237,227,0.35)', background: 'rgba(8,6,4,0.35)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', color: '#F2EDE3' }}
                 aria-hidden="true"
               >
-                <ArrowRight style={{ width: 18, height: 18 }} strokeWidth={1.6} />
+                <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={1.6} />
               </span>
               <div
-                className="absolute inset-0 rounded-2xl pointer-events-none"
+                className="absolute inset-0 rounded-[10px] pointer-events-none"
                 style={active ? { boxShadow: `inset 0 0 0 2px ${EXP_ACCENT}` } : { boxShadow: 'inset 0 0 0 1px rgba(231,222,199,0.10)' }}
               />
             </button>
@@ -1410,16 +1462,27 @@ function ExperiencePanel({ cards, currentIdx, onSelect }: { cards: typeof EXPERI
         })}
       </div>
 
-      {/* Dots — reflect the currently shown experience */}
-      <div className="flex items-center justify-center" style={{ gap: 7, paddingBottom: 16 }}>
-        {cards.map((c, i) => (
-          <button
-            key={c.title}
-            onClick={() => onSelect(i)}
-            aria-label={`Show experience ${i + 1}`}
-            style={{ width: 7, height: 7, borderRadius: 999, padding: 0, border: 'none', background: i === currentIdx ? EXP_ACCENT : 'rgba(242,237,227,0.3)', transition: 'background 0.2s ease' }}
-          />
-        ))}
+      {/* Prev/Next arrows flanking an index counter — clearer than dots for paging through the whole slider */}
+      <div className="flex items-center justify-between" style={{ padding: '0 20px 18px' }}>
+        <button
+          onClick={() => onSelect((currentIdx - 1 + cards.length) % cards.length)}
+          aria-label="Previous experience"
+          className="flex items-center justify-center rounded-full"
+          style={{ width: 44, height: 44, border: '1px solid rgba(242,237,227,0.18)', background: 'rgba(242,237,227,0.06)', color: 'rgba(242,237,227,0.85)' }}
+        >
+          <ArrowLeft style={{ width: 18, height: 18 }} strokeWidth={1.8} />
+        </button>
+        <span className="font-eyebrow" style={{ fontSize: 11, letterSpacing: '0.2em', color: 'rgba(242,237,227,0.45)' }}>
+          {String(currentIdx + 1).padStart(2, '0')} / {String(cards.length).padStart(2, '0')}
+        </span>
+        <button
+          onClick={() => onSelect((currentIdx + 1) % cards.length)}
+          aria-label="Next experience"
+          className="flex items-center justify-center rounded-full"
+          style={{ width: 44, height: 44, border: '1px solid rgba(242,237,227,0.18)', background: 'rgba(242,237,227,0.06)', color: 'rgba(242,237,227,0.85)' }}
+        >
+          <ArrowRight style={{ width: 18, height: 18 }} strokeWidth={1.8} />
+        </button>
       </div>
     </div>
     </>
